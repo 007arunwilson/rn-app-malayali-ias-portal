@@ -13,6 +13,8 @@ const color = {
   white: '#ffffff',
   text: '#616161',
   textLight: '#F5F5F6',
+  black: '#000000',
+  fb: '#3b5998',
 };
 const config = {
   color,
