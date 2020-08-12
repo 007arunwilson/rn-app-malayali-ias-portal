@@ -5,8 +5,22 @@
 import { StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import config, { color } from '../config';
+import { appModel } from '../database';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../navigation';
 
-const launch = () => {
+const Launch = () => {
+  React.useEffect(() => {
+    appModel.getLaunchData().then((result) => {
+      const { user } = result;
+      if (!user) {
+        Navigation.setRoot({
+          root: navComponents.obboarding,
+        });
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoTextWrapper}>
@@ -49,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default launch;
+export default Launch;

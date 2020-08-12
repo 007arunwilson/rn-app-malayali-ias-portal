@@ -4,8 +4,11 @@
 import { Navigation } from 'react-native-navigation';
 import messaging from '@react-native-firebase/messaging';
 
-// Importing Navigation components / screens
-import launchScreen from './screens/launch';
+// Import persistant storage
+import { appModel } from './database';
+
+// Importing Navigation methods
+import { navComponents, registerComponents } from './navigation';
 
 // Initializing and configuring firebase
 (async () => {
@@ -21,34 +24,19 @@ import launchScreen from './screens/launch';
   messaging()
     .getToken()
     .then((token) => {
-      console.log('generaed firebase token', token);
+      appModel.saveFirebaseToken(token);
     });
 
   messaging().onTokenRefresh((token) => {
-    console.log('refreshed firebase token', token);
+    appModel.saveFirebaseToken(token);
   });
 })();
 
 // Registering app screens
-Navigation.registerComponent('nav.launch', () => launchScreen);
+registerComponents();
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: navComponents.root,
   });
 });
-
-// Navigation component declarations
-const navComponents = {};
-
-navComponents.root = {
-  component: {
-    id: 'launch',
-    name: 'nav.launch',
-    options: {
-      topBar: {
-        visible: false,
-      },
-    },
-  },
-};
