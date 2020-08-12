@@ -10,6 +10,7 @@ const rootReducer = combineReducers({
 
 const composeEnhancers =
   (typeof window !== 'undefined' &&
+    __DEV__ &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 

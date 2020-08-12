@@ -7,11 +7,20 @@ import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import config, { color } from '../config';
 import { GoogleSigninButton } from '@react-native-community/google-signin';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// importing actions
+import { googleAuth } from '../store/actions/onboarding';
+
 const Onboarding = () => {
+  const inProgress = useSelector((state) => state.onboarding.inProgress);
+
+  const dispatch = useDispatch();
+  const googleAuthHandler = () => dispatch(googleAuth());
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} pointerEvents={inProgress ? 'none' : 'auto'}>
       <View style={styles.content}>
         <View style={styles.top}>
           <View style={styles.brandContainer}>
@@ -29,7 +38,7 @@ const Onboarding = () => {
                 style={styles.googleButton}
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Light}
-                onPress={() => false}
+                onPress={googleAuthHandler}
               />
               <TouchableOpacity
                 activeOpacity={0.9}
