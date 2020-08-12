@@ -6,11 +6,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import config, { color } from '../config';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-  statusCodes,
-} from '@react-native-community/google-signin';
+import { GoogleSigninButton } from '@react-native-community/google-signin';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Onboarding = () => {

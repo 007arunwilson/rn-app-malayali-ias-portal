@@ -28,6 +28,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.0.0",
     "react-native-webview": "^10.4.0",
+    "react-redux": "^7.2.1",
     "realm": "^6.0.4",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
