@@ -5,19 +5,16 @@
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import config, { color } from '../config';
-import { GoogleSigninButton } from '@react-native-community/google-signin';
-import { useDispatch, useSelector } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import config, { color } from '../../config';
+import { useSelector } from 'react-redux';
 
-// importing actions
-import { googleAuth } from '../store/actions/onboarding';
+// Importing Sub components
+import FacebookAuth from './facebookAuth';
+import GoogleAuth from './googleAuth';
+import Progress from './progress';
 
 const Onboarding = () => {
   const inProgress = useSelector((state) => state.onboarding.inProgress);
-
-  const dispatch = useDispatch();
-  const googleAuthHandler = () => dispatch(googleAuth());
 
   return (
     <View style={styles.container} pointerEvents={inProgress ? 'none' : 'auto'}>
@@ -34,26 +31,10 @@ const Onboarding = () => {
           </View>
           <View style={styles.onboardingActionContainer}>
             <View style={styles.actionTop}>
-              <GoogleSigninButton
-                style={styles.googleButton}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Light}
-                onPress={googleAuthHandler}
-              />
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() => false}
-                style={styles.fbButton}
-                disabled={false}>
-                <View style={styles.fbButtonIconContainer}>
-                  <Icon color={color.white} size={20} name="facebook" />
-                </View>
-                <View style={styles.fbButtonTextContainer}>
-                  <Text style={styles.fbButtonText}>Sign in with Facebook</Text>
-                </View>
-              </TouchableOpacity>
+              <GoogleAuth />
+              <FacebookAuth />
             </View>
-            <View style={styles.actionBottom} />
+            <Progress />
           </View>
         </View>
         <View style={styles.footer}>
@@ -107,10 +88,12 @@ const styles = StyleSheet.create({
   onboardingActionContainer: {
     flex: 3,
     alignItems: 'center',
+    width: '100%',
   },
   actionTop: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 4,
+    justifyContent: 'flex-end',
+    width: '100%',
   },
   googleButton: {},
   fbButton: {
@@ -144,7 +127,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  actionBottom: {},
   footer: {
     alignItems: 'center',
   },
