@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import config, { color } from '../../config';

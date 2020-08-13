@@ -22,15 +22,15 @@ const FacebookAuth = () => {
       function (result) {
         if (!result.isCancelled) {
           AccessToken.getCurrentAccessToken()
-            .then((result) => {})
-            .catch((error) => {
+            .then((_result) => {})
+            .catch((_error) => {
               dispatch(updateInprogress(true));
             });
         } else {
           dispatch(updateInprogress(true));
         }
       },
-      function (error) {
+      function (_error) {
         dispatch(updateInprogress(true));
       },
     );
