@@ -10,10 +10,14 @@ const processRefreshToken = (payload) => (dispatch) => {
   const refreshToken = payload;
   authApi.refreshSession({ data: { refresh_token: refreshToken } }).then(
     (result) => {
-      authActions.updateTokens({
-        refreshToken: result.refresh_token,
-        accessToken: result.access_token,
-      });
+      authActions
+        .updateTokens({
+          refreshToken: result.refresh_token,
+          accessToken: result.access_token,
+        })
+        .then(() => {
+          
+        });
     },
     (error) => {
       if (error.response.status === 403) {
