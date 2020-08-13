@@ -4,8 +4,8 @@ const getLaunchData = () =>
   new Promise((resolve) => {
     AsyncStorage.multiGet([
       '@App.firebaseToken',
-      '@App.accessToken',
-      '@App.refreshToken',
+      '@Auth.accessToken',
+      '@Auth.refreshToken',
       '@App.user',
     ]).then((result) => {
       const results = {};
@@ -14,8 +14,8 @@ const getLaunchData = () =>
       });
       const launchData = {
         firebaseToken: results['@App.firebaseToken'],
-        accessToken: results['@App.accessToken'],
-        refreshToken: results['@App.refreshToken'],
+        accessToken: results['@Auth.accessToken'],
+        refreshToken: results['@Auth.refreshToken'],
         user: results['@App.user'] ? JSON.parse(results['@App.user']) : null,
       };
       resolve(launchData);

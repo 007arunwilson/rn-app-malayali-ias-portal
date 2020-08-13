@@ -19,7 +19,11 @@ const ReduxProvider = (Component, ReduxStore) => {
 };
 
 const registerComponents = () => {
-  Navigation.registerComponent('nav.launch', () => launchScreen);
+  Navigation.registerComponent(
+    'nav.launch',
+    () => ReduxProvider(launchScreen, store),
+    () => launchScreen,
+  );
   Navigation.registerComponent(
     'nav.onboarding',
     () => ReduxProvider(onboardingScreen, store),

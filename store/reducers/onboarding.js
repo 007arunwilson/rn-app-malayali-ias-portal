@@ -3,6 +3,11 @@ import * as types from '../types/onboarding';
 
 const initialState = {
   inProgress: false,
+  /**
+   * activeStep description
+   * null, 'CREATING_ACCOUNT', 'CREATING_SESSION'
+   * */
+  activeStep: null,
 };
 
 export default (state = initialState, action) => {
@@ -10,6 +15,12 @@ export default (state = initialState, action) => {
     case types.inProgress: {
       const updatedState = update(state, {
         inProgress: { $set: action.payload },
+      });
+      return updatedState;
+    }
+    case types.activeStep: {
+      const updatedState = update(state, {
+        activeStep: { $set: action.payload },
       });
       return updatedState;
     }
