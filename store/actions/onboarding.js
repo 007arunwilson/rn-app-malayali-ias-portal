@@ -1,7 +1,9 @@
+import { Navigation } from 'react-native-navigation';
 import * as types from '../types/onboarding';
 import * as authActions from '../actions/auth';
 import * as authApi from '../../services/auth';
 import * as userAPi from '../../services/user';
+import { navComponents } from '../../navigation';
 
 const updateInprogress = (payload) => (dispatch) =>
   dispatch({
@@ -56,7 +58,9 @@ const continueToPackages = () => (dispatch) => {
     if (userPackages.length) {
       console.log('Have packages, proceed with courses');
     } else {
-      console.log('To package selection');
+      Navigation.setRoot({
+        root: navComponents.packageSelection,
+      });
     }
   });
 };

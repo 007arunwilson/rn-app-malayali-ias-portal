@@ -9,6 +9,7 @@ import { appModel } from './database';
 
 // Importing Navigation methods
 import { navComponents, registerComponents } from './navigation';
+import { color } from './config';
 
 // Initializing and configuring firebase
 (async () => {
@@ -34,6 +35,21 @@ import { navComponents, registerComponents } from './navigation';
 
 // Registering app screens
 registerComponents();
+
+// Setting navigation global default options
+Navigation.setDefaultOptions({
+  topBar: {
+    title: {
+      color: color.white,
+    },
+    backButton: {
+      color: color.white,
+    },
+    background: {
+      color: color.primary,
+    },
+  },
+});
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({

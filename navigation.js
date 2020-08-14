@@ -8,6 +8,7 @@ import { store } from './store';
 // Importing Navigation components / screens
 import launchScreen from './screens/launch';
 import onboardingScreen from './screens/onboarding';
+import packageSelection from './screens/packageSelection';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -28,6 +29,11 @@ const registerComponents = () => {
     'nav.onboarding',
     () => ReduxProvider(onboardingScreen, store),
     () => onboardingScreen,
+  );
+  Navigation.registerComponent(
+    'nav.packageSelection',
+    () => ReduxProvider(packageSelection, store),
+    () => packageSelection,
   );
 };
 
@@ -51,11 +57,31 @@ navComponents.obboarding = {
     children: [
       {
         component: {
-          id: 'launch',
+          id: 'onboarding',
           name: 'nav.onboarding',
           options: {
             topBar: {
               visible: false,
+            },
+          },
+        },
+      },
+    ],
+  },
+};
+
+navComponents.packageSelection = {
+  stack: {
+    children: [
+      {
+        component: {
+          id: 'packageSelection',
+          name: 'nav.packageSelection',
+          options: {
+            topBar: {
+              title: {
+                text: 'Select Package',
+              },
             },
           },
         },

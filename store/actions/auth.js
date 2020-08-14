@@ -1,5 +1,7 @@
 import * as authModel from '../../database/models/auth';
 import * as userAPi from '../../services/user';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 
 /** Update auth tokens to global variable and persistant storage */
 const updateTokens = ({ accessToken, refreshToken }) =>
@@ -19,10 +21,13 @@ const updateTokensToGlobal = ({ accessToken, refreshToken }) => {
  * */
 const continueToPackages = () => (dispatch) => {
   userAPi.getUserPackages().then((userPackages) => {
+    console.log('user packages');
     if (userPackages.length) {
       console.log('Have packages, proceed with courses');
     } else {
-      console.log('To package selection');
+      Navigation.setRoot({
+        root: navComponents.packageSelection,
+      });
     }
   });
 };
