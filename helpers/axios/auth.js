@@ -1,26 +1,28 @@
 import axios from 'axios';
 import config from '../../config';
-import * as authModel from '../../database/models/auth';
-import * as authActions from '../../store/actions/auth';
-// import { refreshSession } from '../../services/auth';
 
-const noAuth = axios.create({ baseURL: config.apiOrigin });
 const auth = axios.create({ baseURL: config.apiOrigin });
 
 auth.interceptors.request.use(
   (requestConfig) => {
-    if (global.onSessionRefresh) {
-      return new Promise((resolve) => {
-        window.addEventListener('onSessionRefreshEnd', () => {
-          const accessToken = global.accessToken;
-          config.headers.Authorization = `Bearer ${accessToken}`;
-          resolve(config);
-        });
-      });
-    } else {
-      const accessToken = global.accessToken;
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    const accessToken = global.accessToken;
+    if (!accessToken) {
+      return Promise.reject(new Error('accessToken missing'));
     }
+    requestConfig.headers.Authorization = `Bearer ${accessToken}`;
+    return requestConfig;
+    // if (global.onSessionRefresh) {
+    //   return new Promise((resolve) => {
+    //     window.addEventListener('onSessionRefreshEnd', () => {
+    //       const accessToken = global.accessToken;
+    //       config.headers.Authorization = `Bearer ${accessToken}`;
+    //       resolve(config);
+    //     });
+    //   });
+    // } else {
+    //   const accessToken = global.accessToken;
+    //   config.headers.Authorization = `Bearer ${accessToken}`;
+    // }
   },
   (error) => {
     Promise.reject(error);
@@ -39,3 +41,5 @@ auth.interceptors.response.use(
   (response) => response,
   (error) => error,
 );
+
+export default auth;

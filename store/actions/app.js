@@ -12,12 +12,10 @@ const processRefreshToken = (payload) => (dispatch) => {
     (result) => {
       authActions
         .updateTokens({
-          refreshToken: result.refresh_token,
-          accessToken: result.access_token,
+          refreshToken: result.refreshToken,
+          accessToken: result.accessToken,
         })
-        .then(() => {
-          
-        });
+        .then(() => {});
     },
     (error) => {
       if (error.response.status === 403) {

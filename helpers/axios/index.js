@@ -1,3 +1,4 @@
 import noAuth from './noAuth';
+import auth from './auth';
 
-export { noAuth };
+export { noAuth, auth };

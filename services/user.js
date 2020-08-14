@@ -19,4 +19,23 @@ const getUser = () =>
       );
   });
 
-export { getUser };
+const getUserPackages = () =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user/packages',
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+export { getUser, getUserPackages };

@@ -1,4 +1,5 @@
 import * as authModel from '../../database/models/auth';
+import * as userAPi from '../../services/user';
 
 /** Update auth tokens to global variable and persistant storage */
 const updateTokens = ({ accessToken, refreshToken }) =>
@@ -12,4 +13,18 @@ const updateTokensToGlobal = ({ accessToken, refreshToken }) => {
   global.refreshToken = refreshToken;
 };
 
-export { updateTokens, updateTokensToGlobal };
+/**
+ * Checking user have valid packgaes,
+ * else continue to package subscription
+ * */
+const continueToPackages = () => (dispatch) => {
+  userAPi.getUserPackages().then((userPackages) => {
+    if (userPackages.length) {
+      console.log('Have packages, proceed with courses');
+    } else {
+      console.log('To package selection');
+    }
+  });
+};
+
+export { updateTokens, updateTokensToGlobal, continueToPackages };

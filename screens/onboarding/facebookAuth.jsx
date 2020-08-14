@@ -10,7 +10,10 @@ import { useDispatch } from 'react-redux';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
 // importing actions
-import { updateInprogress, authFacebook } from '../../store/actions/onboarding';
+import {
+  updateInprogress,
+  proceedWithFacebook,
+} from '../../store/actions/onboarding';
 
 const FacebookAuth = () => {
   const dispatch = useDispatch();
@@ -25,7 +28,7 @@ const FacebookAuth = () => {
             .then((accessTokenResult) => {
               const { accessToken, userID } = accessTokenResult;
               const payload = { token: accessToken, facebookUserId: userID };
-              dispatch(authFacebook(payload));
+              dispatch(proceedWithFacebook(payload));
             })
             .catch((_error) => {
               dispatch(updateInprogress(true));
