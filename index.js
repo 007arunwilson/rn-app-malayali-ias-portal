@@ -24,9 +24,14 @@ import { color } from './config';
 
   messaging()
     .getToken()
-    .then((token) => {
-      appModel.saveFirebaseToken(token);
-    });
+    .then(
+      (token) => {
+        appModel.saveFirebaseToken(token);
+      },
+      (error) => {
+        // Need to handle firebase getToken error
+      },
+    );
 
   messaging().onTokenRefresh((token) => {
     appModel.saveFirebaseToken(token);

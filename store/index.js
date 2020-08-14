@@ -3,9 +3,11 @@ import thunk from 'redux-thunk';
 
 // Importing reducers
 import onboarding from './reducers/onboarding';
+import packageSelection from './reducers/packageSelection';
 
 const rootReducer = combineReducers({
   onboarding,
+  packageSelection,
 });
 
 const composeEnhancers =
