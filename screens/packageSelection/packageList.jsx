@@ -43,9 +43,8 @@ const PackageList = ({ packages }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: color.backgroundLight,
-    alignItems: 'flex-start',
+    alignItems: 'stretch',
     paddingHorizontal: wp(8),
   },
   item: {
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
   top: {},
   bottom: {},
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     color: color.text,
   },
