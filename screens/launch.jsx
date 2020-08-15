@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   branchText: {
     fontSize: 12,
-    color: color.text,
+    color: color.textLight,
     marginLeft: 4,
     textAlign: 'right',
   },

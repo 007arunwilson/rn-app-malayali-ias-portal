@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 12,
-    color: color.text,
+    color: color.textLight,
     marginRight: 10,
   },
 });

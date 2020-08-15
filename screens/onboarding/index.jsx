@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   branchText: {
     fontSize: 11,
-    color: color.text,
+    color: color.textLight,
     marginLeft: 4,
     textAlign: 'right',
   },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerText: {
-    color: color.text,
+    color: color.textLight,
     fontSize: 8,
     textAlign: 'center',
     marginBottom: 2,

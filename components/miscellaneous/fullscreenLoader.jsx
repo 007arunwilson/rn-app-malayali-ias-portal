@@ -17,6 +17,7 @@ const FullscreenLoader = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.backgroundLight,
     justifyContent: 'center',
   },
 });

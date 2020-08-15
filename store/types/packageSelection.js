@@ -1,1 +1,2 @@
-export const inProgress = 'packageSelection/inProgress';
+export const isLoading = 'packageSelection/isLoading';
+export const packages = 'packageSelection/packages';

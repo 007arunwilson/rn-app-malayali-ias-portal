@@ -22,3 +22,12 @@ so all follow api calls must only can done after this process is `Launch flow`.
 At app launch will check a refresh token is there, will call reseresh session and 
  on success will store the tokens in global vars and in peristant storage.
  on failure Navigate to on boarding screen
+
+
+# App Structure ( MVC )
+App need to strictly follow MVC pattern when 
+Model is relay on data which consisting of API and Redux.
+View is relay on React Views
+Controller is relay on actions ('store/actions')
+
+This way can seperate app logic from the view
