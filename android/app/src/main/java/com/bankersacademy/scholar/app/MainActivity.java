@@ -1,4 +1,4 @@
-package com.quditinfotech.scholar.litedemo;
+package com.bankersacademy.scholar.app;
 
 import com.reactnativenavigation.NavigationActivity;
 

@@ -9,6 +9,7 @@ import { store } from './store';
 import launchScreen from './screens/launch';
 import onboardingScreen from './screens/onboarding';
 import packageSelection from './screens/packageSelection';
+import signinScreen from './screens/signin';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -34,6 +35,11 @@ const registerComponents = () => {
     'nav.packageSelection',
     () => ReduxProvider(packageSelection, store),
     () => packageSelection,
+  );
+  Navigation.registerComponent(
+    'nav.signin',
+    () => ReduxProvider(signinScreen, store),
+    () => signinScreen,
   );
 };
 
@@ -67,6 +73,13 @@ navComponents.obboarding = {
         },
       },
     ],
+  },
+};
+
+navComponents.signin = {
+  component: {
+    id: 'signin',
+    name: 'nav.signin',
   },
 };
 

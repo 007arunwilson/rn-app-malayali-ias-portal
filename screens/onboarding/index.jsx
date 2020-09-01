@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 // Importing Sub components
 import FacebookAuth from './facebookAuth';
 import GoogleAuth from './googleAuth';
+import EmailAuth from './emailAuth';
+import Signin from './signin';
 import Progress from './progress';
 
 const Onboarding = () => {
@@ -33,6 +35,8 @@ const Onboarding = () => {
             <View style={styles.actionTop}>
               <GoogleAuth />
               <FacebookAuth />
+              <EmailAuth />
+              <Signin />
             </View>
             <Progress />
           </View>

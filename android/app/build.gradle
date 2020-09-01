@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.quditinfotech.scholar.litedemo"
+        applicationId "com.bankersacademy.scholar.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
