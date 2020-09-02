@@ -7,6 +7,7 @@ const getLaunchData = () =>
       '@Auth.accessToken',
       '@Auth.refreshToken',
       '@App.user',
+      '@Auth.activePackageId',
     ]).then((result) => {
       const results = {};
       result.map((item) => {
@@ -16,6 +17,7 @@ const getLaunchData = () =>
         firebaseToken: results['@App.firebaseToken'],
         accessToken: results['@Auth.accessToken'],
         refreshToken: results['@Auth.refreshToken'],
+        activePackageId: results['@Auth.activePackageId'],
         user: results['@App.user'] ? JSON.parse(results['@App.user']) : null,
       };
       resolve(launchData);

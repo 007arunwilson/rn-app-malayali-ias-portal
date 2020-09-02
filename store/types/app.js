@@ -1,4 +1,2 @@
-export const subjects = 'app/subjects';
-export const subscribedSubjects = 'app/subscribedSubjects';
-export const pushToSubscribedSubjects = 'app/pushToSubscribedSubjects';
+export const activePackageId = 'app/activePackageId';
 export const logout = 'app/logout';

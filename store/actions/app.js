@@ -7,6 +7,11 @@ import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
 import { appModel } from '../../database';
 
+const updateActivePackageId = (payload) => (dispatch) =>
+  dispatch({
+    type: types.activePackageId,
+    payload,
+  });
 
 /** process refresh token which saved in app
  *  by checking session is valid or else navigating to onboarding screen
@@ -43,7 +48,11 @@ const processRefreshToken = (payload) => (dispatch) => {
  * */
 const processAppLaunch = () => (dispatch) => {
   appModel.getLaunchData().then((appLaunchData) => {
-    const { refreshToken } = appLaunchData;
+    const { refreshToken, activePackageId } = appLaunchData;
+
+    if (activePackageId) {
+      dispatch(updateActivePackageId(activePackageId));
+    }
 
     if (refreshToken) {
       dispatch(processRefreshToken(refreshToken));

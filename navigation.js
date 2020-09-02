@@ -12,6 +12,7 @@ import packageSelection from './screens/packageSelection';
 import signinScreen from './screens/signin';
 import registerScreen from './screens/register';
 import verifyOtpScreen from './screens/verifyOtp';
+import home from './screens/home';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -52,6 +53,11 @@ const registerComponents = () => {
     'nav.verifyOtp',
     () => ReduxProvider(verifyOtpScreen, store),
     () => verifyOtpScreen,
+  );
+  Navigation.registerComponent(
+    'nav.home',
+    () => ReduxProvider(home, store),
+    () => home,
   );
 };
 
@@ -106,6 +112,19 @@ navComponents.verifyOtp = {
   component: {
     id: 'verifyOtp',
     name: 'nav.verifyOtp',
+  },
+};
+
+navComponents.home = {
+  stack: {
+    children: [
+      {
+        component: {
+          id: 'home',
+          name: 'nav.home',
+        },
+      },
+    ],
   },
 };
 

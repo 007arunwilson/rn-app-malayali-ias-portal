@@ -29,7 +29,6 @@ const isPhoneValidByApi = (payload) =>
   });
 
 const processRegister = (payload) => (dispatch) => {
-  console.log('process register payload', payload);
   dispatch(updateMemorizedForm(payload));
   const { phone } = payload;
   sendOtp({ phone });

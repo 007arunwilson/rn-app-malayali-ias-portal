@@ -18,20 +18,6 @@ const Launch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // React.useEffect(() => {
-  //   appModel.getLaunchData().then((result) => {
-  //     const { refreshToken } = result;
-  //     if (refreshToken) {
-  //       dispatch(processRefreshToken(refreshToken));
-  //     } else {
-  //       Navigation.setRoot({
-  //         root: navComponents.obboarding,
-  //       });
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.logoTextWrapper}>
