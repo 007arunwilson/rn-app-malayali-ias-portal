@@ -3,11 +3,15 @@ import thunk from 'redux-thunk';
 
 // Importing reducers
 import onboarding from './reducers/onboarding';
-import packageSelection from './reducers/packageSelection';
+import app from './reducers/app';
+import register from './reducers/register';
+import user from './reducers/user';
 
 const rootReducer = combineReducers({
+  app,
   onboarding,
-  packageSelection,
+  register,
+  user,
 });
 
 const composeEnhancers =

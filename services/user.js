@@ -38,4 +38,44 @@ const getUserPackages = () =>
       );
   });
 
-export { getUser, getUserPackages };
+const createUser = ({ data }) =>
+  new Promise((resolve, reject) => {
+    axios.noAuth
+      .request({
+        url: '/user',
+        method: 'POST',
+        data,
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData && responseData[0]) {
+            resolve(responseData[0]);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+const updateUser = ({ data }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user',
+        method: 'PATCH',
+        data,
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData && responseData[0]) {
+            resolve(responseData[0]);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+export { getUser, getUserPackages, createUser, updateUser };

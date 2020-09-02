@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
   actionBottom: {
     width: '100%',
     flex: 1,
+    alignItems: 'center',
   },
   statusContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginTop: 4,
     marginLeft: 6,
   },

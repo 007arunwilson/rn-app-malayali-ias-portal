@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: color.white,
     alignItems: 'center',
-    flex: 1,
+    flexGrow: 1,
   },
   inner: {
     width: wp(80),

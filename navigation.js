@@ -10,6 +10,8 @@ import launchScreen from './screens/launch';
 import onboardingScreen from './screens/onboarding';
 import packageSelection from './screens/packageSelection';
 import signinScreen from './screens/signin';
+import registerScreen from './screens/register';
+import verifyOtpScreen from './screens/verifyOtp';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -40,6 +42,16 @@ const registerComponents = () => {
     'nav.signin',
     () => ReduxProvider(signinScreen, store),
     () => signinScreen,
+  );
+  Navigation.registerComponent(
+    'nav.register',
+    () => ReduxProvider(registerScreen, store),
+    () => registerScreen,
+  );
+  Navigation.registerComponent(
+    'nav.verifyOtp',
+    () => ReduxProvider(verifyOtpScreen, store),
+    () => verifyOtpScreen,
   );
 };
 
@@ -80,6 +92,20 @@ navComponents.signin = {
   component: {
     id: 'signin',
     name: 'nav.signin',
+  },
+};
+
+navComponents.register = {
+  component: {
+    id: 'register',
+    name: 'nav.register',
+  },
+};
+
+navComponents.verifyOtp = {
+  component: {
+    id: 'verifyOtp',
+    name: 'nav.verifyOtp',
   },
 };
 
