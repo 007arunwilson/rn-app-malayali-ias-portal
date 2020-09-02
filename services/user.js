@@ -2,7 +2,7 @@ import * as axios from '../helpers/axios';
 
 const getUser = () =>
   new Promise((resolve, reject) => {
-    axios.noAuth
+    axios.auth
       .request({
         url: '/user',
         method: 'GET',
@@ -25,6 +25,25 @@ const getUserPackages = () =>
       .request({
         url: '/user/packages',
         method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+const enrollToDefaultPackage = () =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user/package/add-to-default',
+        method: 'POST',
       })
       .then(
         ({ data: { data: responseData } }) => {
@@ -78,4 +97,10 @@ const updateUser = ({ data }) =>
       );
   });
 
-export { getUser, getUserPackages, createUser, updateUser };
+export {
+  getUser,
+  getUserPackages,
+  createUser,
+  updateUser,
+  enrollToDefaultPackage,
+};

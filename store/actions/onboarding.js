@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import * as types from '../types/onboarding';
 import * as authActions from '../actions/auth';
+import * as registerActions from '../actions/register';
 import * as authApi from '../../services/auth';
 import * as userAPi from '../../services/user';
 import { navComponents } from '../../navigation';
@@ -39,18 +40,41 @@ const proceedWithFacebook = (payload) => (dispatch) => {
 const proceedWithGoogle = (payload) => (dispatch) => {
   const urlParam = { provider: 'google' };
   const data = payload;
-  authApi
-    .socialMedia({ urlParam, data })
-    .then(
-      (result) => {
-        const { accessToken, refreshToken } = result;
-        return authActions.updateTokens({ accessToken, refreshToken });
+  authApi.socialMedia({ urlParam, data }).then(
+    (result) => {
+      const { accessToken, refreshToken } = result;
+      dispatch(continueWithTokens({ accessToken, refreshToken }));
+    },
+    (error) => { },
+  );
+};
+
+const continueWithTokens = (payload) => (dispatch) => {
+  const { accessToken, refreshToken, viaAction } = payload;
+  authActions.updateTokens({ accessToken, refreshToken }).then(() => {
+    Promise.all([userAPi.getUser(), userAPi.getUserPackages()]).then(
+      ([user, userPackages]) => {
+        if (!(userPackages && userPackages.length)) {
+          // Setting memorized values for registration
+          const { email, phone, profile_fields } = user;
+          const name =
+            profile_fields && profile_fields.name ? profile_fields.name : null;
+          dispatch(registerActions.updateMemorizedForm({ email, phone, name }));
+          dispatch(registerActions.updateViaSocialAuth(true));
+          dispatch(updateInprogress(false));
+          if (viaAction && viaAction === 'launch') {
+            Navigation.setRoot({
+              root: navComponents.onboarding,
+            });
+          } else {
+            Navigation.push('onboarding', navComponents.register);
+          }
+        } else {
+          dispatch(authActions.processLogin({ user, userPackages }));
+        }
       },
-      (error) => { },
-    )
-    .then(() => {
-      dispatch(continueToPackages());
-    });
+    );
+  });
 };
 
 const continueToPackages = () => (dispatch) => {
@@ -70,4 +94,5 @@ export {
   updateActiveStep,
   proceedWithFacebook,
   proceedWithGoogle,
+  continueWithTokens,
 };

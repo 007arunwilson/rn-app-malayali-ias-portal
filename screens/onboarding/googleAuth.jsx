@@ -44,6 +44,7 @@ const GoogleAuth = () => {
             dispatch(proceedWithGoogle(payload));
           },
           (error) => {
+            console.log('error', error);
             dispatch(updateInprogress(false));
           },
         );

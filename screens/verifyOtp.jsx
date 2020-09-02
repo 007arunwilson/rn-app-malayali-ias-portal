@@ -19,7 +19,7 @@ import { color } from '../config';
 import TextInputField from '../components/form/textInputField';
 import { PrimaryButton } from '../components/form/primaryButton';
 import * as helperValidation from '../helpers/validation';
-import { verifyOtp, createAccount } from '../store/actions/register';
+import { verifyOtp, createAccount, sendOtp } from '../store/actions/register';
 
 const VerifyOtp = () => {
   const dispatch = useDispatch();
@@ -59,6 +59,7 @@ const VerifyOtp = () => {
   };
 
   const resendHandler = () => {
+    sendOtp({ phone });
     setOtpTimer(30);
     otpTimerIntervalHandler();
     ToastAndroid.show("You'll recieve a new OTP shortly", ToastAndroid.SHORT);

@@ -25,4 +25,11 @@ const getTokens = () =>
     );
   });
 
-export { saveTokens, getTokens };
+const deleteTokens = () =>
+  new Promise((resolve) => {
+    AsyncStorage.multiRemove(['@Auth.accessToken', '@Auth.refreshToken']).then(
+      resolve,
+    );
+  });
+
+export { saveTokens, getTokens, deleteTokens };

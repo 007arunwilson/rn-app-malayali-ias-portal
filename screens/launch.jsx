@@ -8,26 +8,29 @@ import { Navigation } from 'react-native-navigation';
 import { useDispatch } from 'react-redux';
 
 import config, { color } from '../config';
-import { appModel } from '../database';
-import { navComponents } from '../navigation';
-import { processRefreshToken } from '../store/actions/app';
+import { processAppLaunch } from '../store/actions/app';
 
 const Launch = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    appModel.getLaunchData().then((result) => {
-      const { refreshToken } = result;
-      if (refreshToken) {
-        dispatch(processRefreshToken(refreshToken));
-      } else {
-        Navigation.setRoot({
-          root: navComponents.obboarding,
-        });
-      }
-    });
+    dispatch(processAppLaunch());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // React.useEffect(() => {
+  //   appModel.getLaunchData().then((result) => {
+  //     const { refreshToken } = result;
+  //     if (refreshToken) {
+  //       dispatch(processRefreshToken(refreshToken));
+  //     } else {
+  //       Navigation.setRoot({
+  //         root: navComponents.obboarding,
+  //       });
+  //     }
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <View style={styles.container}>

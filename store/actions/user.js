@@ -15,7 +15,6 @@ const updateUserProfile = ({ name, email, phone, password }) =>
     data: { email, phone, password, profile_fields: { name } },
   });
 
-const createStudentProfile = ({ courseId }) =>
-  userApi.createStudentProfile({ data: { course_cst_item_id: courseId } });
+const enrollToDefaultPackage = () => userApi.enrollToDefaultPackage();
 
-export { update, createUser, updateUserProfile, createStudentProfile };
+export { update, createUser, updateUserProfile, enrollToDefaultPackage };

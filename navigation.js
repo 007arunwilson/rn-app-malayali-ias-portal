@@ -70,7 +70,7 @@ navComponents.root = {
   },
 };
 
-navComponents.obboarding = {
+navComponents.onboarding = {
   stack: {
     children: [
       {

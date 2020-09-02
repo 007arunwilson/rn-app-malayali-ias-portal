@@ -41,17 +41,16 @@ const login = ({ email_or_phone_or_username, password }) =>
  * */
 const processLogin = (payload) => (dispatch) => {
   new Promise((resolve) => {
-    if (payload && payload.user && payload.studentProfile) {
-      resolve({ user: payload.user, studentProfile: payload.studentProfile });
+    if (payload && payload.user && payload.userPackages) {
+      resolve({ user: payload.user, userPackages: payload.userPackages });
     } else {
-      Promise.all([userAPi.getUser(), userAPi.getStudentProfile()]).then(
-        ([user, studentProfile]) => {
-          console.log('1');
-          resolve({ user, studentProfile });
+      Promise.all([userAPi.getUser(), userAPi.getUserPackages()]).then(
+        ([user, userPackages]) => {
+          resolve({ user, userPackages });
         },
       );
     }
-  }).then(({ user, studentProfile }) => {
+  }).then(({ user, userPackages }) => {
     const userObj = {
       email: user.email,
       phone: user.phone,
@@ -59,17 +58,14 @@ const processLogin = (payload) => (dispatch) => {
         user.profile_fields && user.profile_fields.name
           ? user.profile_fields.name
           : null,
-      studentProfile: {
-        courseId: studentProfile.course_cst_item_id,
-        paid: false,
-      },
+      userPackages,
     };
     dispatch(userActions.update(userObj));
-    dispatch(
-      appActions.updateSubjectsFromCourse(studentProfile.course_cst_item_id),
-    );
+    // dispatch(
+    //   appActions.updateSubjectsFromCourse(studentProfile.course_cst_item_id),
+    // );
     //Get subscribed subjects
-    dispatch(appActions.updateActiveSubscptionSubjects());
+    // dispatch(appActions.updateActiveSubscptionSubjects());
 
     Navigation.setRoot({ root: navComponents.home });
   });

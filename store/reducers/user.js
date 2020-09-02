@@ -8,10 +8,7 @@ const userState = {
   name: null,
   email: null,
   phone: null,
-  studentProfile: {
-    courseId: null,
-    paid: null,
-  },
+  userPackages: null,
 };
 
 export default (state = initialState, action) => {
