@@ -13,6 +13,18 @@ const updateActivePackageId = (payload) => (dispatch) =>
     payload,
   });
 
+const updateHomeScreenDataLoaded = (payload) => (dispatch) =>
+  dispatch({
+    type: types.homeScreenDataLoaded,
+    payload,
+  });
+
+const updatesubscribedUser = (payload) => (dispatch) =>
+  dispatch({
+    type: types.subscribedUser,
+    payload,
+  });
+
 /** process refresh token which saved in app
  *  by checking session is valid or else navigating to onboarding screen
  * */
@@ -64,4 +76,24 @@ const processAppLaunch = () => (dispatch) => {
   });
 };
 
-export { processRefreshToken, processAppLaunch };
+const populateHomeScreenData = () => (dispatch, getState) => {
+  const state = getState();
+  const { activePackageId } = state.app;
+  if (!activePackageId) {
+    const { userPackages } = state.user;
+    const firstPackage = userPackages[0];
+    if (firstPackage.is_default) {
+      dispatch(updatesubscribedUser(false));
+    }
+  }
+  dispatch(updatesubscribedUser(false));
+  dispatch(updateHomeScreenDataLoaded(true));
+};
+
+export {
+  processRefreshToken,
+  processAppLaunch,
+  populateHomeScreenData,
+  updatesubscribedUser,
+  updateHomeScreenDataLoaded,
+};
