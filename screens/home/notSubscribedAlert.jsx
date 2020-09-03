@@ -22,7 +22,7 @@ const NotSubscribedAlert = () => {
         <Text style={styles.headText}>Not Subscribed !</Text>
         <Text style={styles.detailText}>
           You're not subscibed to any paid packages, so you've only access to
-          limited contents. Contact support for get a subscription
+          limited contents. Contact support team for get a subscription
         </Text>
       </View>
     </View>

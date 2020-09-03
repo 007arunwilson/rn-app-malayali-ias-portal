@@ -9,8 +9,9 @@ import * as appActions from '../../store/actions/app';
 import { useDispatch, useSelector } from 'react-redux';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import NotSubscribedAlert from './notSubscribedAlert';
+import Card from '../../components/miscellaneous/card';
 
-const Home = () => {
+const Home = (props) => {
   const dispatch = useDispatch();
   const homeScreenDataLoaded = useSelector(
     (state) => state.app.homeScreenDataLoaded,
@@ -23,13 +24,24 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onExamCardPress = () => { };
+
+  const onVideoCardPress = () => { };
+
   return (
     <>
       {!homeScreenDataLoaded ? <FullscreenLoader /> : null}
       {homeScreenDataLoaded ? (
         <>
           {!subscribedUser ? <NotSubscribedAlert /> : null}
-          <ScrollView contentContainerStyles={styles.container} />
+          <ScrollView
+            style={styles.scrollview}
+            contentContainerStyles={styles.container}>
+            <View style={styles.cardsContainer}>
+              <Card text={'Exams'} onPress={onExamCardPress} />
+              <Card text={'Videos'} onPress={onVideoCardPress} />
+            </View>
+          </ScrollView>
         </>
       ) : null}
     </>
@@ -38,11 +50,22 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     backgroundColor: color.white,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+  },
+  scrollview: {
+    marginTop: 10,
+    width: '80%',
+    alignSelf: 'center',
+  },
+  cardsContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderColor: 'red',
   },
 });
 
