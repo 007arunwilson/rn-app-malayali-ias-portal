@@ -28,7 +28,7 @@ const VideoPlayer = (props) => {
             uri:
               'https://player.vimeo.com/external/450994640.m3u8?s=c34349aef8ebb2bea7516bdf973cfecfdd472830&oauth2_token_id=1356536406',
           }}
-          videoStyle={[styles.video]}
+          videoStyle={styles.video}
           useTextureView={true}
           onBack={false}
           disableBack

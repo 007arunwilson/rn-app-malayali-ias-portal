@@ -22,18 +22,13 @@ const updateActiveStep = (payload) => (dispatch) =>
 const proceedWithFacebook = (payload) => (dispatch) => {
   const urlParam = { provider: 'facebook' };
   const data = payload;
-  authApi
-    .socialMedia({ urlParam, data })
-    .then(
-      (result) => {
-        const { accessToken, refreshToken } = result;
-        return authActions.updateTokens({ accessToken, refreshToken });
-      },
-      (error) => { },
-    )
-    .then(() => {
-      dispatch(continueToPackages());
-    });
+  authApi.socialMedia({ urlParam, data }).then(
+    (result) => {
+      const { accessToken, refreshToken } = result;
+      dispatch(continueWithTokens({ accessToken, refreshToken }));
+    },
+    (error) => { },
+  );
 };
 
 /** Processing obboarding using google auth flow */
