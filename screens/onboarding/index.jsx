@@ -33,8 +33,8 @@ const Onboarding = () => {
           </View>
           <View style={styles.onboardingActionContainer}>
             <View style={styles.actionTop}>
-              <GoogleAuth />
-              <FacebookAuth />
+              {/* <GoogleAuth />
+              <FacebookAuth /> */}
               <EmailAuth />
               <Signin />
             </View>
