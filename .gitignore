@@ -301,3 +301,5 @@ Temporary Items
 # Developer edits
 android/*.hprof
 android/app/google-services.json
+android/app/release/
+android/.idea

@@ -15,6 +15,7 @@ import { useOrientation } from '../helpers/hooks';
 
 const VideoPlayer = (props) => {
   const [isPotrait] = useOrientation();
+  // const { videoItem } = props;
 
   return (
     <>

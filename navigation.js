@@ -85,6 +85,12 @@ const registerComponents = () => {
   );
 };
 
+const bindPassProps = (passProps, component) => {
+  return {
+    component: { ...component.component, passProps },
+  };
+};
+
 // Navigation component declarations
 const navComponents = {};
 
@@ -200,4 +206,4 @@ navComponents.packageSelection = {
   },
 };
 
-export { navComponents, registerComponents };
+export { navComponents, registerComponents, bindPassProps };

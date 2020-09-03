@@ -10,8 +10,6 @@ import VideoCard from '../../components/miscellaneous/videoCard';
 const VideosList = (props) => {
   const { videos, onVideoPress } = props;
 
-  console.log('on video press', onVideoPress);
-
   const renderItem = ({ item }) => (
     <VideoCard onVideoPress={onVideoPress} videoItem={item} />
   );
