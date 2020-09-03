@@ -13,6 +13,9 @@ import signinScreen from './screens/signin';
 import registerScreen from './screens/register';
 import verifyOtpScreen from './screens/verifyOtp';
 import home from './screens/home';
+import videos from './screens/videos';
+import exams from './screens/exams';
+import notes from './screens/notes';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -58,6 +61,21 @@ const registerComponents = () => {
     'nav.home',
     () => ReduxProvider(home, store),
     () => home,
+  );
+  Navigation.registerComponent(
+    'nav.videos',
+    () => ReduxProvider(videos, store),
+    () => videos,
+  );
+  Navigation.registerComponent(
+    'nav.exams',
+    () => ReduxProvider(exams, store),
+    () => exams,
+  );
+  Navigation.registerComponent(
+    'nav.notes',
+    () => ReduxProvider(notes, store),
+    () => notes,
   );
 };
 
@@ -125,6 +143,27 @@ navComponents.home = {
         },
       },
     ],
+  },
+};
+
+navComponents.videos = {
+  component: {
+    id: 'videos',
+    name: 'nav.videos',
+  },
+};
+
+navComponents.exams = {
+  component: {
+    id: 'exams',
+    name: 'nav.exams',
+  },
+};
+
+navComponents.notes = {
+  component: {
+    id: 'notes',
+    name: 'nav.notes',
   },
 };
 

@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import NotSubscribedAlert from './notSubscribedAlert';
 import Card from '../../components/miscellaneous/card';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -24,11 +26,17 @@ const Home = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onExamsCardPress = () => { };
+  const onExamsCardPress = () => {
+    Navigation.push('home', navComponents.exams);
+  };
 
-  const onVideosCardPress = () => { };
+  const onVideosCardPress = () => {
+    Navigation.push('home', navComponents.videos);
+  };
 
-  const onNotesCardPress = () => { };
+  const onNotesCardPress = () => {
+    Navigation.push('home', navComponents.notes);
+  };
 
   return (
     <>
