@@ -85,6 +85,7 @@ const populateHomeScreenData = () => (dispatch, getState) => {
     if (firstPackage.is_default) {
       dispatch(updatesubscribedUser(false));
     }
+    dispatch(updateActivePackageId(firstPackage.id));
   }
   dispatch(updatesubscribedUser(false));
   dispatch(updateHomeScreenDataLoaded(true));

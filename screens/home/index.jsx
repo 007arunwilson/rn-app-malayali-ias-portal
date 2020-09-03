@@ -48,8 +48,8 @@ const Home = (props) => {
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
             <View style={styles.cardsContainer}>
-              <Card text={'Exams'} onPress={onExamsCardPress} />
               <Card text={'Videos'} onPress={onVideosCardPress} />
+              <Card text={'Exams'} onPress={onExamsCardPress} />
               <Card text={'Notes'} onPress={onNotesCardPress} />
             </View>
           </ScrollView>

@@ -12,10 +12,18 @@ const Exams = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundLight,
+    backgroundColor: color.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
+
+Exams.options = {
+  topBar: {
+    title: {
+      text: 'Exams',
+    },
+  },
+};
 
 export default Exams;
