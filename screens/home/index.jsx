@@ -24,9 +24,11 @@ const Home = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onExamCardPress = () => { };
+  const onExamsCardPress = () => { };
 
-  const onVideoCardPress = () => { };
+  const onVideosCardPress = () => { };
+
+  const onNotesCardPress = () => { };
 
   return (
     <>
@@ -38,8 +40,9 @@ const Home = (props) => {
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
             <View style={styles.cardsContainer}>
-              <Card text={'Exams'} onPress={onExamCardPress} />
-              <Card text={'Videos'} onPress={onVideoCardPress} />
+              <Card text={'Exams'} onPress={onExamsCardPress} />
+              <Card text={'Videos'} onPress={onVideosCardPress} />
+              <Card text={'Notes'} onPress={onNotesCardPress} />
             </View>
           </ScrollView>
         </>

@@ -8,6 +8,7 @@ import register from './reducers/register';
 import user from './reducers/user';
 import videos from './reducers/videos';
 import exams from './reducers/exams';
+import notes from './reducers/notes';
 
 const rootReducer = combineReducers({
   app,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user,
   videos,
   exams,
+  notes,
 });
 
 const composeEnhancers =
