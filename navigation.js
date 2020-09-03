@@ -16,6 +16,7 @@ import home from './screens/home';
 import videos from './screens/videos';
 import exams from './screens/exams';
 import notes from './screens/notes';
+import videoPlayer from './screens/videoPlayer';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -76,6 +77,11 @@ const registerComponents = () => {
     'nav.notes',
     () => ReduxProvider(notes, store),
     () => notes,
+  );
+  Navigation.registerComponent(
+    'nav.videoPlayer',
+    () => ReduxProvider(videoPlayer, store),
+    () => videoPlayer,
   );
 };
 
@@ -164,6 +170,13 @@ navComponents.notes = {
   component: {
     id: 'notes',
     name: 'nav.notes',
+  },
+};
+
+navComponents.videoPlayer = {
+  component: {
+    id: 'videoPlayer',
+    name: 'nav.videoPlayer',
   },
 };
 

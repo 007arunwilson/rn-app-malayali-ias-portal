@@ -10,6 +10,8 @@ import * as videosActions from '../../store/actions/videos';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyList';
 import VideosList from './videosList';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 const Videos = () => {
   const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos.byIndex);
@@ -27,6 +29,7 @@ const Videos = () => {
 
   const onVideoPress = (videoItem) => {
     console.log('videoItem', videoItem);
+    Navigation.push('videos', navComponents.videoPlayer);
   };
 
   return (
