@@ -15,6 +15,8 @@ const color = {
   textLight: '#616161',
   black: '#000000',
   fb: '#3b5998',
+  greenDark: '#16A085',
+  orangeDark: '#E67E22',
 };
 const config = {
   color,
@@ -26,6 +28,7 @@ const config = {
   razorProductLogoUrl: envConfig.RAZOR_PRODUCT_LOGO_URL,
   instituteName: envConfig.INSTITUTE_NAME,
   instituteBranch: envConfig.INSTITUTE_BRANCH,
+  env: envConfig.ENV,
 };
 
 export { color };

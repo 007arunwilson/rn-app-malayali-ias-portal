@@ -1,5 +1,6 @@
 import * as types from '../types/videos';
 import * as videosApi from '../../services/videos';
+import config from '../../config';
 
 const updateCount = (payload) => (dispatch) =>
   dispatch({
@@ -29,7 +30,8 @@ const loadVideos = (payload) => (dispatch, getState) => {
   const state = getState();
   const count = state.videos.count;
   const limit = state.videos.pagination.limit;
-  const activePackageId = 31 || state.app.activePackageId;
+  const activePackageId =
+    config.env === 'local' ? 31 : state.app.activePackageId;
   const promises = [];
   const { page } = payload;
 
@@ -46,10 +48,10 @@ const loadVideos = (payload) => (dispatch, getState) => {
   promises.push(
     videosApi.getPackageVideos({
       urlParams: { packageId: activePackageId },
+      params: { page, limit },
     }),
   );
 
-  console.log('loading videos from actions', activePackageId);
   dispatch(updateLoading(true));
   Promise.all(promises)
     .then(([packageVideosCount, packageVideos]) => {

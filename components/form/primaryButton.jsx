@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { color } from '../../config';
 
-export const PrimaryButton = ({ onPress, children, status }) => {
+export const PrimaryButton = ({ onPress, children, status, size }) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -26,11 +26,12 @@ export const PrimaryButton = ({ onPress, children, status }) => {
         />
       ) : (
         <Text
-          style={
+          style={[
             status === 'enabled'
               ? styles.textStyleEnabled
-              : styles.textStyleDisabled
-          }>
+              : styles.textStyleDisabled,
+            size === 'sm' ? styles.textStyleSm : null,
+          ]}>
           {children}
         </Text>
       )}
@@ -60,6 +61,11 @@ const styles = StyleSheet.create({
   textStyleDisabled: {
     padding: 10,
     color: color.primary,
+  },
+  textStyleSm: {
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    fontSize: 12,
   },
   spinnerStyle: {
     padding: 8,

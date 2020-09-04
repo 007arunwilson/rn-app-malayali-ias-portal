@@ -6,32 +6,33 @@ import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
-import * as videosActions from '../../store/actions/videos';
+import * as examsActions from '../../store/actions/exams';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyList';
-import VideosList from './videosList';
+
 import { Navigation } from 'react-native-navigation';
 import { navComponents, bindPassProps } from '../../navigation';
-const Videos = () => {
-  const dispatch = useDispatch();
-  const videos = useSelector((state) => state.videos.byIndex);
-  const count = useSelector((state) => state.videos.count);
-  const loading = useSelector((state) => state.videos.loading);
-  const page = useSelector((state) => state.videos.pagination.page);
+import ExamsList from './examsList';
 
-  console.log(loading);
+const Exams = () => {
+  const dispatch = useDispatch();
+  const exams = useSelector((state) => state.exams.byIndex);
+  const count = useSelector((state) => state.exams.count);
+  const loading = useSelector((state) => state.exams.loading);
+  const page = useSelector((state) => state.exams.pagination.page);
 
   React.useEffect(() => {
     if (count === null) {
-      dispatch(videosActions.loadVideos({ page }));
+      dispatch(examsActions.loadExams({ page }));
     }
   }, [count, dispatch, page]);
 
-  const onVideoPress = (videoItem) => {
-    Navigation.push(
-      'videos',
-      bindPassProps({ videoItem }, navComponents.videoPlayer),
-    );
+  const onExamSelect = (examItem) => {
+    console.log('examItem', examItem);
+    // Navigation.push(
+    //   'videos',
+    //   bindPassProps({ videoItem }, navComponents.videoPlayer),
+    // );
   };
 
   return (
@@ -43,9 +44,9 @@ const Videos = () => {
           {count === 0 ? (
             <FullscreenEmptyList />
           ) : (
-            <VideosList
-              onVideoPress={onVideoPress}
-              videos={videos}
+            <ExamsList
+              onExamSelect={onExamSelect}
+              exams={exams}
               count={count}
               loading={loading}
             />
@@ -59,18 +60,18 @@ const Videos = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundLight,
+    backgroundColor: color.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-Videos.options = {
+Exams.options = {
   topBar: {
     title: {
-      text: 'Videos',
+      text: 'Exams',
     },
   },
 };
 
-export default Videos;
+export default Exams;
