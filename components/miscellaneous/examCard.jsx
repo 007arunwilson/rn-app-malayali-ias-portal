@@ -16,21 +16,6 @@ const ExamCard = ({ examItem, onExamSelect }) => {
     learning_material_test_user_attempt_submitted_on,
   } = examItem;
 
-  const random = Math.floor(Math.random() * 3) + 1;
-  if (random === 1) {
-    learning_material_test_user_attempt_started_on = null;
-    learning_material_test_user_attempt_submitted_on = null;
-  }
-
-  if (random === 2) {
-    learning_material_test_user_attempt_started_on = new Date();
-    learning_material_test_user_attempt_submitted_on = new Date();
-  }
-
-  if (random === 3) {
-    learning_material_test_user_attempt_started_on = new Date();
-  }
-
   let titleText = '';
   const titleSplitted = title.split(' ');
   if (titleSplitted.length > 6) {
