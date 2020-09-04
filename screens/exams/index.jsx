@@ -18,6 +18,7 @@ const Exams = () => {
   const dispatch = useDispatch();
   const exams = useSelector((state) => state.exams.byIndex);
   const count = useSelector((state) => state.exams.count);
+  const limit = useSelector((state) => state.exams.pagination.limit);
   const loading = useSelector((state) => state.exams.loading);
   const page = useSelector((state) => state.exams.pagination.page);
 
@@ -27,17 +28,20 @@ const Exams = () => {
     }
   }, [count, dispatch, page]);
 
-  const onExamSelect = (examItem) => {
-    console.log('examItem', examItem);
-    // Navigation.push(
-    //   'videos',
-    //   bindPassProps({ videoItem }, navComponents.videoPlayer),
-    // );
+  const onExamSelect = (examItem) => {};
+
+  const loadMore = () => {
+    const nextPage = page + 1;
+    const totalPage = Math.ceil(count / limit);
+
+    if (!loading && nextPage <= totalPage) {
+      dispatch(examsActions.loadExams({ page: page + 1 }));
+    }
   };
 
   return (
     <>
-      {loading || count === null ? (
+      {count === null ? (
         <FullscreenLoader />
       ) : (
         <>
@@ -49,6 +53,7 @@ const Exams = () => {
               exams={exams}
               count={count}
               loading={loading}
+              loadMore={loadMore}
             />
           )}
         </>
@@ -56,15 +61,6 @@ const Exams = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: color.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 Exams.options = {
   topBar: {

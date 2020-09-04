@@ -17,6 +17,7 @@ const Videos = () => {
   const videos = useSelector((state) => state.videos.byIndex);
   const count = useSelector((state) => state.videos.count);
   const loading = useSelector((state) => state.videos.loading);
+  const limit = useSelector((state) => state.videos.pagination.limit);
   const page = useSelector((state) => state.videos.pagination.page);
 
   console.log(loading);
@@ -34,6 +35,15 @@ const Videos = () => {
     );
   };
 
+  const loadMore = () => {
+    const nextPage = page + 1;
+    const totalPage = Math.ceil(count / limit);
+
+    if (!loading && nextPage <= totalPage) {
+      dispatch(videosActions.loadVideos({ page: page + 1 }));
+    }
+  };
+
   return (
     <>
       {loading || count === null ? (
@@ -48,6 +58,7 @@ const Videos = () => {
               videos={videos}
               count={count}
               loading={loading}
+              loadMore={loadMore}
             />
           )}
         </>
@@ -55,15 +66,6 @@ const Videos = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: color.backgroundLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 Videos.options = {
   topBar: {

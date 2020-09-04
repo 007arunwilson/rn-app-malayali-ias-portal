@@ -8,7 +8,7 @@ import { color } from '../../config';
 import ExamCard from '../../components/miscellaneous/examCard';
 
 const ExamsList = (props) => {
-  const { exams, onExamSelect } = props;
+  const { exams, onExamSelect, loadMore, loading } = props;
 
   const renderItem = ({ item }) => (
     <ExamCard onExamSelect={onExamSelect} examItem={item} />
@@ -20,11 +20,13 @@ const ExamsList = (props) => {
     <FlatList
       data={exams}
       renderItem={renderItem}
-      // onRefresh={() => true}
-      // refreshing={true}
+      onRefresh={() => true}
+      refreshing={loading}
       keyExtractor={keyExtractor}
       style={styles.list}
       contentContainerStyle={styles.listContainer}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.4}
     />
   );
 };

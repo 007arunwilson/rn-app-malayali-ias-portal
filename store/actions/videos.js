@@ -30,6 +30,7 @@ const loadVideos = (payload) => (dispatch, getState) => {
   const state = getState();
   const count = state.videos.count;
   const limit = state.videos.pagination.limit;
+  const previousVideosByIndex = state.videos.byIndex;
   const activePackageId =
     config.env === 'local' ? 31 : state.app.activePackageId;
   const promises = [];
@@ -58,6 +59,15 @@ const loadVideos = (payload) => (dispatch, getState) => {
       if (typeof packageVideosCount !== 'undefined') {
         dispatch(updateCount(Number(packageVideosCount)));
       }
+      let updatedVideosByIndex = packageVideos;
+      if (previousVideosByIndex) {
+        updatedVideosByIndex = [
+          ...previousVideosByIndex,
+          ...updatedVideosByIndex,
+        ];
+      }
+      dispatch(updateByIndex(updatedVideosByIndex));
+      dispatch(updatePaginationPage(page));
       dispatch(updateByIndex(packageVideos));
     })
     .catch((error) => error)

@@ -36,7 +36,9 @@ const ExamCard = ({ examItem, onExamSelect }) => {
 
   return (
     <>
-      <View style={styles.card}>
+      <TouchableOpacity
+        onPress={() => onExamSelect(examItem)}
+        style={styles.card}>
         <View style={styles.top}>
           <Text style={styles.title}>{titleText}</Text>
           <Text style={styles.description}>{descriptionText}</Text>
@@ -134,7 +136,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </>
   );
 };

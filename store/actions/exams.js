@@ -29,6 +29,7 @@ const updatePaginationPage = (payload) => (dispatch) =>
 const loadExams = (payload) => (dispatch, getState) => {
   const state = getState();
   const count = state.exams.count;
+  const previousExamsByIndex = state.exams.byIndex;
   const limit = state.exams.pagination.limit;
   const activePackageId =
     config.env === 'local' ? 31 : state.app.activePackageId;
@@ -58,7 +59,12 @@ const loadExams = (payload) => (dispatch, getState) => {
       if (typeof packageExamsCount !== 'undefined') {
         dispatch(updateCount(Number(packageExamsCount)));
       }
-      dispatch(updateByIndex(packageExamsWithUserAttempt));
+      let updatedExamsByIndex = packageExamsWithUserAttempt;
+      if (previousExamsByIndex) {
+        updatedExamsByIndex = [...previousExamsByIndex, ...updatedExamsByIndex];
+      }
+      dispatch(updateByIndex(updatedExamsByIndex));
+      dispatch(updatePaginationPage(page));
     })
     .catch((error) => error)
     .finally(() => dispatch(updateLoading(false)));

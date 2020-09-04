@@ -8,7 +8,7 @@ import { color } from '../../config';
 import VideoCard from '../../components/miscellaneous/videoCard';
 
 const VideosList = (props) => {
-  const { videos, onVideoPress } = props;
+  const { videos, onVideoPress, loading, loadMore } = props;
 
   const renderItem = ({ item }) => (
     <VideoCard onVideoPress={onVideoPress} videoItem={item} />
@@ -20,11 +20,13 @@ const VideosList = (props) => {
     <FlatList
       data={videos}
       renderItem={renderItem}
-      // onRefresh={() => true}
-      // refreshing={true}
+      onRefresh={() => true}
+      refreshing={loading}
       keyExtractor={keyExtractor}
       style={styles.list}
       contentContainerStyle={styles.listContainer}
+      onEndReached={loadMore}
+      onEndReachedThreshold={0.4}
     />
   );
 };
