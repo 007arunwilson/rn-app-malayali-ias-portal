@@ -15,14 +15,14 @@ const ResumeExam = (props) => {
         <View style={styles.content}>
           <Text style={styles.instructionsHead}>Instructions:</Text>
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               You can resume the exam from previous stop point
             </Text>
           </View>
 
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               You can stop and resume from the point you stopped by the back
               button press
@@ -30,7 +30,7 @@ const ResumeExam = (props) => {
           </View>
 
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               Dont' exit app directly from exam screen, that may cause problems
               to resume from the point you stopped

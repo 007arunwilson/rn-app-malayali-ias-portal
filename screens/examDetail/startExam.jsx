@@ -15,21 +15,21 @@ const StartExam = (props) => {
         <View style={styles.content}>
           <Text style={styles.instructionsHead}>Instructions:</Text>
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               You've {Math.floor(duration / 60)} minutes to complete the exam
             </Text>
           </View>
 
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               Once started, You can't able to restart the exam
             </Text>
           </View>
 
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               You can stop and resume from the point you stopped by the back
               button press
@@ -37,7 +37,7 @@ const StartExam = (props) => {
           </View>
 
           <View style={styles.instructionItem}>
-            <Icon color={color.textLight} size={16} name="circle-outline" />
+            <Icon color={color.textLight} size={16} name="menu-right" />
             <Text style={styles.instructionItemText}>
               Dont' exit app directly from exam screen, that may cause problems
               to resume from the point you stopped
