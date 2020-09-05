@@ -18,9 +18,11 @@ import Title from './title';
 import BasicMeta from './basicMeta';
 import StartExam from './startExam';
 import ResumeExam from './resumeExam';
+import ResultView from './resultView';
 
 const ExamDetail = () => {
   const examDetailData = useSelector((state) => state.exam.detail.data);
+  const examAttemptData = useSelector((state) => state.exam.attemptData);
   const examLoading = useSelector((state) => state.exam.detail.loading);
 
   const {
@@ -58,7 +60,15 @@ const ExamDetail = () => {
           </View>
 
           {!startedOn ? <StartExam duration={duration} /> : null}
-          {startedOn && !submittedOn ? <ResumeExam /> : null}
+          {startedOn && !submittedOn ? (
+            <ResumeExam startedOn={startedOn} />
+          ) : null}
+          {startedOn && submittedOn ? (
+            <ResultView
+              examAttemptData={examAttemptData}
+              questionsCount={questionsCount}
+            />
+          ) : null}
         </>
       )}
     </ScrollView>

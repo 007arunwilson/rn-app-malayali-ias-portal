@@ -6,7 +6,9 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../config';
-const ResumeExam = () => {
+const ResumeExam = (props) => {
+  const { startedOn } = props;
+
   return (
     <>
       <View style={styles.card}>
@@ -34,6 +36,14 @@ const ResumeExam = () => {
               to resume from the point you stopped
             </Text>
           </View>
+        </View>
+      </View>
+
+      <View style={styles.card}>
+        <View style={styles.content}>
+          <Text style={styles.initialActivityText}>
+            Intitial activity: {new Date(startedOn).toDateString()}
+          </Text>
         </View>
       </View>
 
@@ -86,6 +96,9 @@ const styles = StyleSheet.create({
     color: color.textLight,
     marginLeft: 4,
     flex: 1,
+  },
+  initialActivityText: {
+    fontSize: 12,
   },
   actionContent: {
     alignItems: 'center',

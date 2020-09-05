@@ -94,11 +94,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
                     ]}>
                     View Result
                   </Text>
-                  <Icon
-                    color={color.greenDark}
-                    size={14}
-                    name="chevron-right"
-                  />
+                  <Icon color={color.primary} size={14} name="chevron-right" />
                 </>
               ) : null}
               {learning_material_test_user_attempt_started_on &&
@@ -126,7 +122,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
                     Start Exam
                   </Text>
                   <Icon
-                    color={color.primaryLight}
+                    color={color.greenDark}
                     size={14}
                     name="chevron-right"
                   />
@@ -207,10 +203,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   examActionTextStart: {
-    color: color.primaryLight,
+    color: color.greenDark,
   },
   examActionTextResult: {
-    color: color.greenDark,
+    color: color.primary,
   },
   examActionTextResume: {
     color: color.orangeDark,
