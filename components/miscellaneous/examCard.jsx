@@ -6,7 +6,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../config';
-import { PrimaryButton } from '../form/primaryButton';
 
 const ExamCard = ({ examItem, onExamSelect }) => {
   let {

@@ -1,6 +1,11 @@
 import * as types from '../types/exams';
 import * as examsApi from '../../services/exams';
+import * as examApi from '../../services/exam';
 import config from '../../config';
+import * as examDetailActions from '../actions/exam/detail';
+import * as examAttempDataActions from '../actions/exam/attemptData';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 
 const updateCount = (payload) => (dispatch) =>
   dispatch({
@@ -70,4 +75,78 @@ const loadExams = (payload) => (dispatch, getState) => {
     .finally(() => dispatch(updateLoading(false)));
 };
 
-export { loadExams };
+const navigateToExam = (payload) => (dispatch, getState) => {
+  const state = getState();
+  const { examItem } = payload;
+
+  const previousExamId = state.exam.detail.data.id;
+
+  if (previousExamId !== examItem.learning_material_id) {
+    dispatch(examDetailActions.reset());
+    dispatch(examAttempDataActions.reset());
+  }
+
+  const examIntroData = {
+    id: examItem.learning_material_id,
+    testId: examItem.learning_material_test_id,
+    title: examItem.title,
+    description: examItem.description,
+    duration: examItem.duration,
+    startedOn: examItem.learning_material_test_user_attempt_started_on,
+    submittedOn: examItem.learning_material_test_user_attempt_submitted_on,
+  };
+
+  dispatch(examDetailActions.updateLoading(true));
+  dispatch(examDetailActions.updateData(examIntroData));
+
+  // Assuming that navigation to exam scrfeen is only happens from exam listing screen
+  Navigation.push('exams', navComponents.examDetail);
+
+  const promises = [];
+
+  // Load Exams Detail and Attempt
+  promises.push(
+    examApi.getExam({
+      urlParams: { learningMaterialId: examIntroData.id },
+    }),
+  );
+
+  if (examIntroData.startedOn) {
+    promises.push(
+      examApi.getUserAttempt({
+        urlParams: { learningMaterialTestId: examIntroData.testId },
+      }),
+    );
+  } else {
+    promises.push(Promise.resolve());
+  }
+
+  Promise.all(promises)
+    .then(([examDetailResult, userAttemptResult]) => {
+      // Result of the properties are populated with Intro data
+      const examExtendedData = {
+        questionsCount: examDetailResult.question_count,
+        totalScore: examDetailResult.total_score,
+      };
+      dispatch(examDetailActions.updateData(examExtendedData));
+
+      if (userAttemptResult) {
+        const examAttempData = {
+          startedOn: userAttemptResult.started_on,
+          submittedOn: userAttemptResult.submitted_on,
+          answeredQuestion: userAttemptResult.answered_questions,
+          rightlyAnswered: userAttemptResult.rightly_answered,
+          totalScore: userAttemptResult.total_score,
+          rightlyAnsweredScore: userAttemptResult.rightly_answered_score,
+          wronglyAnswered: userAttemptResult.wrongly_answered,
+          negativeScore: userAttemptResult.negative_score,
+          optainedScore: userAttemptResult.optained_score,
+        };
+
+        dispatch(examAttempDataActions.update(examAttempData));
+      }
+    })
+    .finally(() => dispatch(examDetailActions.updateLoading(false)));
+};
+
+export { loadExams, navigateToExam };

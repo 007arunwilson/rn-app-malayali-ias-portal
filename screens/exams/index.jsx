@@ -28,7 +28,9 @@ const Exams = () => {
     }
   }, [count, dispatch, page]);
 
-  const onExamSelect = (examItem) => {};
+  const onExamSelect = (examItem) => {
+    dispatch(examsActions.navigateToExam({ examItem }));
+  };
 
   const loadMore = () => {
     const nextPage = page + 1;
