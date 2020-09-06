@@ -6,8 +6,9 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../config';
+import InlineLoader from '../../components/miscellaneous/inlineLoader';
 const StartExam = (props) => {
-  const { duration } = props;
+  const { duration, loadingQuestions, processStartExam } = props;
 
   return (
     <>
@@ -48,16 +49,22 @@ const StartExam = (props) => {
 
       <View style={styles.card}>
         <View style={[styles.content, styles.actionContent]}>
-          <TouchableOpacity onPress={() => true}>
-            <View style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>Start Exam</Text>
-              <Icon
-                color={color.white}
-                size={16}
-                name="arrow-right-circle-outline"
-              />
+          {loadingQuestions ? (
+            <View style={styles.loadingQuestions} >
+              <InlineLoader />
             </View>
-          </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={processStartExam}>
+              <View style={styles.actionButton}>
+                <Text style={styles.actionButtonText}>Start Exam</Text>
+                <Icon
+                  color={color.white}
+                  size={16}
+                  name="arrow-right-circle-outline"
+                />
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </>
@@ -119,6 +126,7 @@ const styles = StyleSheet.create({
     color: color.white,
     marginRight: 6,
   },
+  loadingQuestions: {},
 });
 
 export default StartExam;

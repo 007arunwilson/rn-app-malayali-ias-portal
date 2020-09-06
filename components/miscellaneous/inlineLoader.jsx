@@ -24,7 +24,7 @@ const InlineLoader = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    margin: 10,
+    margin: 8,
   },
   text: {
     color: color.text,

@@ -12,18 +12,27 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import { color } from '../../config';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import InlineLoader from '../../components/miscellaneous/inlineLoader';
 import Title from './title';
 import BasicMeta from './basicMeta';
 import StartExam from './startExam';
 import ResumeExam from './resumeExam';
 import ResultView from './resultView';
+import * as examRunningActions from '../../store/actions/exam/running';
 
 const ExamDetail = () => {
+  const dispatch = useDispatch();
+
   const examDetailData = useSelector((state) => state.exam.detail.data);
   const examAttemptData = useSelector((state) => state.exam.attemptData);
   const examLoading = useSelector((state) => state.exam.detail.loading);
+  const loadingQuestions = useSelector(
+    (state) => state.exam.running.loadingQuestions,
+  );
+
+  const processStartExam = () =>
+    dispatch(examRunningActions.processStartExam());
 
   const {
     title,
@@ -59,7 +68,13 @@ const ExamDetail = () => {
             </View>
           </View>
 
-          {!startedOn ? <StartExam duration={duration} /> : null}
+          {!startedOn ? (
+            <StartExam
+              duration={duration}
+              loadingQuestions={loadingQuestions}
+              processStartExam={processStartExam}
+            />
+          ) : null}
           {startedOn && !submittedOn ? (
             <ResumeExam startedOn={startedOn} />
           ) : null}

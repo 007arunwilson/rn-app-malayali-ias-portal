@@ -18,6 +18,7 @@ import exams from './screens/exams';
 import notes from './screens/notes';
 import videoPlayer from './screens/videoPlayer';
 import examDetail from './screens/examDetail';
+import examRunning from './screens/examRunning';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -88,6 +89,11 @@ const registerComponents = () => {
     'nav.examDetail',
     () => ReduxProvider(examDetail, store),
     () => examDetail,
+  );
+  Navigation.registerComponent(
+    'nav.examRunning',
+    () => ReduxProvider(examRunning, store),
+    () => examRunning,
   );
 };
 
@@ -196,6 +202,13 @@ navComponents.examDetail = {
   component: {
     id: 'examDetail',
     name: 'nav.examDetail',
+  },
+};
+
+navComponents.examRunning = {
+  component: {
+    id: 'examRunning',
+    name: 'nav.examRunning',
   },
 };
 

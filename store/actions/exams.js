@@ -4,6 +4,7 @@ import * as examApi from '../../services/exam';
 import config from '../../config';
 import * as examDetailActions from '../actions/exam/detail';
 import * as examAttempDataActions from '../actions/exam/attemptData';
+import * as examRunningActions from '../actions/exam/running';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
 
@@ -84,6 +85,7 @@ const navigateToExam = (payload) => (dispatch, getState) => {
   if (previousExamId !== examItem.learning_material_id) {
     dispatch(examDetailActions.reset());
     dispatch(examAttempDataActions.reset());
+    dispatch(examRunningActions.reset());
   }
 
   const examIntroData = {

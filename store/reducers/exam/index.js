@@ -2,12 +2,12 @@ import { combineReducers } from 'redux';
 
 import detail from './detail';
 import attemptData from './attemptData';
-// import running from './running';
+import running from './running';
 
 const examReducer = combineReducers({
   detail,
   attemptData,
-  // running,
+  running,
 });
 
 export default examReducer;
