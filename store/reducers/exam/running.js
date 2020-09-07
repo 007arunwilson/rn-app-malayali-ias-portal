@@ -17,6 +17,8 @@ const initialState = {
   activeQuestion: null,
   timer: null,
   examRunning: false,
+  haveNextQuestion: false,
+  havePreviousQuestion: false,
 };
 
 export default (state = initialState, action) => {
@@ -66,6 +68,20 @@ export default (state = initialState, action) => {
     case types.activeCategoryId: {
       const updatedState = update(state, {
         activeCategoryId: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.haveNextQuestion: {
+      const updatedState = update(state, {
+        haveNextQuestion: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.havePreviousQuestion: {
+      const updatedState = update(state, {
+        havePreviousQuestion: { $set: action.payload },
       });
       return updatedState;
     }

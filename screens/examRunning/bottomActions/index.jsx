@@ -6,8 +6,16 @@ import { StyleSheet, View, TouchableWithoutFeedback, Text } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../../config';
+import * as examRunningActions from '../../../store/actions/exam/running';
+import { useSelector, useDispatch } from 'react-redux';
 
 const BottomActions = () => {
+  const dispatch = useDispatch();
+
+  const { haveNextQuestion, havePreviousQuestion } = useSelector(
+    (state) => state.exam.running,
+  );
+
   return (
     <View style={styles.card}>
       <View style={styles.content}>
@@ -21,23 +29,28 @@ const BottomActions = () => {
         </View>
 
         <View style={styles.navigationContainer}>
-          <TouchableWithoutFeedback disabled={false} onPress={() => true}>
+          <TouchableWithoutFeedback
+            disabled={!havePreviousQuestion}
+            onPress={() =>
+              dispatch(examRunningActions.processPreviousQuestion())
+            }>
             <View
               style={[
                 styles.previousQuestionButtton,
-                true ? { opacity: 0.2 } : null,
+                !havePreviousQuestion ? { opacity: 0.2 } : null,
               ]}>
-              <Icon
-                color={color.text}
-                size={16}
-                name="chevron-left-circle-outline"
-              />
+              <Icon color={color.text} size={16} name="chevron-left" />
             </View>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback disabled={!1} onPress={() => true}>
+          <TouchableWithoutFeedback
+            disabled={!haveNextQuestion}
+            onPress={() => dispatch(examRunningActions.processNextQuestion())}>
             <View
-              style={[styles.nextQuestionButton, !1 ? { opacity: 0.2 } : null]}>
+              style={[
+                styles.nextQuestionButton,
+                !haveNextQuestion ? { opacity: 0.2 } : null,
+              ]}>
               <Icon color={color.text} size={16} name="chevron-right" />
             </View>
           </TouchableWithoutFeedback>

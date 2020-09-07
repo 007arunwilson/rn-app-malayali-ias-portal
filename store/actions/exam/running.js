@@ -52,6 +52,18 @@ const updateQuestionsChoosedOptionIds = (payload) => (dispatch) =>
     payload,
   });
 
+const updateHaveNextQuestion = (payload) => (dispatch) =>
+  dispatch({
+    type: types.haveNextQuestion,
+    payload,
+  });
+
+const updateHavePreviousQuestion = (payload) => (dispatch) =>
+  dispatch({
+    type: types.havePreviousQuestion,
+    payload,
+  });
+
 const reset = (payload) => (dispatch) =>
   dispatch({
     type: types.reset,
@@ -106,6 +118,24 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
   if (questionCategoryId) {
     dispatch(updateActiveCategoryId(questionCategoryId));
   }
+
+  // have Next question / previous Question
+  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
+
+  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
+    `${activeQuestionId}`,
+  );
+
+  const indexNextOfquestionIdInArr = indexOfquestionIdInArr + 1;
+  const indexPreviousOfquestionIdInArr = indexOfquestionIdInArr - 1;
+
+  const updateHaveNextQuestionValue =
+    questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
+  const updateHavePreviousQuestionValue =
+    questionsIdIndexMapKeysArr[indexPreviousOfquestionIdInArr];
+
+  dispatch(updateHaveNextQuestion(!!updateHaveNextQuestionValue));
+  dispatch(updateHavePreviousQuestion(!!updateHavePreviousQuestionValue));
 };
 
 const handleChooseOption = (optionItem) => (dispatch, getState) => {
@@ -130,10 +160,43 @@ const handleChooseOption = (optionItem) => (dispatch, getState) => {
   dispatch(updateQuestionsChoosedOptionIds(questionsChoosedOptionIdsUpdated));
 };
 
+const processNextQuestion = () => (dispatch, getState) => {
+  const state = getState();
+  const { questionsIdIndexMap, activeQuestion } = state.exam.running;
+
+  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
+
+  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
+    `${activeQuestion.id}`,
+  );
+
+  const indexNextOfquestionIdInArr = indexOfquestionIdInArr + 1;
+  const nextQuestionId = questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
+  dispatch(setActiveQuestion(nextQuestionId));
+};
+
+const processPreviousQuestion = () => (dispatch, getState) => {
+  const state = getState();
+  const { questionsIdIndexMap, activeQuestion } = state.exam.running;
+
+  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
+
+  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
+    `${activeQuestion.id}`,
+  );
+
+  const indexNextOfquestionIdInArr = indexOfquestionIdInArr - 1;
+  const previousQuestionId =
+    questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
+  dispatch(setActiveQuestion(previousQuestionId));
+};
+
 export {
   updateLoadingQuestions,
   processStartExam,
   setActiveQuestion,
   reset,
   handleChooseOption,
+  processNextQuestion,
+  processPreviousQuestion,
 };
