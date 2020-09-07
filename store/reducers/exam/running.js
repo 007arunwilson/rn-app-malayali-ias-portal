@@ -19,6 +19,7 @@ const initialState = {
   examRunning: false,
   haveNextQuestion: false,
   havePreviousQuestion: false,
+  activeQuestionIndex: null,
   ready: false,
   saving: false,
 };
@@ -63,6 +64,13 @@ export default (state = initialState, action) => {
     case types.activeQuestion: {
       const updatedState = update(state, {
         activeQuestion: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.activeQuestionIndex: {
+      const updatedState = update(state, {
+        activeQuestionIndex: { $set: action.payload },
       });
       return updatedState;
     }

@@ -18,6 +18,7 @@ import { color } from '../../../config';
 
 const Bullets = (props) => {
   const dispatch = useDispatch();
+  const flatlistRef = React.useRef(null);
   const questions = useSelector((state) => state.exam.running.questions);
   const questionsChoosedOptionIds = useSelector(
     (state) => state.exam.running.questionsChoosedOptionIds,
@@ -26,6 +27,19 @@ const Bullets = (props) => {
     (state) =>
       state.exam.running.activeQuestion && state.exam.running.activeQuestion.id,
   );
+
+  const activeQuestionIndex = useSelector(
+    (state) => state.exam.running.activeQuestionIndex,
+  );
+
+  React.useEffect(() => {
+    if (flatlistRef.current && activeQuestionIndex) {
+      flatlistRef.current.scrollToIndex({
+        animated: true,
+        index: activeQuestionIndex,
+      });
+    }
+  }, [activeQuestionIndex, flatlistRef]);
 
   const switchToQuestionByIndex = (questionIndex) =>
     dispatch(examRunningActions.setActiveQuestionByIndex(questionIndex));
@@ -57,6 +71,9 @@ const Bullets = (props) => {
   return (
     <FlatList
       extraData={activeQuestionId}
+      ref={(ref) => {
+        flatlistRef.current = ref;
+      }}
       data={questions}
       horizontal
       renderItem={(renderProps) =>
