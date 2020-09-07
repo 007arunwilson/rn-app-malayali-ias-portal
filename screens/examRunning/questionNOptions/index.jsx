@@ -12,23 +12,21 @@ import Options from './options';
 
 const QuestionNOptions = () => {
   const dispatch = useDispatch();
-  const question = useSelector((state) => state.exam.running.activeQuestion);
-  const questionsIdIndexMap = useSelector(
-    (state) => state.exam.running.questionsIdIndexMap,
-  );
+  const {
+    activeQuestion: question,
+    activeQuestionIndex,
+    questions,
+  } = useSelector((state) => state.exam.running);
 
   const questionsChoosedOptionIds = useSelector(
     (state) => state.exam.running.questionsChoosedOptionIds,
   );
 
-  const keysArr = Object.keys(questionsIdIndexMap);
-  const idIndex = keysArr.indexOf(`${question.id}`);
-
-  const currentQuestion = idIndex + 1;
+  const currentQuestion = activeQuestionIndex + 1;
 
   const options = question.options;
 
-  const totalQuestions = keysArr.length;
+  const totalQuestions = questions.length;
 
   const optionChooseHanlder = (option) => {
     dispatch(examRunningActions.handleChooseOption(option));

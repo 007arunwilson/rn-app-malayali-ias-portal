@@ -20,9 +20,12 @@ const BottomActions = (props) => {
   const dispatch = useDispatch();
   const { exitExam } = props;
 
-  const { haveNextQuestion, havePreviousQuestion } = useSelector(
+  const { questions, activeQuestionIndex } = useSelector(
     (state) => state.exam.running,
   );
+
+  const haveNextQuestion = !(questions.length === activeQuestionIndex + 1);
+  const havePreviousQuestion = !(activeQuestionIndex === 0);
 
   return (
     <View style={styles.card}>

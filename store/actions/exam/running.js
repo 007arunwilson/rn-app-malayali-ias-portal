@@ -85,6 +85,12 @@ const updateReady = (payload) => (dispatch) =>
     payload,
   });
 
+const updateActiveQuestionIndex = (payload) => (dispatch) =>
+  dispatch({
+    type: types.activeQuestionIndex,
+    payload,
+  });
+
 const reset = (payload) => (dispatch) =>
   dispatch({
     type: types.reset,
@@ -115,8 +121,7 @@ const processStartExam = () => (dispatch, getState) => {
     dispatch(updateCategories(questionsCategoryResult));
     dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
 
-    const activeQuestionId = questionsResult[0].id;
-    dispatch(setActiveQuestion(activeQuestionId));
+    dispatch(setActiveQuestionByIndex(0));
 
     dispatch(updateTimer(duration));
 
@@ -179,6 +184,7 @@ const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
   const question = questions[questionIndex];
 
   dispatch(updateActiveQuestion(question));
+  dispatch(updateActiveQuestionIndex(questionIndex));
 
   const questionCategoryId = question.cst_item_id;
   if (questionCategoryId) {
@@ -187,35 +193,6 @@ const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
 
   dispatch(updateHaveNextQuestion(questions.length > questionIndex + 1));
   dispatch(updateHaveNextQuestion(questionIndex > 0));
-
-  // // have Next question / previous Question
-  // const keysArr = Object.keys(questionsIdIndexMap);
-  // const valuesArr = Object.values(questionsIdIndexMap);
-  // console.log(keysArr[questionIndex]);
-  // const questionTargetIndex = questionsIdIndexMap[keysArr[questionIndex]];
-  // // console.log(questions[questionTargetIndex]);
-
-  // // const indexIndex = valuesArr.indexOf(questionIndex);
-  // // const questionId = keysArr[indexIndex];
-
-  // // const questionTargetIndex = questionsIdIndexMap[questionId];
-  // const question = questions[questionTargetIndex];
-
-  // const idIndex = keysArr.indexOf(`${question.id}`);
-
-  // const idIndexRespectiveValue = valuesArr[idIndex];
-  // const idIndexRespectiveValueNextIndex = idIndexRespectiveValue + 1;
-  // const idIndexRespectiveValueNextIndexValue =
-  //   valuesArr[idIndexRespectiveValueNextIndex];
-
-  // const idIndexRespectiveValuePreviousIndex = idIndexRespectiveValue - 1;
-  // const idIndexRespectiveValuePreviosuIndexValue =
-  //   valuesArr[idIndexRespectiveValuePreviousIndex];
-
-  // dispatch(updateHaveNextQuestion(!!idIndexRespectiveValueNextIndexValue));
-  // dispatch(
-  //   updateHavePreviousQuestion(!!idIndexRespectiveValuePreviosuIndexValue),
-  // );
 };
 
 const handleChooseOption = (optionItem) => (dispatch, getState) => {
@@ -242,35 +219,14 @@ const handleChooseOption = (optionItem) => (dispatch, getState) => {
 
 const processNextQuestion = () => (dispatch, getState) => {
   const state = getState();
-  const { questionsIdIndexMap, activeQuestion } = state.exam.running;
-  const keysArr = Object.keys(questionsIdIndexMap);
-  const valuesArr = Object.values(questionsIdIndexMap);
-  const idIndex = keysArr.indexOf(`${activeQuestion.id}`);
-
-  const idIndexRespectiveValue = valuesArr[idIndex];
-  const idIndexRespectiveValueNextIndex = idIndexRespectiveValue + 1;
-  const idIndexRespectiveValueNextIndexValue =
-    valuesArr[idIndexRespectiveValueNextIndex];
-  const nextQuestionId = keysArr[idIndexRespectiveValueNextIndexValue];
-  dispatch(setActiveQuestion(nextQuestionId));
+  const { activeQuestionIndex } = state.exam.running;
+  dispatch(setActiveQuestionByIndex(activeQuestionIndex + 1));
 };
 
 const processPreviousQuestion = () => (dispatch, getState) => {
   const state = getState();
-  const { questionsIdIndexMap, activeQuestion } = state.exam.running;
-
-  const keysArr = Object.keys(questionsIdIndexMap);
-  const valuesArr = Object.values(questionsIdIndexMap);
-  const idIndex = keysArr.indexOf(`${activeQuestion.id}`);
-
-  const idIndexRespectiveValue = valuesArr[idIndex];
-
-  const idIndexRespectiveValuePreviousIndex = idIndexRespectiveValue - 1;
-  const idIndexRespectiveValuePreviosuIndexValue =
-    valuesArr[idIndexRespectiveValuePreviousIndex];
-
-  const previousQuestionId = keysArr[idIndexRespectiveValuePreviosuIndexValue];
-  dispatch(setActiveQuestion(previousQuestionId));
+  const { activeQuestionIndex } = state.exam.running;
+  dispatch(setActiveQuestionByIndex(activeQuestionIndex - 1));
 };
 
 const pauseExam = () => (dispatch, getState) => {
@@ -342,4 +298,5 @@ export {
   updateSaving,
   updateReady,
   setActiveQuestionByIndex,
+  updateActiveQuestionIndex,
 };

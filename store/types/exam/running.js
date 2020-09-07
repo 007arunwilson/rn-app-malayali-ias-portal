@@ -11,5 +11,6 @@ export const questionsChoosedOptionIds =
   'exam/running/questionsChoosedOptionIds';
 export const timer = 'exam/running/timer';
 export const saving = 'exam/running/saving';
+export const activeQuestionIndex = 'exam/running/activeQuestionIndex';
 export const ready = 'exam/running/ready';
 export const reset = 'exam/running/reset';
