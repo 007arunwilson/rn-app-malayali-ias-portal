@@ -2,32 +2,28 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
+import DurationNBullets from './durationNBullets';
+import QuestionNOptions from './questionNOptions';
+import BottomActions from './bottomActions';
 
 const ExamRunning = () => {
   return (
-    <>
-      <ScrollView contentContainerStyle={styles.container} />
-    </>
+    <SafeAreaView style={styles.container}>
+      <DurationNBullets />
+      <QuestionNOptions />
+      <BottomActions />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: color.backgroundLight,
-    alignItems: 'center',
   },
 });
-
-ExamRunning.options = {
-  topBar: {
-    title: {
-      text: 'Exam',
-    },
-  },
-};
 
 export default ExamRunning;

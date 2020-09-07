@@ -70,6 +70,13 @@ export default (state = initialState, action) => {
       return updatedState;
     }
 
+    case types.questionsChoosedOptionIds: {
+      const updatedState = update(state, {
+        questionsChoosedOptionIds: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
     case types.reset:
     case types.logout: {
       return initialState;

@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import * as types from '../../types/exam/running';
 import * as examApi from '../../../services/exam';
 import { Navigation } from 'react-native-navigation';
@@ -42,6 +43,12 @@ const updateActiveQuestion = (payload) => (dispatch) =>
 const updateActiveCategoryId = (payload) => (dispatch) =>
   dispatch({
     type: types.activeCategoryId,
+    payload,
+  });
+
+const updateQuestionsChoosedOptionIds = (payload) => (dispatch) =>
+  dispatch({
+    type: types.questionsChoosedOptionIds,
     payload,
   });
 
@@ -101,4 +108,32 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
   }
 };
 
-export { updateLoadingQuestions, processStartExam, reset };
+const handleChooseOption = (optionItem) => (dispatch, getState) => {
+  const state = getState();
+  const { questionsChoosedOptionIds } = state.exam.running;
+
+  const questionId = optionItem.learning_material_test_question_id;
+  const optionId = optionItem.id;
+
+  let questionsChoosedOptionIdsUpdated = null;
+
+  if (questionsChoosedOptionIds[questionId] === optionId) {
+    questionsChoosedOptionIdsUpdated = update(questionsChoosedOptionIds, {
+      $unset: [questionId],
+    });
+  } else {
+    questionsChoosedOptionIdsUpdated = update(questionsChoosedOptionIds, {
+      [questionId]: { $set: optionId },
+    });
+  }
+
+  dispatch(updateQuestionsChoosedOptionIds(questionsChoosedOptionIdsUpdated));
+};
+
+export {
+  updateLoadingQuestions,
+  processStartExam,
+  setActiveQuestion,
+  reset,
+  handleChooseOption,
+};
