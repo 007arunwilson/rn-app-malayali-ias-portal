@@ -19,6 +19,8 @@ const initialState = {
   examRunning: false,
   haveNextQuestion: false,
   havePreviousQuestion: false,
+  ready: false,
+  saving: false,
 };
 
 export default (state = initialState, action) => {
@@ -89,6 +91,27 @@ export default (state = initialState, action) => {
     case types.questionsChoosedOptionIds: {
       const updatedState = update(state, {
         questionsChoosedOptionIds: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.timer: {
+      const updatedState = update(state, {
+        timer: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.saving: {
+      const updatedState = update(state, {
+        saving: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.ready: {
+      const updatedState = update(state, {
+        ready: { $set: action.payload },
       });
       return updatedState;
     }

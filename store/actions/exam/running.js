@@ -3,6 +3,9 @@ import * as types from '../../types/exam/running';
 import * as examApi from '../../../services/exam';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../../navigation';
+import * as examAttempDataActions from '../../actions/exam/attemptData';
+import * as examDetailActions from '../../actions/exam/detail';
+import * as examsActions from '../../actions/exams';
 
 const updateLoadingQuestions = (payload) => (dispatch) =>
   dispatch({
@@ -64,6 +67,24 @@ const updateHavePreviousQuestion = (payload) => (dispatch) =>
     payload,
   });
 
+const updateTimer = (payload) => (dispatch) =>
+  dispatch({
+    type: types.timer,
+    payload,
+  });
+
+const updateSaving = (payload) => (dispatch) =>
+  dispatch({
+    type: types.saving,
+    payload,
+  });
+
+const updateReady = (payload) => (dispatch) =>
+  dispatch({
+    type: types.ready,
+    payload,
+  });
+
 const reset = (payload) => (dispatch) =>
   dispatch({
     type: types.reset,
@@ -72,36 +93,45 @@ const reset = (payload) => (dispatch) =>
 
 const processStartExam = () => (dispatch, getState) => {
   const state = getState();
-  const { testId } = state.exam.detail.data;
+  const { testId, duration } = state.exam.detail.data;
 
   dispatch(updateLoadingQuestions(true));
 
   Promise.all([
     examApi.getQuestions({ urlParams: { testId } }),
     examApi.getQuestionCategories({ urlParams: { testId } }),
-  ])
-    .then(([questionsResult, questionsCategoryResult]) => {
-      const questionIdsIndexMap = {};
-      questionsResult.forEach((item, index) => {
-        questionIdsIndexMap[item.id] = index;
+  ]).then(([questionsResult, questionsCategoryResult]) => {
+    const questionIdsIndexMap = {};
+    questionsResult.forEach((item, index) => {
+      questionIdsIndexMap[item.id] = index;
+    });
+    dispatch(updateQuestions(questionsResult));
+    dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
+
+    const categoriesIdIndexMap = {};
+    questionsCategoryResult.forEach((item, index) => {
+      categoriesIdIndexMap[item.id] = index;
+    });
+    dispatch(updateCategories(questionsCategoryResult));
+    dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
+
+    const activeQuestionId = questionsResult[0].id;
+    dispatch(setActiveQuestion(activeQuestionId));
+
+    dispatch(updateTimer(duration));
+
+    examApi
+      .createUserAttempt({
+        urlParams: { learningMaterialTestId: testId },
+      })
+      .then(() => {
+        // Assuming that start exam is only navigate from examDetail page
+        Navigation.push('examDetail', navComponents.examRunning).then(() => {
+          dispatch(updateLoadingQuestions(false));
+          dispatch(updateReady(true));
+        });
       });
-      dispatch(updateQuestions(questionsResult));
-      dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
-
-      const categoriesIdIndexMap = {};
-      questionsCategoryResult.forEach((item, index) => {
-        categoriesIdIndexMap[item.id] = index;
-      });
-      dispatch(updateCategories(questionsCategoryResult));
-      dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
-
-      const activeQuestionId = questionsResult[0].id;
-      dispatch(setActiveQuestion(activeQuestionId));
-
-      // Assuming that start exam is only navigate from examDetail page
-      Navigation.push('examDetail', navComponents.examRunning);
-    })
-    .finally(() => dispatch(updateLoadingQuestions(false)));
+  });
 };
 
 const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
@@ -133,6 +163,12 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
     questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
   const updateHavePreviousQuestionValue =
     questionsIdIndexMapKeysArr[indexPreviousOfquestionIdInArr];
+
+  console.log(
+    indexOfquestionIdInArr,
+    indexNextOfquestionIdInArr,
+    updateHaveNextQuestionValue,
+  );
 
   dispatch(updateHaveNextQuestion(!!updateHaveNextQuestionValue));
   dispatch(updateHavePreviousQuestion(!!updateHavePreviousQuestionValue));
@@ -191,6 +227,61 @@ const processPreviousQuestion = () => (dispatch, getState) => {
   dispatch(setActiveQuestion(previousQuestionId));
 };
 
+const pauseExam = () => (dispatch, getState) => {
+  dispatch(updateSaving(true));
+};
+
+const submitExam = () => (dispatch, getState) => {
+  const state = getState();
+  const { questionsChoosedOptionIds } = state.exam.running;
+  const { testId, id, title, description, duration } = state.exam.detail.data;
+  dispatch(updateSaving(true));
+
+  const examSubmitPayload = { question_choosed_options: [] };
+  Object.keys(questionsChoosedOptionIds).forEach((key) => {
+    examSubmitPayload.question_choosed_options.push({
+      question_id: key,
+      option_id: questionsChoosedOptionIds[key],
+    });
+  });
+
+  examApi.submitExam({ urlParams: { testId }, data: examSubmitPayload }).then(
+    () => {
+      examApi
+        .getUserAttempt({ urlParams: { learningMaterialTestId: testId } })
+        .then((attemptData) => {
+          const updatedExamItem = {
+            learning_material_id: id,
+            title,
+            description,
+            learning_material_test_id: testId,
+            duration,
+            learning_material_test_meta: null,
+            learning_material_test_user_attempt_started_on:
+              attemptData.started_on,
+            learning_material_test_user_attempt_submitted_on:
+              attemptData.submitted_on,
+          };
+
+          dispatch(examDetailActions.reset());
+          dispatch(examAttempDataActions.reset());
+          dispatch(updateReady(false));
+
+          dispatch(
+            examsActions.navigateToExam({
+              examItem: updatedExamItem,
+              navigation: {
+                type: 'pop',
+                from: 'examRunning',
+              },
+            }),
+          );
+        });
+    },
+    (error) => {},
+  );
+};
+
 export {
   updateLoadingQuestions,
   processStartExam,
@@ -199,4 +290,9 @@ export {
   handleChooseOption,
   processNextQuestion,
   processPreviousQuestion,
+  updateTimer,
+  pauseExam,
+  submitExam,
+  updateSaving,
+  updateReady,
 };

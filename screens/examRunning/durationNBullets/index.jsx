@@ -7,13 +7,14 @@ import React from 'react';
 import { color } from '../../../config';
 import Duration from './duration';
 import Bullets from './bullets';
-import BottomActions from '../bottomActions';
 
 const DurationNBullets = (props) => {
+  const { exitExam } = props;
+
   return (
     <View style={styles.card}>
-      <View style={styles.content} >
-        <Duration />
+      <View style={styles.content}>
+        <Duration exitExam={exitExam} />
         <Bullets />
       </View>
     </View>

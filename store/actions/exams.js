@@ -102,7 +102,16 @@ const navigateToExam = (payload) => (dispatch, getState) => {
   dispatch(examDetailActions.updateData(examIntroData));
 
   // Assuming that navigation to exam scrfeen is only happens from exam listing screen
-  Navigation.push('exams', navComponents.examDetail);
+  // Navigation.push('exams', navComponents.examDetail);
+
+  if (payload.navigation) {
+    const { navigation } = payload;
+    if (navigation.type === 'push') {
+      Navigation.push(navigation.from, navComponents.examDetail);
+    } else if (navigation.type === 'pop') {
+      Navigation.pop(navigation.from, navComponents.examDetail);
+    }
+  }
 
   const promises = [];
 

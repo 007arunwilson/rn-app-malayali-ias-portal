@@ -40,6 +40,23 @@ const getUserAttempt = ({ urlParams }) =>
       );
   });
 
+const createUserAttempt = ({ urlParams }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: `/learning-material/test/${urlParams.learningMaterialTestId}/user-attempt`,
+        method: 'POST',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          resolve(responseData[0]);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
 const getQuestions = ({ urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
@@ -74,4 +91,29 @@ const getQuestionCategories = ({ urlParams }) =>
       );
   });
 
-export { getExam, getUserAttempt, getQuestions, getQuestionCategories };
+const submitExam = ({ urlParams, data }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: `/learning-material/test/${urlParams.testId}/submit-test`,
+        method: 'POST',
+        data,
+      })
+      .then(
+        () => {
+          resolve();
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+export {
+  getExam,
+  getUserAttempt,
+  getQuestions,
+  getQuestionCategories,
+  submitExam,
+  createUserAttempt,
+};

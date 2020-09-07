@@ -2,15 +2,23 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, TouchableWithoutFeedback, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Text,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../../config';
 import * as examRunningActions from '../../../store/actions/exam/running';
-import { useSelector, useDispatch } from 'react-redux';
 
-const BottomActions = () => {
+const BottomActions = (props) => {
   const dispatch = useDispatch();
+  const { exitExam } = props;
 
   const { haveNextQuestion, havePreviousQuestion } = useSelector(
     (state) => state.exam.running,
@@ -20,7 +28,7 @@ const BottomActions = () => {
     <View style={styles.card}>
       <View style={styles.content}>
         <View style={styles.exitContainer}>
-          <TouchableWithoutFeedback onPress={() => true}>
+          <TouchableWithoutFeedback onPress={() => exitExam()}>
             <View style={styles.exitButton}>
               <Text style={styles.exitButtonText}>Exit exam</Text>
               <Icon color={color.white} size={16} name="pause-circle-outline" />

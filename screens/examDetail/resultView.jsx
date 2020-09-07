@@ -39,7 +39,7 @@ const ResultView = (props) => {
           <View style={styles.bottomLhsRow}>
             <Icon color={color.textLight} size={14} name="calendar-check" />
             <Text style={styles.rowText}>
-              Started on:
+              Submitted on:
               {moment(submittedOn).format(' MMMM Do YYYY, h:mm:ss a')}
             </Text>
           </View>

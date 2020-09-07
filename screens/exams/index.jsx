@@ -29,7 +29,17 @@ const Exams = () => {
   }, [count, dispatch, page]);
 
   const onExamSelect = (examItem) => {
-    dispatch(examsActions.navigateToExam({ examItem }));
+    console.log('exams', examItem);
+
+    dispatch(
+      examsActions.navigateToExam({
+        examItem,
+        navigation: {
+          type: 'push',
+          from: 'exams',
+        },
+      }),
+    );
   };
 
   const loadMore = () => {
