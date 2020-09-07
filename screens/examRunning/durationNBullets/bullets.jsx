@@ -27,13 +27,13 @@ const Bullets = (props) => {
       state.exam.running.activeQuestion && state.exam.running.activeQuestion.id,
   );
 
-  const switchToQuestion = (question) =>
-    dispatch(examRunningActions.setActiveQuestion(question.id));
+  const switchToQuestionByIndex = (questionIndex) =>
+    dispatch(examRunningActions.setActiveQuestionByIndex(questionIndex));
 
   const renderBulletItem = ({ index, item }) => (
     <TouchableWithoutFeedback
       activeOpacity={0.5}
-      onPress={() => switchToQuestion(item)}>
+      onPress={() => switchToQuestionByIndex(index)}>
       <View
         style={[
           styles.item,

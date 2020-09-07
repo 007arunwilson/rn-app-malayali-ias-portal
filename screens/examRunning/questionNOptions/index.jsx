@@ -21,10 +21,14 @@ const QuestionNOptions = () => {
     (state) => state.exam.running.questionsChoosedOptionIds,
   );
 
-  const totalQuestions = Object.keys(questionsIdIndexMap).length;
-  const currentQuestion = questionsIdIndexMap[question.id] + 1;
+  const keysArr = Object.keys(questionsIdIndexMap);
+  const idIndex = keysArr.indexOf(`${question.id}`);
+
+  const currentQuestion = idIndex + 1;
 
   const options = question.options;
+
+  const totalQuestions = keysArr.length;
 
   const optionChooseHanlder = (option) => {
     dispatch(examRunningActions.handleChooseOption(option));

@@ -139,8 +139,16 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
   const state = getState();
   const { questionsIdIndexMap, questions } = state.exam.running;
   // const categoryIdIndexMap = state.exam.running.questionIdIndexMap;
-  const questionIndex = questionsIdIndexMap[activeQuestionId];
-  const question = questions[questionIndex];
+  // const questionIndex = questionsIdIndexMap[activeQuestionId];
+
+  // have Next question / previous Question
+  const keysArr = Object.keys(questionsIdIndexMap);
+  const valuesArr = Object.values(questionsIdIndexMap);
+  const idIndex = keysArr.indexOf(`${activeQuestionId}`);
+
+  const idIndexRespectiveValue = valuesArr[idIndex];
+
+  const question = questions[idIndexRespectiveValue];
 
   dispatch(updateActiveQuestion(question));
 
@@ -149,29 +157,60 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
     dispatch(updateActiveCategoryId(questionCategoryId));
   }
 
+  const idIndexRespectiveValueNextIndex = idIndexRespectiveValue + 1;
+  const idIndexRespectiveValueNextIndexValue =
+    valuesArr[idIndexRespectiveValueNextIndex];
+
+  const idIndexRespectiveValuePreviousIndex = idIndexRespectiveValue - 1;
+  const idIndexRespectiveValuePreviosuIndexValue =
+    valuesArr[idIndexRespectiveValuePreviousIndex];
+
+  dispatch(updateHaveNextQuestion(!!idIndexRespectiveValueNextIndexValue));
+  dispatch(
+    updateHavePreviousQuestion(!!idIndexRespectiveValuePreviosuIndexValue),
+  );
+};
+
+const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
+  // const { testId } = state.exam.detail.data;
+  const state = getState();
+  const { questionsIdIndexMap, questions } = state.exam.running;
+
   // have Next question / previous Question
-  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
+  const keysArr = Object.keys(questionsIdIndexMap);
+  const valuesArr = Object.values(questionsIdIndexMap);
+  console.log(keysArr[questionIndex]);
+  const questionTargetIndex = questionsIdIndexMap[keysArr[questionIndex]];
+  // console.log(questions[questionTargetIndex]);
 
-  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
-    `${activeQuestionId}`,
+  // const indexIndex = valuesArr.indexOf(questionIndex);
+  // const questionId = keysArr[indexIndex];
+
+  // const questionTargetIndex = questionsIdIndexMap[questionId];
+  const question = questions[questionTargetIndex];
+
+  const idIndex = keysArr.indexOf(`${question.id}`);
+
+  dispatch(updateActiveQuestion(question));
+
+  const questionCategoryId = question.cst_item_id;
+  if (questionCategoryId) {
+    dispatch(updateActiveCategoryId(questionCategoryId));
+  }
+
+  const idIndexRespectiveValue = valuesArr[idIndex];
+  const idIndexRespectiveValueNextIndex = idIndexRespectiveValue + 1;
+  const idIndexRespectiveValueNextIndexValue =
+    valuesArr[idIndexRespectiveValueNextIndex];
+
+  const idIndexRespectiveValuePreviousIndex = idIndexRespectiveValue - 1;
+  const idIndexRespectiveValuePreviosuIndexValue =
+    valuesArr[idIndexRespectiveValuePreviousIndex];
+
+  dispatch(updateHaveNextQuestion(!!idIndexRespectiveValueNextIndexValue));
+  dispatch(
+    updateHavePreviousQuestion(!!idIndexRespectiveValuePreviosuIndexValue),
   );
-
-  const indexNextOfquestionIdInArr = indexOfquestionIdInArr + 1;
-  const indexPreviousOfquestionIdInArr = indexOfquestionIdInArr - 1;
-
-  const updateHaveNextQuestionValue =
-    questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
-  const updateHavePreviousQuestionValue =
-    questionsIdIndexMapKeysArr[indexPreviousOfquestionIdInArr];
-
-  console.log(
-    indexOfquestionIdInArr,
-    indexNextOfquestionIdInArr,
-    updateHaveNextQuestionValue,
-  );
-
-  dispatch(updateHaveNextQuestion(!!updateHaveNextQuestionValue));
-  dispatch(updateHavePreviousQuestion(!!updateHavePreviousQuestionValue));
 };
 
 const handleChooseOption = (optionItem) => (dispatch, getState) => {
@@ -199,15 +238,15 @@ const handleChooseOption = (optionItem) => (dispatch, getState) => {
 const processNextQuestion = () => (dispatch, getState) => {
   const state = getState();
   const { questionsIdIndexMap, activeQuestion } = state.exam.running;
+  const keysArr = Object.keys(questionsIdIndexMap);
+  const valuesArr = Object.values(questionsIdIndexMap);
+  const idIndex = keysArr.indexOf(`${activeQuestion.id}`);
 
-  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
-
-  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
-    `${activeQuestion.id}`,
-  );
-
-  const indexNextOfquestionIdInArr = indexOfquestionIdInArr + 1;
-  const nextQuestionId = questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
+  const idIndexRespectiveValue = valuesArr[idIndex];
+  const idIndexRespectiveValueNextIndex = idIndexRespectiveValue + 1;
+  const idIndexRespectiveValueNextIndexValue =
+    valuesArr[idIndexRespectiveValueNextIndex];
+  const nextQuestionId = keysArr[idIndexRespectiveValueNextIndexValue];
   dispatch(setActiveQuestion(nextQuestionId));
 };
 
@@ -215,15 +254,17 @@ const processPreviousQuestion = () => (dispatch, getState) => {
   const state = getState();
   const { questionsIdIndexMap, activeQuestion } = state.exam.running;
 
-  const questionsIdIndexMapKeysArr = Object.keys(questionsIdIndexMap);
+  const keysArr = Object.keys(questionsIdIndexMap);
+  const valuesArr = Object.values(questionsIdIndexMap);
+  const idIndex = keysArr.indexOf(`${activeQuestion.id}`);
 
-  const indexOfquestionIdInArr = questionsIdIndexMapKeysArr.indexOf(
-    `${activeQuestion.id}`,
-  );
+  const idIndexRespectiveValue = valuesArr[idIndex];
 
-  const indexNextOfquestionIdInArr = indexOfquestionIdInArr - 1;
-  const previousQuestionId =
-    questionsIdIndexMapKeysArr[indexNextOfquestionIdInArr];
+  const idIndexRespectiveValuePreviousIndex = idIndexRespectiveValue - 1;
+  const idIndexRespectiveValuePreviosuIndexValue =
+    valuesArr[idIndexRespectiveValuePreviousIndex];
+
+  const previousQuestionId = keysArr[idIndexRespectiveValuePreviosuIndexValue];
   dispatch(setActiveQuestion(previousQuestionId));
 };
 
@@ -278,7 +319,7 @@ const submitExam = () => (dispatch, getState) => {
           );
         });
     },
-    (error) => {},
+    (error) => { },
   );
 };
 
@@ -295,4 +336,5 @@ export {
   submitExam,
   updateSaving,
   updateReady,
+  setActiveQuestionByIndex,
 };
