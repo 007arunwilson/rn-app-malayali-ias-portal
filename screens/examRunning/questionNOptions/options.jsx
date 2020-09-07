@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     alignItems: 'flex-start',
     borderColor: color.textLight,
-    borderWidth: 1,
     padding: 2,
     borderRadius: 6,
     alignSelf: 'stretch',
