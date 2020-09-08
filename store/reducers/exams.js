@@ -38,6 +38,7 @@ export default (state = initialState, action) => {
       });
       return updatedState;
     }
+    case types.reset:
     case appTypes.logout: {
       return initialState;
     }

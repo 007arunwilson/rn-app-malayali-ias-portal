@@ -40,6 +40,27 @@ const getUserAttempt = ({ urlParams }) =>
       );
   });
 
+const deleteUserAttempts = ({ urlParams }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: `/learning-material/test/${urlParams.learningMaterialTestId}/user-attempts`,
+        method: 'DELETE',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData[0]);
+          } else {
+            resolve(null);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
 const createUserAttempt = ({ urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
@@ -116,4 +137,5 @@ export {
   getQuestionCategories,
   submitExam,
   createUserAttempt,
+  deleteUserAttempts,
 };

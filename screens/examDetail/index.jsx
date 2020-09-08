@@ -68,16 +68,16 @@ const ExamDetail = () => {
             </View>
           </View>
 
-          {!startedOn ? (
+          {!startedOn || (startedOn && !submittedOn) ? (
             <StartExam
               duration={duration}
               loadingQuestions={loadingQuestions}
               processStartExam={processStartExam}
             />
           ) : null}
-          {startedOn && !submittedOn ? (
+          {/* {startedOn && !submittedOn ? (
             <ResumeExam startedOn={startedOn} />
-          ) : null}
+          ) : null} */}
           {startedOn && submittedOn ? (
             <ResultView
               examAttemptData={examAttemptData}

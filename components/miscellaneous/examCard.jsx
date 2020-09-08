@@ -33,6 +33,25 @@ const ExamCard = ({ examItem, onExamSelect }) => {
 
   const durationInMins = Math.ceil(examItem.duration / 60);
 
+  let status = null;
+
+  if (
+    learning_material_test_user_attempt_started_on &&
+    !learning_material_test_user_attempt_submitted_on
+  ) {
+    status = 'resume';
+  } else if (
+    learning_material_test_user_attempt_started_on &&
+    learning_material_test_user_attempt_submitted_on
+  ) {
+    status = 'submitted';
+  } else if (
+    !learning_material_test_user_attempt_started_on &&
+    !learning_material_test_user_attempt_submitted_on
+  ) {
+    status = 'new';
+  }
+
   return (
     <>
       <TouchableOpacity
@@ -51,8 +70,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
               </Text>
             </View>
 
-            {learning_material_test_user_attempt_started_on &&
-            !learning_material_test_user_attempt_submitted_on ? (
+            {/* {status === 'resume' ? (
               <View style={styles.bottomLhsRow}>
                 <Icon
                   color={color.textLight}
@@ -66,9 +84,8 @@ const ExamCard = ({ examItem, onExamSelect }) => {
                   ).toDateString()}{' '}
                 </Text>
               </View>
-            ) : null}
-            {learning_material_test_user_attempt_started_on &&
-            learning_material_test_user_attempt_submitted_on ? (
+            ) : null} */}
+            {status === 'submitted' ? (
               <View style={styles.bottomLhsRow}>
                 <Icon
                   color={color.textLight}
@@ -84,8 +101,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
               </View>
             ) : null}
             <View style={[styles.bottomLhsRow, styles.bottomLastRow]}>
-              {learning_material_test_user_attempt_started_on &&
-              learning_material_test_user_attempt_submitted_on ? (
+              {status === 'submitted' ? (
                 <>
                   <Text
                     style={[
@@ -97,8 +113,7 @@ const ExamCard = ({ examItem, onExamSelect }) => {
                   <Icon color={color.primary} size={14} name="chevron-right" />
                 </>
               ) : null}
-              {learning_material_test_user_attempt_started_on &&
-              !learning_material_test_user_attempt_submitted_on ? (
+              {/* {status === 'resume' ? (
                 <>
                   <Text
                     style={[
@@ -113,9 +128,8 @@ const ExamCard = ({ examItem, onExamSelect }) => {
                     name="chevron-right"
                   />
                 </>
-              ) : null}
-              {!learning_material_test_user_attempt_started_on &&
-              !learning_material_test_user_attempt_submitted_on ? (
+              ) : null} */}
+              {status === 'new' || status === 'resume' ? (
                 <>
                   <Text
                     style={[styles.examActionText, styles.examActionTextStart]}>

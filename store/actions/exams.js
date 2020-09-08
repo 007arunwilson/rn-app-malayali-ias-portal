@@ -32,6 +32,11 @@ const updatePaginationPage = (payload) => (dispatch) =>
     payload,
   });
 
+const reset = (payload) => (dispatch) =>
+  dispatch({
+    type: types.reset,
+  });
+
 const loadExams = (payload) => (dispatch, getState) => {
   const state = getState();
   const count = state.exams.count;
@@ -160,4 +165,4 @@ const navigateToExam = (payload) => (dispatch, getState) => {
     .finally(() => dispatch(examDetailActions.updateLoading(false)));
 };
 
-export { loadExams, navigateToExam };
+export { loadExams, navigateToExam, reset };

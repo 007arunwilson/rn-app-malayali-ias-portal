@@ -126,9 +126,14 @@ const processStartExam = () => (dispatch, getState) => {
     dispatch(updateTimer(duration));
 
     examApi
-      .createUserAttempt({
+      .deleteUserAttempts({
         urlParams: { learningMaterialTestId: testId },
       })
+      .then(() =>
+        examApi.createUserAttempt({
+          urlParams: { learningMaterialTestId: testId },
+        }),
+      )
       .then(() => {
         // Assuming that start exam is only navigate from examDetail page
         Navigation.push('examDetail', navComponents.examRunning).then(() => {
@@ -267,6 +272,7 @@ const submitExam = () => (dispatch, getState) => {
 
           dispatch(examDetailActions.reset());
           dispatch(examAttempDataActions.reset());
+          dispatch(examsActions.reset()); // To reload exams listing view
           dispatch(updateReady(false));
 
           dispatch(
