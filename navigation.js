@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
+import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { Provider } from 'react-redux';
 
 // Importing redux store
@@ -21,6 +22,8 @@ import notes from './screens/notes';
 import videoPlayer from './screens/videoPlayer';
 import examDetail from './screens/examDetail';
 import examRunning from './screens/examRunning';
+import topbarUserIcon from './components/miscellaneous/topbarUserIcon';
+import SidebarDefault from './components/miscellaneous/sidebarDefault';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -32,6 +35,25 @@ const ReduxProvider = (Component, ReduxStore) => {
 };
 
 const registerComponents = () => {
+  // Topbar Icons
+  Navigation.registerComponent(
+    'topbar.userIcon',
+    () => ReduxProvider(topbarUserIcon, store),
+    () => topbarUserIcon,
+  );
+
+  //Sidebar ( Default )
+  Navigation.registerComponent(
+    'sidebar.default',
+    () =>
+      ReduxProvider(
+        RNNDrawer.create(() => <SidebarDefault />),
+        store,
+      ),
+    () => RNNDrawer.create(() => <SidebarDefault />),
+  );
+
+  // Navigation Screens
   Navigation.registerComponent(
     'nav.launch',
     () => ReduxProvider(launchScreen, store),

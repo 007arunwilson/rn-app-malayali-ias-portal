@@ -82,19 +82,15 @@ const styles = StyleSheet.create({
 
 Home.options = {
   topBar: {
-    // rightButtons: [
-    //   {
-    //     id: 'profile',
-    //     component: {
-    //       name: 'topbar.icon',
-    //       aligment: 'center',
-    //       passProps: {
-    //         icon: 'account-circle',
-    //       },
-    //     },
-    //   },
-    // ],
-    // rightButtonColor: color.primaryText,
+    rightButtons: [
+      {
+        id: 'profile',
+        component: {
+          name: 'topbar.userIcon',
+          aligment: 'center',
+        },
+      },
+    ],
     title: {
       text: 'Home',
     },
