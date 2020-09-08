@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import * as types from '../../types/exam/detail';
+import * as appTypes from '../../types/app';
 
 const initialState = {
   loading: null,
@@ -63,7 +64,7 @@ export default (state = initialState, action) => {
     }
 
     case types.reset:
-    case types.logout: {
+    case appTypes.logout: {
       return initialState;
     }
     default:

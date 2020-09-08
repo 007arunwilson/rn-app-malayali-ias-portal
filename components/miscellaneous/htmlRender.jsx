@@ -24,12 +24,10 @@ const styles = StyleSheet.create({
   p: {
     color: color.text,
     fontSize: 12.5,
-    fontWeight: 'bold',
   },
   baseFont: {
     fontSize: 12.5,
     color: color.text,
-    fontWeight: 'bold',
   },
 });
 

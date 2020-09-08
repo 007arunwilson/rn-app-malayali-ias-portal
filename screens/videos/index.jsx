@@ -69,6 +69,15 @@ const Videos = () => {
 
 Videos.options = {
   topBar: {
+    rightButtons: [
+      {
+        id: 'profile',
+        component: {
+          name: 'topbar.userIcon',
+          aligment: 'center',
+        },
+      },
+    ],
     title: {
       text: 'Videos',
     },

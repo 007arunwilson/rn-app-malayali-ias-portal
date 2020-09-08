@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import config, { color } from '../../config';
@@ -23,6 +23,10 @@ const Onboarding = () => {
       <View style={styles.content}>
         <View style={styles.top}>
           <View style={styles.brandContainer}>
+            <Image
+              style={styles.logoImage}
+              source={require('../../assets/logo.png')}
+            />
             <View style={styles.logoTextWrapper}>
               <Text style={styles.topText}>E-Learning</Text>
               <Text style={styles.instituteText}>{config.instituteName}</Text>
@@ -67,9 +71,13 @@ const styles = StyleSheet.create({
   },
   brandContainer: {
     flex: 2,
+    justifyContent: 'center',
+  },
+  logoImage: {
+    width: 100,
+    height: 100,
   },
   logoTextWrapper: {
-    flex: 1,
     justifyContent: 'center',
     width: wp(60),
   },

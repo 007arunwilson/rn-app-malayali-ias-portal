@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import * as types from '../types/exams';
+import * as appTypes from '../types/app';
 
 const initialState = {
   byIndex: null,
@@ -36,6 +37,9 @@ export default (state = initialState, action) => {
         count: { $set: action.payload },
       });
       return updatedState;
+    }
+    case appTypes.logout: {
+      return initialState;
     }
     default:
       return state;

@@ -51,14 +51,14 @@ const Bullets = (props) => {
       <View
         style={[
           styles.item,
-          item.id === activeQuestionId ? styles.itemActive : null,
           questionsChoosedOptionIds[item.id] ? styles.itemEngaged : null,
+          item.id === activeQuestionId ? styles.itemActive : null,
         ]}>
         <Text
           style={[
             styles.itemText,
             item.id === activeQuestionId ? { color: color.primaryText } : null,
-            questionsChoosedOptionIds[item.id] ? { color: color.text } : null,
+            questionsChoosedOptionIds[item.id] ? { color: color.white } : null,
           ]}>
           {index + 1}
         </Text>
@@ -109,15 +109,16 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: color.backgroundDark,
-    backgroundColor: color.white,
+    borderColor: color.redLight,
+    backgroundColor: color.redLight,
   },
   itemText: {
     fontSize: 12,
-    color: color.text,
+    color: color.white,
   },
   itemEngaged: {
-    backgroundColor: color.backgroundDark,
+    backgroundColor: color.greenDark,
+    borderColor: color.greenLight,
   },
   itemActive: {
     borderColor: color.primaryLight,

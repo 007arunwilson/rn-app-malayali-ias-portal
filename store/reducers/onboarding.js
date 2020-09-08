@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import * as types from '../types/onboarding';
+import * as appTypes from '../types/app';
 
 const initialState = {
   inProgress: false,
@@ -23,6 +24,9 @@ export default (state = initialState, action) => {
         activeStep: { $set: action.payload },
       });
       return updatedState;
+    }
+    case appTypes.logout: {
+      return initialState;
     }
     default:
       return state;

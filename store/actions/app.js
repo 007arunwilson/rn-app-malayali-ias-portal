@@ -1,7 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import * as types from '../types/app';
 import * as authApi from '../../services/auth';
-import * as appApi from '../../services/app';
 import * as authActions from '../actions/auth';
 import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
@@ -91,10 +90,21 @@ const populateHomeScreenData = () => (dispatch, getState) => {
   dispatch(updateHomeScreenDataLoaded(true));
 };
 
+const processLogout = () => (dispatch) => {
+  authActions.deleteTokens().then(() => {
+    Navigation.setRoot({ root: navComponents.onboarding }).then(() => {
+      dispatch({
+        type: types.logout,
+      });
+    });
+  });
+};
+
 export {
   processRefreshToken,
   processAppLaunch,
   populateHomeScreenData,
   updatesubscribedUser,
   updateHomeScreenDataLoaded,
+  processLogout,
 };

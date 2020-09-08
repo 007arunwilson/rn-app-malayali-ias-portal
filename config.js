@@ -17,6 +17,9 @@ const color = {
   black: '#000000',
   fb: '#3b5998',
   greenDark: '#16A085',
+  greenLight: '#25EAC3',
+  redDark: '#C42020',
+  redLight: '#FF2626',
   orangeDark: '#E67E22',
 };
 const config = {

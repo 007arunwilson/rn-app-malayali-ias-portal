@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import * as types from '../types/packageSelection';
+import * as appTypes from '../types/app';
 
 const initialState = {
   isLoading: false,
@@ -19,6 +20,9 @@ export default (state = initialState, action) => {
         packages: { $set: action.payload },
       });
       return updatedState;
+    }
+    case appTypes.logout: {
+      return initialState;
     }
     default:
       return state;

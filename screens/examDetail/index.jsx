@@ -148,6 +148,15 @@ const styles = StyleSheet.create({
 
 ExamDetail.options = {
   topBar: {
+    rightButtons: [
+      {
+        id: 'profile',
+        component: {
+          name: 'topbar.userIcon',
+          aligment: 'center',
+        },
+      },
+    ],
     title: {
       text: 'Exam',
     },

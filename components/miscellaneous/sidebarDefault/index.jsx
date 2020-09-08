@@ -15,6 +15,7 @@ import React from 'react';
 import config, { color } from '../../../config';
 import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 import { useDispatch, useSelector } from 'react-redux';
+import * as appActions from '../../../store/actions/app';
 import MenuItem from './menutItem';
 import { Navigation } from 'react-native-navigation';
 
@@ -35,12 +36,13 @@ const SidebarDefault = (props) => {
     return () => backHandler.remove();
   }, []);
 
-  return (
+  return user ? (
     <View style={styles.container}>
       <View style={styles.brandContainer}>
         <Image
+          fadeDuration={0}
           style={styles.logo}
-          source={require('../../../assets/logo.jpg')}
+          source={require('../../../assets/logo.png')}
         />
         <View style={styles.logoTextWrapper}>
           <Text style={styles.instituteText}>{config.instituteName}</Text>
@@ -65,13 +67,25 @@ const SidebarDefault = (props) => {
             });
           }}
         />
-        <MenuItem text={'Videos'} icon={'play-circle'} onClick={() => {}} />
-        <MenuItem text={'Exams'} icon={'clipboard-text'} onClick={() => {}} />
-        <MenuItem text={'Notes'} icon={'note'} onClick={() => {}} />
-        <MenuItem text={'Logout'} icon={'logout'} onClick={() => {}} />
+        {/*
+      <MenuItem text={'Videos'} icon={'play-circle'} onClick={() => {}} />
+      <MenuItem text={'Exams'} icon={'clipboard-text'} onClick={() => {}} />
+      <MenuItem text={'Notes'} icon={'note'} onClick={() => {}} />
+       */}
+        <MenuItem
+          text={'Logout'}
+          icon={'logout'}
+          onClick={() => {
+            dispatch(appActions.processLogout());
+            backAction();
+          }}
+        />
       </ScrollView>
+      {/* <View style={styles.versionContainer} >
+      <Text></Text>
+    </View> */}
     </View>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
@@ -127,6 +141,9 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   menuContainerStyle: {},
+  versionContainer: {
+    alignSelf: 'stretch',
+  },
 });
 
 export default SidebarDefault;
