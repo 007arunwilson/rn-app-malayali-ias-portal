@@ -33,7 +33,7 @@ const BottomActions = (props) => {
         <View style={styles.exitContainer}>
           <TouchableWithoutFeedback onPress={() => exitExam()}>
             <View style={styles.exitButton}>
-              <Text style={styles.exitButtonText}>Exit exam</Text>
+              <Text style={styles.exitButtonText}>Submit exam</Text>
               <Icon color={color.white} size={16} name="pause-circle-outline" />
             </View>
           </TouchableWithoutFeedback>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 4,
     marginHorizontal: 24,
-    marginTop: 12,
+    marginVertical: 12,
   },
   content: {
     padding: 10,

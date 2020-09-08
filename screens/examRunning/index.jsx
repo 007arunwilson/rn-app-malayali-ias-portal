@@ -27,10 +27,10 @@ const ExamRunning = () => {
               text: 'Cancel',
               style: 'cancel',
             },
-            {
-              text: 'Pause Exam',
-              onPress: () => dispatch(examRunningActions.pauseExam()),
-            },
+            // {
+            //   text: 'Pause Exam',
+            //   onPress: () => dispatch(examRunningActions.pauseExam()),
+            // },
             {
               text: 'Submit Exam',
               onPress: () => dispatch(examRunningActions.submitExam()),
