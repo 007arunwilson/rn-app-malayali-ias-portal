@@ -11,17 +11,12 @@ import {
   ScrollView,
   ToastAndroid,
   Alert,
-  TouchableOpacity,
-  // ToastAndroid,
-  // Alert,
 } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { color } from '../config';
-import { useDispatch } from 'react-redux';
 import * as helperValidation from '../helpers/validation';
 import * as authActions from '../store/actions/auth';
-import * as onboardingActions from '../store/actions/onboarding';
 import TextInputField from '../components/form/textInputField';
 import { PrimaryButton } from '../components/form/primaryButton';
 import { Navigation } from 'react-native-navigation';
@@ -123,7 +118,7 @@ const ForgotPasswordStep2 = (props) => {
             onPress={handleFormSubmit}
             status={`${!inProgress && isFormValid ? 'enabled' : ''}${
               !inProgress && !isFormValid ? 'disabled' : ''
-              }${inProgress ? 'loading' : ''}`}>
+            }${inProgress ? 'loading' : ''}`}>
             Continue
           </PrimaryButton>
         </View>
