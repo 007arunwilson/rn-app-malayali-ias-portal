@@ -34,9 +34,9 @@ const Home = (props) => {
     Navigation.push('home', navComponents.videos);
   };
 
-  const onNotesCardPress = () => {
-    Navigation.push('home', navComponents.notes);
-  };
+  // const onNotesCardPress = () => {
+  //   Navigation.push('home', navComponents.notes);
+  // };
 
   return (
     <>
@@ -50,7 +50,7 @@ const Home = (props) => {
             <View style={styles.cardsContainer}>
               <Card text={'Videos'} onPress={onVideosCardPress} />
               <Card text={'Exams'} onPress={onExamsCardPress} />
-              <Card text={'Notes'} onPress={onNotesCardPress} />
+              {/* <Card text={'Notes'} onPress={onNotesCardPress} /> */}
             </View>
           </ScrollView>
         </>
