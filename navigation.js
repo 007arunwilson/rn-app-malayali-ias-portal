@@ -10,6 +10,8 @@ import launchScreen from './screens/launch';
 import onboardingScreen from './screens/onboarding';
 import packageSelection from './screens/packageSelection';
 import signinScreen from './screens/signin';
+import forgotPasswordStep1 from './screens/forgotPasswordStep1';
+import forgotPasswordStep2 from './screens/forgotPasswordStep2';
 import registerScreen from './screens/register';
 import verifyOtpScreen from './screens/verifyOtp';
 import home from './screens/home';
@@ -49,6 +51,16 @@ const registerComponents = () => {
     'nav.signin',
     () => ReduxProvider(signinScreen, store),
     () => signinScreen,
+  );
+  Navigation.registerComponent(
+    'nav.forgotPasswordStep1',
+    () => ReduxProvider(forgotPasswordStep1, store),
+    () => forgotPasswordStep1,
+  );
+  Navigation.registerComponent(
+    'nav.forgotPasswordStep2',
+    () => ReduxProvider(forgotPasswordStep2, store),
+    () => forgotPasswordStep2,
   );
   Navigation.registerComponent(
     'nav.register',
@@ -209,6 +221,20 @@ navComponents.examRunning = {
   component: {
     id: 'examRunning',
     name: 'nav.examRunning',
+  },
+};
+
+navComponents.forgotPasswordStep1 = {
+  component: {
+    id: 'forgotPasswordStep1',
+    name: 'nav.forgotPasswordStep1',
+  },
+};
+
+navComponents.forgotPasswordStep2 = {
+  component: {
+    id: 'forgotPasswordStep2',
+    name: 'nav.forgotPasswordStep2',
   },
 };
 

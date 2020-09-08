@@ -62,4 +62,46 @@ const refreshSession = ({ data }) =>
       );
   });
 
-export { socialMedia, refreshSession, login };
+const sendResetPasswordTokenEmail = ({ data }) =>
+  new Promise((resolve, reject) => {
+    axios.noAuth
+      .request({
+        url: '/auth/reset-password/send-token-email',
+        data,
+        method: 'POST',
+      })
+      .then(
+        () => {
+          resolve();
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+const resetPasswordCreateNewPassword = ({ data }) =>
+  new Promise((resolve, reject) => {
+    axios.noAuth
+      .request({
+        url: '/auth/reset-password/create-new-password',
+        data,
+        method: 'POST',
+      })
+      .then(
+        () => {
+          resolve();
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+export {
+  socialMedia,
+  refreshSession,
+  login,
+  sendResetPasswordTokenEmail,
+  resetPasswordCreateNewPassword,
+};

@@ -11,6 +11,7 @@ const color = {
   backgroundLight: '#EEEEEE',
   backgroundDark: '#E1E2E1',
   white: '#ffffff',
+  shadowWhite: '#F0F3F4',
   text: 'rgba(0,0,0,0.87)',
   textLight: '#616161',
   black: '#000000',

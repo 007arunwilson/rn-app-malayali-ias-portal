@@ -47,6 +47,9 @@ Navigation.setDefaultOptions({
     title: {
       color: color.white,
     },
+    subtitle: {
+      color: color.shadowWhite,
+    },
     backButton: {
       color: color.white,
     },

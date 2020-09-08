@@ -35,6 +35,16 @@ const login = ({ email_or_phone_or_username, password }) =>
     data: { email_or_phone_or_username, password },
   });
 
+const sendResetPasswordTokenEmail = ({ email }) =>
+  authAPi.sendResetPasswordTokenEmail({
+    data: { email },
+  });
+
+const resetPasswordCreateNewPassword = ({ email, password, token }) =>
+  authAPi.resetPasswordCreateNewPassword({
+    data: { email, password, token },
+  });
+
 /**
  * process login action,
  * ( from different scenarios, from onabording, signin )
@@ -77,4 +87,6 @@ export {
   processLogin,
   deleteTokens,
   login,
+  sendResetPasswordTokenEmail,
+  resetPasswordCreateNewPassword,
 };
