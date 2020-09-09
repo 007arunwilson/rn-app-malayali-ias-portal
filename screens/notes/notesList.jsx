@@ -2,23 +2,23 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, FlatList, Text } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
-import ExamCard from '../../components/miscellaneous/examCard';
+import NoteCard from '../../components/miscellaneous/noteCard';
 
-const ExamsList = (props) => {
-  const { exams, onExamSelect, loadMore, loading } = props;
+const NotesList = (props) => {
+  const { notes, onNoteSelect, loadMore, loading } = props;
 
   const renderItem = ({ item }) => (
-    <ExamCard onExamSelect={onExamSelect} examItem={item} />
+    <NoteCard onNoteSelect={onNoteSelect} noteItem={item} />
   );
 
   const keyExtractor = (item) => `_${item.learning_material_id}`;
 
   return (
     <FlatList
-      data={exams}
+      data={notes}
       renderItem={renderItem}
       onRefresh={() => true}
       refreshing={loading}
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExamsList;
+export default NotesList;

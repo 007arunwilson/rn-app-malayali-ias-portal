@@ -1,15 +1,10 @@
 import update from 'immutability-helper';
-import * as types from '../types/notes';
 import * as appTypes from '../types/app';
+import * as types from '../types/note';
 
 const initialState = {
-  byIndex: null,
   loading: false,
-  count: null,
-  pagination: {
-    limit: 10,
-    page: 1,
-  },
+  uri: null,
 };
 
 export default (state = initialState, action) => {
@@ -20,24 +15,15 @@ export default (state = initialState, action) => {
       });
       return updatedState;
     }
-    case types.byIndex: {
+
+    case types.uri: {
       const updatedState = update(state, {
-        byIndex: { $set: action.payload },
+        uri: { $set: action.payload },
       });
       return updatedState;
     }
-    case types.paginationPage: {
-      const updatedState = update(state, {
-        pagination: { page: { $set: action.payload } },
-      });
-      return updatedState;
-    }
-    case types.count: {
-      const updatedState = update(state, {
-        count: { $set: action.payload },
-      });
-      return updatedState;
-    }
+
+    case types.reset:
     case appTypes.logout: {
       return initialState;
     }

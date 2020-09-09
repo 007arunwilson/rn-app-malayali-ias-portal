@@ -10,6 +10,7 @@ import videos from './reducers/videos';
 import exams from './reducers/exams';
 import notes from './reducers/notes';
 import exam from './reducers/exam';
+import note from './reducers/note';
 
 const rootReducer = combineReducers({
   app,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   exams,
   notes,
   exam,
+  note,
 });
 
 const composeEnhancers =

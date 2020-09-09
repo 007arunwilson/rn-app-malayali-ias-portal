@@ -22,6 +22,7 @@ import notes from './screens/notes';
 import videoPlayer from './screens/videoPlayer';
 import examDetail from './screens/examDetail';
 import examRunning from './screens/examRunning';
+import note from './screens/note';
 import topbarUserIcon from './components/miscellaneous/topbarUserIcon';
 import SidebarDefault from './components/miscellaneous/sidebarDefault';
 
@@ -113,6 +114,11 @@ const registerComponents = () => {
     'nav.notes',
     () => ReduxProvider(notes, store),
     () => notes,
+  );
+  Navigation.registerComponent(
+    'nav.note',
+    () => ReduxProvider(note, store),
+    () => note,
   );
   Navigation.registerComponent(
     'nav.videoPlayer',
@@ -222,6 +228,13 @@ navComponents.notes = {
   component: {
     id: 'notes',
     name: 'nav.notes',
+  },
+};
+
+navComponents.note = {
+  component: {
+    id: 'note',
+    name: 'nav.note',
   },
 };
 

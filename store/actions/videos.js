@@ -68,7 +68,6 @@ const loadVideos = (payload) => (dispatch, getState) => {
       }
       dispatch(updateByIndex(updatedVideosByIndex));
       dispatch(updatePaginationPage(page));
-      dispatch(updateByIndex(packageVideos));
     })
     .catch((error) => error)
     .finally(() => dispatch(updateLoading(false)));
