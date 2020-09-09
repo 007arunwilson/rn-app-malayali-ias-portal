@@ -78,15 +78,15 @@ const processAppLaunch = () => (dispatch) => {
 const populateHomeScreenData = () => (dispatch, getState) => {
   const state = getState();
   const { activePackageId } = state.app;
+  let isSubscribedUser = true;
   if (!activePackageId) {
     const { userPackages } = state.user;
-    const firstPackage = userPackages[0];
-    if (firstPackage.is_default) {
-      dispatch(updatesubscribedUser(false));
-    }
-    dispatch(updateActivePackageId(firstPackage.id));
+    isSubscribedUser = !(
+      userPackages.length === 1 && userPackages[0].is_default
+    );
+    dispatch(updateActivePackageId(userPackages[0].id));
   }
-  dispatch(updatesubscribedUser(false));
+  dispatch(updatesubscribedUser(isSubscribedUser));
   dispatch(updateHomeScreenDataLoaded(true));
 };
 

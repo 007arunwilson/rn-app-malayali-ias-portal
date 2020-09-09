@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import { color } from '../../config';
@@ -22,7 +22,28 @@ const NotSubscribedAlert = () => {
         <Text style={styles.headText}>Not Subscribed !</Text>
         <Text style={styles.detailText}>
           You're not subscibed to any paid packages, so you've only access to
-          limited contents. Contact support team for get a subscription
+          limited contents. Contact support team for get a subscription.
+        </Text>
+        <Text style={styles.detailText}>
+          Please contact
+          <Text
+            onPress={() => Linking.openURL('tel:0491-2548373')}
+            style={styles.dialText}>
+            {' 0491-2548373'}
+          </Text>
+          /
+          <Text
+            onPress={() => Linking.openURL('tel:+91-9447336138')}
+            style={styles.dialText}>
+            {' +91-9447336138'}
+          </Text>{' '}
+          /
+          <Text
+            onPress={() => Linking.openURL('tel:+91-9446101929')}
+            style={styles.dialText}>
+            {' +91-9446101929'}
+          </Text>{' '}
+          to upgrade.
         </Text>
       </View>
     </View>
@@ -48,6 +69,9 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 12,
+  },
+  dialText: {
+    textDecorationLine: 'underline',
   },
 });
 

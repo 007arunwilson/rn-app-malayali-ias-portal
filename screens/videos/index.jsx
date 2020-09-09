@@ -20,8 +20,6 @@ const Videos = () => {
   const limit = useSelector((state) => state.videos.pagination.limit);
   const page = useSelector((state) => state.videos.pagination.page);
 
-  console.log(loading);
-
   React.useEffect(() => {
     if (count === null) {
       dispatch(videosActions.loadVideos({ page }));
@@ -46,7 +44,7 @@ const Videos = () => {
 
   return (
     <>
-      {loading || count === null ? (
+      {count === null ? (
         <FullscreenLoader />
       ) : (
         <>

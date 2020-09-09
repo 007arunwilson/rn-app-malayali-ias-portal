@@ -29,8 +29,6 @@ const Exams = () => {
   }, [count, dispatch, page]);
 
   const onExamSelect = (examItem) => {
-    console.log('exams', examItem);
-
     dispatch(
       examsActions.navigateToExam({
         examItem,

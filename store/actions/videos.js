@@ -32,7 +32,7 @@ const loadVideos = (payload) => (dispatch, getState) => {
   const limit = state.videos.pagination.limit;
   const previousVideosByIndex = state.videos.byIndex;
   const activePackageId =
-    config.env === 'local' ? 31 : state.app.activePackageId;
+    config.env === 'local' ? 30 : state.app.activePackageId;
   const promises = [];
   const { page } = payload;
 
