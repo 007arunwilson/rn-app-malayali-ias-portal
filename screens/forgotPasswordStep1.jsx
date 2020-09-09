@@ -43,6 +43,10 @@ const ForgotPasswordStep1 = () => {
         .sendResetPasswordTokenEmail({ email })
         .then(
           () => {
+            ToastAndroid.show(
+              'Please check your mail inbox for the reset password token',
+              ToastAndroid.LONG,
+            );
             Navigation.push(
               'forgotPasswordStep1',
               bindPassProps({ email }, navComponents.forgotPasswordStep2),
@@ -95,7 +99,7 @@ const ForgotPasswordStep1 = () => {
             onPress={handleFormSubmit}
             status={`${!inProgress && isFormValid ? 'enabled' : ''}${
               !inProgress && !isFormValid ? 'disabled' : ''
-            }${inProgress ? 'loading' : ''}`}>
+              }${inProgress ? 'loading' : ''}`}>
             Continue
           </PrimaryButton>
         </View>

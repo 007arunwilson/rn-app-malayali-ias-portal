@@ -24,6 +24,7 @@ const Onboarding = () => {
         <View style={styles.top}>
           <View style={styles.brandContainer}>
             <Image
+              fadeDuration={0}
               style={styles.logoImage}
               source={require('../../assets/logo.png')}
             />
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 100,
     height: 100,
+    resizeMode: 'contain',
   },
   logoTextWrapper: {
     justifyContent: 'center',
