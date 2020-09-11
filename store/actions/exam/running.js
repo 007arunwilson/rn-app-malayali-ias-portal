@@ -97,6 +97,18 @@ const updateIsReview = (payload) => (dispatch) =>
     payload,
   });
 
+const updateSpendTimeByQuestionId = (payload) => (dispatch) =>
+  dispatch({
+    type: types.spendTimeByQuestionId,
+    payload,
+  });
+
+const updateSpendTimeTrack = (payload) => (dispatch) =>
+  dispatch({
+    type: types.spendTimeTrack,
+    payload,
+  });
+
 const updateReviewQuestionsChoosedOptions = (payload) => (dispatch) =>
   dispatch({
     type: types.reviewQuestionsChoosedOptions,
@@ -248,8 +260,15 @@ const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
 const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
   // const { testId } = state.exam.detail.data;
   const state = getState();
-  const { questions } = state.exam.running;
+  const {
+    questions,
+    spendTimeTrack,
+    spendTimeByQuestionId,
+    isReview,
+    activeQuestion: currentQuestion,
+  } = state.exam.running;
 
+  console.log('current question 1', currentQuestion);
   const question = questions[questionIndex];
 
   dispatch(updateActiveQuestion(question));
@@ -258,6 +277,22 @@ const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
   const questionCategoryId = question.cst_item_id;
   if (questionCategoryId) {
     dispatch(updateActiveCategoryId(questionCategoryId));
+  }
+
+  if (!isReview) {
+    const now = new Date();
+    if (currentQuestion && spendTimeTrack) {
+      const updatedSpendTimeByQuestionId = update(spendTimeByQuestionId, {
+        [currentQuestion.id]: {
+          $set:
+            now.getTime() -
+            spendTimeTrack +
+            (spendTimeByQuestionId[currentQuestion.id] || 0),
+        },
+      });
+      dispatch(updateSpendTimeByQuestionId(updatedSpendTimeByQuestionId));
+    }
+    dispatch(updateSpendTimeTrack(now.getTime()));
   }
 
   dispatch(updateHaveNextQuestion(questions.length > questionIndex + 1));
@@ -304,7 +339,10 @@ const pauseExam = () => (dispatch, getState) => {
 
 const submitExam = () => (dispatch, getState) => {
   const state = getState();
-  const { questionsChoosedOptionIds } = state.exam.running;
+  const {
+    questionsChoosedOptionIds,
+    spendTimeByQuestionId,
+  } = state.exam.running;
   const { testId, id, title, description, duration } = state.exam.detail.data;
   dispatch(updateSaving(true));
 
@@ -313,6 +351,9 @@ const submitExam = () => (dispatch, getState) => {
     examSubmitPayload.question_choosed_options.push({
       question_id: key,
       option_id: questionsChoosedOptionIds[key],
+      meta: {
+        spend_time: spendTimeByQuestionId[key],
+      },
     });
   });
 
@@ -350,7 +391,7 @@ const submitExam = () => (dispatch, getState) => {
           );
         });
     },
-    (error) => { },
+    (error) => {},
   );
 };
 
@@ -376,5 +417,6 @@ export {
   updateReady,
   setActiveQuestionByIndex,
   updateActiveQuestionIndex,
+  updateSpendTimeByQuestionId,
   exitReview,
 };

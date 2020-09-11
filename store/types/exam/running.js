@@ -17,5 +17,7 @@ export const reviewQuestionsChoosedOptions =
   'exam/running/reviewQuestionsChoosedOptions';
 export const reviewQuestionsAnswerOptionIds =
   'exam/running/reviewQuestionsAnswerOptionIds';
+export const spendTimeByQuestionId = 'exam/running/spendTimeByQuestionId';
+export const spendTimeTrack = 'exam/running/spendTimeTrack';
 export const ready = 'exam/running/ready';
 export const reset = 'exam/running/reset';

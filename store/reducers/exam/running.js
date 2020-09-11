@@ -17,6 +17,8 @@ const initialState = {
   activeCategoryId: null,
   activeQuestion: null,
   timer: null,
+  spendTimeByQuestionId: {},
+  spendTimeTrack: null,
   examRunning: false,
   haveNextQuestion: false,
   havePreviousQuestion: false,
@@ -138,6 +140,20 @@ export default (state = initialState, action) => {
     case types.reviewQuestionsAnswerOptionIds: {
       const updatedState = update(state, {
         reviewQuestionsAnswerOptionIds: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.spendTimeByQuestionId: {
+      const updatedState = update(state, {
+        spendTimeByQuestionId: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.spendTimeTrack: {
+      const updatedState = update(state, {
+        spendTimeTrack: { $set: action.payload },
       });
       return updatedState;
     }
