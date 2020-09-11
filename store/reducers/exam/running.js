@@ -23,6 +23,9 @@ const initialState = {
   activeQuestionIndex: null,
   ready: false,
   saving: false,
+  isReview: false,
+  reviewQuestionsChoosedOptions: {},
+  reviewQuestionsAnswerOptionIds: {},
 };
 
 export default (state = initialState, action) => {
@@ -114,6 +117,27 @@ export default (state = initialState, action) => {
     case types.saving: {
       const updatedState = update(state, {
         saving: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.isReview: {
+      const updatedState = update(state, {
+        isReview: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.reviewQuestionsChoosedOptions: {
+      const updatedState = update(state, {
+        reviewQuestionsChoosedOptions: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.reviewQuestionsAnswerOptionIds: {
+      const updatedState = update(state, {
+        reviewQuestionsAnswerOptionIds: { $set: action.payload },
       });
       return updatedState;
     }

@@ -20,7 +20,7 @@ const BottomActions = (props) => {
   const dispatch = useDispatch();
   const { exitExam } = props;
 
-  const { questions, activeQuestionIndex } = useSelector(
+  const { questions, activeQuestionIndex, isReview } = useSelector(
     (state) => state.exam.running,
   );
 
@@ -33,8 +33,25 @@ const BottomActions = (props) => {
         <View style={styles.exitContainer}>
           <TouchableWithoutFeedback onPress={() => exitExam()}>
             <View style={styles.exitButton}>
-              <Text style={styles.exitButtonText}>Submit exam</Text>
-              <Icon color={color.white} size={16} name="pause-circle-outline" />
+              {!isReview ? (
+                <>
+                  <Text style={styles.exitButtonText}>Submit exam</Text>
+                  <Icon
+                    color={color.white}
+                    size={16}
+                    name="pause-circle-outline"
+                  />
+                </>
+              ) : (
+                <>
+                  <Text style={styles.exitButtonText}>Exit Review</Text>
+                  <Icon
+                    color={color.white}
+                    size={16}
+                    name="close-circle-outline"
+                  />
+                </>
+              )}
             </View>
           </TouchableWithoutFeedback>
         </View>

@@ -91,57 +91,123 @@ const updateActiveQuestionIndex = (payload) => (dispatch) =>
     payload,
   });
 
+const updateIsReview = (payload) => (dispatch) =>
+  dispatch({
+    type: types.isReview,
+    payload,
+  });
+
+const updateReviewQuestionsChoosedOptions = (payload) => (dispatch) =>
+  dispatch({
+    type: types.reviewQuestionsChoosedOptions,
+    payload,
+  });
+
+const updateReviewQuestionsAnswerOptionIds = (payload) => (dispatch) =>
+  dispatch({
+    type: types.reviewQuestionsAnswerOptionIds,
+    payload,
+  });
+
 const reset = (payload) => (dispatch) =>
   dispatch({
     type: types.reset,
     payload,
   });
 
-const processStartExam = () => (dispatch, getState) => {
+/**
+ * This function also handle the review exam view, so be careful when playing with this.
+ * it was bit complex for me :) ( Decision Fatigue )
+ * */
+const processStartExam = (isReview = false) => (dispatch, getState) => {
   const state = getState();
   const { testId, duration } = state.exam.detail.data;
+
+  console.log('isReview', isReview);
 
   dispatch(updateLoadingQuestions(true));
 
   Promise.all([
     examApi.getQuestions({ urlParams: { testId } }),
     examApi.getQuestionCategories({ urlParams: { testId } }),
-  ]).then(([questionsResult, questionsCategoryResult]) => {
-    const questionIdsIndexMap = {};
-    questionsResult.forEach((item, index) => {
-      questionIdsIndexMap[item.id] = index;
-    });
-    dispatch(updateQuestions(questionsResult));
-    dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
+    isReview
+      ? examApi.getQuestionsAnswersChoosedOptionsIds({ urlParams: { testId } })
+      : Promise.resolve(),
+    isReview
+      ? examApi.getQuestionsAnswersOptionsIds({ urlParams: { testId } })
+      : Promise.resolve(),
+  ]).then(
+    ([
+      questionsResult,
+      questionsCategoryResult,
+      reviewQuestionsChoosedOptionsResult,
+      reviewQuestionsAnswerOptionIdsResult,
+    ]) => {
+      const questionIdsIndexMap = {};
+      questionsResult.forEach((item, index) => {
+        questionIdsIndexMap[item.id] = index;
+      });
+      dispatch(updateQuestions(questionsResult));
+      dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
 
-    const categoriesIdIndexMap = {};
-    questionsCategoryResult.forEach((item, index) => {
-      categoriesIdIndexMap[item.id] = index;
-    });
-    dispatch(updateCategories(questionsCategoryResult));
-    dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
+      const categoriesIdIndexMap = {};
+      questionsCategoryResult.forEach((item, index) => {
+        categoriesIdIndexMap[item.id] = index;
+      });
+      dispatch(updateCategories(questionsCategoryResult));
+      dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
 
-    dispatch(setActiveQuestionByIndex(0));
+      dispatch(setActiveQuestionByIndex(0));
 
-    dispatch(updateTimer(duration));
+      if (isReview) {
+        const reviewQuestionsChoosedOptions = {};
+        reviewQuestionsChoosedOptionsResult.forEach((item) => {
+          reviewQuestionsChoosedOptions[
+            item.learning_material_test_question_id
+          ] = item;
+        });
+        dispatch(
+          updateReviewQuestionsChoosedOptions(reviewQuestionsChoosedOptions),
+        );
 
-    examApi
-      .deleteUserAttempts({
-        urlParams: { learningMaterialTestId: testId },
-      })
-      .then(() =>
-        examApi.createUserAttempt({
-          urlParams: { learningMaterialTestId: testId },
-        }),
-      )
-      .then(() => {
+        const reviewQuestionsAnswerOptionIds = {};
+        reviewQuestionsAnswerOptionIdsResult.forEach((item) => {
+          reviewQuestionsAnswerOptionIds[
+            item.learning_material_test_question_id
+          ] = item.id;
+        });
+        dispatch(
+          updateReviewQuestionsAnswerOptionIds(reviewQuestionsAnswerOptionIds),
+        );
+      }
+
+      dispatch(updateTimer(duration));
+
+      new Promise((resolve) => {
+        if (!isReview) {
+          return examApi
+            .deleteUserAttempts({
+              urlParams: { learningMaterialTestId: testId },
+            })
+            .then(() =>
+              examApi.createUserAttempt({
+                urlParams: { learningMaterialTestId: testId },
+              }),
+            )
+            .then(resolve);
+        } else {
+          resolve();
+        }
+      }).then(() => {
         // Assuming that start exam is only navigate from examDetail page
         Navigation.push('examDetail', navComponents.examRunning).then(() => {
           dispatch(updateLoadingQuestions(false));
+          dispatch(updateIsReview(!!isReview));
           dispatch(updateReady(true));
         });
       });
-  });
+    },
+  );
 };
 
 const setActiveQuestion = (activeQuestionId) => (dispatch, getState) => {
@@ -286,8 +352,15 @@ const submitExam = () => (dispatch, getState) => {
           );
         });
     },
-    (error) => {},
+    (error) => { },
   );
+};
+
+const exitReview = () => (dispatch) => {
+  dispatch(examDetailActions.reset());
+  dispatch(examAttempDataActions.reset());
+  dispatch(updateReady(false));
+  Navigation.popTo('exams');
 };
 
 export {
@@ -305,4 +378,5 @@ export {
   updateReady,
   setActiveQuestionByIndex,
   updateActiveQuestionIndex,
+  exitReview,
 };

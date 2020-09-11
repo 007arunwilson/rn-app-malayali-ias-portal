@@ -19,7 +19,7 @@ import { color } from '../../../config';
 const Bullets = (props) => {
   const dispatch = useDispatch();
   const flatlistRef = React.useRef(null);
-  const questions = useSelector((state) => state.exam.running.questions);
+  const { questions, isReview } = useSelector((state) => state.exam.running);
   const questionsChoosedOptionIds = useSelector(
     (state) => state.exam.running.questionsChoosedOptionIds,
   );
@@ -44,27 +44,62 @@ const Bullets = (props) => {
   const switchToQuestionByIndex = (questionIndex) =>
     dispatch(examRunningActions.setActiveQuestionByIndex(questionIndex));
 
-  const renderBulletItem = ({ index, item }) => (
-    <TouchableWithoutFeedback
-      activeOpacity={0.5}
-      onPress={() => switchToQuestionByIndex(index)}>
-      <View
-        style={[
-          styles.item,
-          questionsChoosedOptionIds[item.id] ? styles.itemEngaged : null,
-          item.id === activeQuestionId ? styles.itemActive : null,
-        ]}>
-        <Text
-          style={[
-            styles.itemText,
-            item.id === activeQuestionId ? { color: color.primaryText } : null,
-            questionsChoosedOptionIds[item.id] ? { color: color.white } : null,
-          ]}>
-          {index + 1}
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  );
+  const renderBulletItem = ({ index, item }) => {
+    if (!isReview) {
+      return (
+        <TouchableWithoutFeedback
+          activeOpacity={0.5}
+          onPress={() => switchToQuestionByIndex(index)}>
+          <View
+            style={[
+              styles.item,
+              questionsChoosedOptionIds[item.id] ? styles.itemEngaged : null,
+              item.id === activeQuestionId ? styles.itemActive : null,
+            ]}>
+            <Text
+              style={[
+                styles.itemText,
+                item.id === activeQuestionId
+                  ? { color: color.primaryText }
+                  : null,
+                questionsChoosedOptionIds[item.id]
+                  ? { color: color.white }
+                  : null,
+              ]}>
+              {index + 1}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return (
+        <TouchableWithoutFeedback
+          activeOpacity={0.5}
+          onPress={() => switchToQuestionByIndex(index)}>
+          <View
+            style={[
+              styles.item,
+              styles.itemReview,
+              item.id === activeQuestionId ? styles.itemActive : null,
+            ]}>
+            <Text
+              style={[
+                styles.itemText,
+                styles.itemReviewText,
+                item.id === activeQuestionId
+                  ? { color: color.primaryText }
+                  : null,
+                questionsChoosedOptionIds[item.id]
+                  ? { color: color.white }
+                  : null,
+              ]}>
+              {index + 1}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
+  };
 
   const keyExtractor = (item) => `-${item.id}`;
 
@@ -112,9 +147,16 @@ const styles = StyleSheet.create({
     borderColor: color.redLight,
     backgroundColor: color.redLight,
   },
+  itemReview: {
+    borderColor: color.primaryLight,
+    backgroundColor: color.primaryText,
+  },
   itemText: {
     fontSize: 12,
     color: color.white,
+  },
+  itemReviewText: {
+    color: color.primaryDark,
   },
   itemEngaged: {
     backgroundColor: color.greenDark,

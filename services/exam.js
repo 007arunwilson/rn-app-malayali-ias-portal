@@ -130,6 +130,40 @@ const submitExam = ({ urlParams, data }) =>
       );
   });
 
+const getQuestionsAnswersOptionsIds = ({ urlParams }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: `/learning-material/test/${urlParams.testId}/question-answers`,
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          resolve(responseData);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+const getQuestionsAnswersChoosedOptionsIds = ({ urlParams }) =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: `/learning-material/test/${urlParams.testId}/user-attempt-question-choosed-options`,
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          resolve(responseData);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
 export {
   getExam,
   getUserAttempt,
@@ -138,4 +172,6 @@ export {
   submitExam,
   createUserAttempt,
   deleteUserAttempts,
+  getQuestionsAnswersOptionsIds,
+  getQuestionsAnswersChoosedOptionsIds,
 };

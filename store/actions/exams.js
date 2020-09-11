@@ -43,7 +43,7 @@ const loadExams = (payload) => (dispatch, getState) => {
   const previousExamsByIndex = state.exams.byIndex;
   const limit = state.exams.pagination.limit;
   const activePackageId =
-    config.env === 'local' ? 30 : state.app.activePackageId;
+    config.env === 'local-' ? 30 : state.app.activePackageId;
   const promises = [];
   const { page } = payload;
 

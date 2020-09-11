@@ -31,8 +31,8 @@ const ExamDetail = () => {
     (state) => state.exam.running.loadingQuestions,
   );
 
-  const processStartExam = () =>
-    dispatch(examRunningActions.processStartExam());
+  const processStartExam = (isReview) =>
+    dispatch(examRunningActions.processStartExam(isReview));
 
   const {
     title,
@@ -82,6 +82,7 @@ const ExamDetail = () => {
             <ResultView
               examAttemptData={examAttemptData}
               questionsCount={questionsCount}
+              processStartExam={processStartExam}
             />
           ) : null}
         </>

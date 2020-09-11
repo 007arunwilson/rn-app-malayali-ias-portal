@@ -14,11 +14,13 @@ import FullscreenTextLoader from '../../components/miscellaneous/fullscreenTextL
 
 const ExamRunning = () => {
   const dispatch = useDispatch();
-  const { saving, ready } = useSelector((state) => state.exam.running);
+  const { saving, ready, isReview } = useSelector(
+    (state) => state.exam.running,
+  );
 
   const exitExam = React.useCallback(
     (isTimeout) => {
-      if (!isTimeout && !saving) {
+      if (!isTimeout && !saving && !isReview) {
         Alert.alert(
           'Are you sure want to exit exam ?',
           'You can either pause the exam and continue later, or you can submit the exam.',
@@ -40,9 +42,11 @@ const ExamRunning = () => {
         );
       } else if (isTimeout) {
         dispatch(examRunningActions.submitExam());
+      } else if (isReview) {
+        dispatch(examRunningActions.exitReview());
       }
     },
-    [dispatch, saving],
+    [dispatch, saving, isReview],
   );
 
   React.useEffect(() => {
@@ -70,8 +74,8 @@ const ExamRunning = () => {
           <BottomActions exitExam={exitExam} />
         </SafeAreaView>
       ) : (
-        <FullscreenTextLoader />
-      )}
+            <FullscreenTextLoader />
+          )}
     </>
   );
 };

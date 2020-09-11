@@ -50,11 +50,11 @@ const StartExam = (props) => {
       <View style={styles.card}>
         <View style={[styles.content, styles.actionContent]}>
           {loadingQuestions ? (
-            <View style={styles.loadingQuestions} >
+            <View style={styles.loadingQuestions}>
               <InlineLoader />
             </View>
           ) : (
-            <TouchableOpacity onPress={processStartExam}>
+            <TouchableOpacity onPress={() => processStartExam(false)}>
               <View style={styles.actionButton}>
                 <Text style={styles.actionButtonText}>Start Exam</Text>
                 <Icon

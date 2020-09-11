@@ -16,12 +16,11 @@ const ResultView = (props) => {
       answeredQuestion,
       rightlyAnswered,
       totalScore,
-      rightlyAnsweredScore,
-      wronglyAnswered,
       negativeScore,
       optainedScore,
     },
     questionsCount,
+    processStartExam,
   } = props;
 
   const [showResult, setShowResult] = React.useState(false);
@@ -47,35 +46,54 @@ const ResultView = (props) => {
       </View>
 
       {showResult ? (
-        <View style={styles.card}>
-          <View style={[styles.content]}>
-            <Text style={styles.resultLabel}>
-              <Text>Obtained Score: </Text>
-              <Text style={styles.resultValue}>
-                {optainedScore || 0}/{totalScore || 0}
+        <>
+          <View style={styles.card}>
+            <View style={[styles.content]}>
+              <Text style={styles.resultLabel}>
+                <Text>Obtained Score: </Text>
+                <Text style={styles.resultValue}>
+                  {optainedScore || 0}/{totalScore || 0}
+                </Text>
               </Text>
-            </Text>
 
-            <Text style={styles.resultLabel}>
-              <Text>Answered Questions: </Text>
-              <Text style={styles.resultValue}>
-                {answeredQuestion || 0}/{questionsCount}
+              <Text style={styles.resultLabel}>
+                <Text>Answered Questions: </Text>
+                <Text style={styles.resultValue}>
+                  {answeredQuestion || 0}/{questionsCount}
+                </Text>
               </Text>
-            </Text>
 
-            <Text style={styles.resultLabel}>
-              <Text>Rightly Answered: </Text>
-              <Text style={styles.resultValue}>
-                {rightlyAnswered || 0}/{answeredQuestion || 0}
+              <Text style={styles.resultLabel}>
+                <Text>Rightly Answered: </Text>
+                <Text style={styles.resultValue}>
+                  {rightlyAnswered || 0}/{answeredQuestion || 0}
+                </Text>
               </Text>
-            </Text>
 
-            <Text style={styles.resultLabel}>
-              <Text>Negative Score: </Text>
-              <Text style={styles.resultValue}>{negativeScore || 0}</Text>
-            </Text>
+              <Text style={styles.resultLabel}>
+                <Text>Negative Score: </Text>
+                <Text style={styles.resultValue}>{negativeScore || 0}</Text>
+              </Text>
+            </View>
           </View>
-        </View>
+
+          <View style={styles.card}>
+            <View style={[styles.content, styles.actionContent]}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => processStartExam(true)}>
+                <View style={[styles.actionButton, styles.actionReviewButton]}>
+                  <Text style={styles.actionButtonText}>Review Result</Text>
+                  <Icon
+                    color={color.white}
+                    size={16}
+                    name={'arrow-right-circle-outline'}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
       ) : null}
 
       <View style={styles.card}>
@@ -83,7 +101,8 @@ const ResultView = (props) => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => setShowResult(!showResult)}>
-            <View style={styles.actionButton}>
+            <View
+              style={[styles.actionButton, styles.actionResultToggleButton]}>
               <Text style={styles.actionButtonText}>
                 {!showResult ? 'Show' : 'Hide'} Result
               </Text>
@@ -140,11 +159,16 @@ const styles = StyleSheet.create({
   actionButton: {
     paddingHorizontal: 14,
     paddingVertical: 8,
-    backgroundColor: color.primary,
     borderRadius: 4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  actionResultToggleButton: {
+    backgroundColor: color.primary,
+  },
+  actionReviewButton: {
+    backgroundColor: color.orangeDark,
   },
   actionButtonText: {
     color: color.white,

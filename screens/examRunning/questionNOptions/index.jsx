@@ -16,6 +16,9 @@ const QuestionNOptions = () => {
     activeQuestion: question,
     activeQuestionIndex,
     questions,
+    reviewQuestionsChoosedOptions,
+    reviewQuestionsAnswerOptionIds,
+    isReview,
   } = useSelector((state) => state.exam.running);
 
   const questionsChoosedOptionIds = useSelector(
@@ -46,6 +49,10 @@ const QuestionNOptions = () => {
             options={options}
             optionChooseHanlder={optionChooseHanlder}
             questionsChoosedOptionIds={questionsChoosedOptionIds}
+            isReview={isReview}
+            reviewQuestionsChoosedOptions={reviewQuestionsChoosedOptions}
+            reviewQuestionsAnswerOptionIds={reviewQuestionsAnswerOptionIds}
+            question={question}
           />
         </>
       </View>
