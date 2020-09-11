@@ -69,39 +69,6 @@ const Options = (props) => {
             let itemIcon = 'circle-outline';
             const itemStyle = [styles.item];
             const itemIconStyle = [styles.itemIcon];
-            // if (
-            //   // reviewQuestionsChoosedOptions[question.id] &&
-            //   reviewQuestionsAnswerOptionIds[question.id] === item.id // &&
-            //   // reviewQuestionsChoosedOptions[question.id]
-            //   //   .learning_material_test_question_option_id ===
-            //   //   reviewQuestionsAnswerOptionIds[question.id]
-            // ) {
-            //   itemIcon = 'checkbox-marked-circle-outline';
-            // } else if (
-            //   reviewQuestionsChoosedOptions[question.id] &&
-            //   reviewQuestionsAnswerOptionIds[question.id] === item.id &&
-            //   reviewQuestionsChoosedOptions[question.id]
-            //     .learning_material_test_question_option_id !==
-            //     reviewQuestionsAnswerOptionIds[question.id]
-            // ) {
-            //   itemIcon = 'close-circle-outline';
-            //   itemIconStyle.push(styles.itemIconWrong);
-            // } else if (
-            //   reviewQuestionsChoosedOptions[question.id] &&
-            //   reviewQuestionsAnswerOptionIds[question.id] !== item.id &&
-            //   reviewQuestionsChoosedOptions[question.id]
-            //     .learning_material_test_question_option_id === item.id
-            // ) {
-            //   itemIcon = 'close-circle-outline';
-            //   itemIconStyle.push(styles.itemIconWrong);
-            // } else {
-            //   itemStyle.push(styles.itemFaded);
-            // }
-
-            // if(reviewQuestionsAnswerOptionIds[question.id] === item.id &&item.id === reviewQuestionsChoosedOptions[question.id]){
-
-            //   }
-
             if (
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
               item.id ===
