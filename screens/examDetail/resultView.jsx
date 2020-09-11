@@ -7,6 +7,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 import { color } from '../../config';
+import InlineLoader from '../../components/miscellaneous/inlineLoader';
 
 const ResultView = (props) => {
   const {
@@ -21,6 +22,7 @@ const ResultView = (props) => {
     },
     questionsCount,
     processStartExam,
+    loadingQuestions,
   } = props;
 
   const [showResult, setShowResult] = React.useState(false);
@@ -79,18 +81,25 @@ const ResultView = (props) => {
 
           <View style={styles.card}>
             <View style={[styles.content, styles.actionContent]}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => processStartExam(true)}>
-                <View style={[styles.actionButton, styles.actionReviewButton]}>
-                  <Text style={styles.actionButtonText}>Review Result</Text>
-                  <Icon
-                    color={color.white}
-                    size={16}
-                    name={'arrow-right-circle-outline'}
-                  />
+              {loadingQuestions ? (
+                <View style={styles.loadingQuestions}>
+                  <InlineLoader />
                 </View>
-              </TouchableOpacity>
+              ) : (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => processStartExam(true)}>
+                    <View
+                      style={[styles.actionButton, styles.actionReviewButton]}>
+                      <Text style={styles.actionButtonText}>Review Result</Text>
+                      <Icon
+                        color={color.white}
+                        size={16}
+                        name={'arrow-right-circle-outline'}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
             </View>
           </View>
         </>

@@ -123,8 +123,6 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
   const state = getState();
   const { testId, duration } = state.exam.detail.data;
 
-  console.log('isReview', isReview);
-
   dispatch(updateLoadingQuestions(true));
 
   Promise.all([

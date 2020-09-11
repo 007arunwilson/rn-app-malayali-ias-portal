@@ -82,6 +82,7 @@ const ExamDetail = () => {
             <ResultView
               examAttemptData={examAttemptData}
               questionsCount={questionsCount}
+              loadingQuestions={loadingQuestions} // For review exam view
               processStartExam={processStartExam}
             />
           ) : null}

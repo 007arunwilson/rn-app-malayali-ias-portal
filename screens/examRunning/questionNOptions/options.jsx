@@ -69,31 +69,74 @@ const Options = (props) => {
             let itemIcon = 'circle-outline';
             const itemStyle = [styles.item];
             const itemIconStyle = [styles.itemIcon];
+            // if (
+            //   // reviewQuestionsChoosedOptions[question.id] &&
+            //   reviewQuestionsAnswerOptionIds[question.id] === item.id // &&
+            //   // reviewQuestionsChoosedOptions[question.id]
+            //   //   .learning_material_test_question_option_id ===
+            //   //   reviewQuestionsAnswerOptionIds[question.id]
+            // ) {
+            //   itemIcon = 'checkbox-marked-circle-outline';
+            // } else if (
+            //   reviewQuestionsChoosedOptions[question.id] &&
+            //   reviewQuestionsAnswerOptionIds[question.id] === item.id &&
+            //   reviewQuestionsChoosedOptions[question.id]
+            //     .learning_material_test_question_option_id !==
+            //     reviewQuestionsAnswerOptionIds[question.id]
+            // ) {
+            //   itemIcon = 'close-circle-outline';
+            //   itemIconStyle.push(styles.itemIconWrong);
+            // } else if (
+            //   reviewQuestionsChoosedOptions[question.id] &&
+            //   reviewQuestionsAnswerOptionIds[question.id] !== item.id &&
+            //   reviewQuestionsChoosedOptions[question.id]
+            //     .learning_material_test_question_option_id === item.id
+            // ) {
+            //   itemIcon = 'close-circle-outline';
+            //   itemIconStyle.push(styles.itemIconWrong);
+            // } else {
+            //   itemStyle.push(styles.itemFaded);
+            // }
+
+            // if(reviewQuestionsAnswerOptionIds[question.id] === item.id &&item.id === reviewQuestionsChoosedOptions[question.id]){
+
+            //   }
+
             if (
-              reviewQuestionsChoosedOptions[question.id] &&
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
-              reviewQuestionsChoosedOptions[question.id]
-                .learning_material_test_question_option_id ===
-                reviewQuestionsAnswerOptionIds[question.id]
+              item.id ===
+                (reviewQuestionsChoosedOptions[question.id] &&
+                  reviewQuestionsChoosedOptions[question.id]
+                    .learning_material_test_question_option_id)
             ) {
-              itemIcon = 'checkbox-marked-circle-outline';
-            } else if (
-              reviewQuestionsChoosedOptions[question.id] &&
-              reviewQuestionsAnswerOptionIds[question.id] === item.id &&
-              reviewQuestionsChoosedOptions[question.id]
-                .learning_material_test_question_option_id !==
-                reviewQuestionsAnswerOptionIds[question.id]
-            ) {
-              itemIcon = 'close-circle-outline';
-              itemIconStyle.push(styles.itemIconWrong);
-            } else if (
-              reviewQuestionsChoosedOptions[question.id] &&
-              reviewQuestionsAnswerOptionIds[question.id] !== item.id &&
-              reviewQuestionsChoosedOptions[question.id]
-                .learning_material_test_question_option_id === item.id
-            ) {
+              // Answered, this is right, this is choosed
               itemIcon = 'checkbox-marked-circle-outline';
               itemIconStyle.push(styles.itemIconRight);
+            } else if (
+              reviewQuestionsAnswerOptionIds[question.id] === item.id &&
+              reviewQuestionsChoosedOptions[question.id] &&
+              item.id !==
+                reviewQuestionsChoosedOptions[question.id]
+                  .learning_material_test_question_option_id
+            ) {
+              // Answered, this is right, but choosed something else
+              itemIcon = 'checkbox-marked-circle-outline';
+              itemIconStyle.push(styles.itemIconRight);
+            } else if (
+              !reviewQuestionsChoosedOptions[question.id] &&
+              item.id === reviewQuestionsAnswerOptionIds[question.id]
+            ) {
+              // Not Answered, but right
+              itemIcon = 'checkbox-marked-circle-outline';
+            } else if (
+              reviewQuestionsChoosedOptions[question.id] &&
+              reviewQuestionsChoosedOptions[question.id]
+                .learning_material_test_question_option_id === item.id &&
+              item.id !== reviewQuestionsAnswerOptionIds[question.id]
+            ) {
+              // Answered, this is choosed, but right is something else
+              itemIcon = 'close-circle-outline';
+              itemIconStyle.push(styles.itemIconWrong);
             } else {
               itemStyle.push(styles.itemFaded);
             }
