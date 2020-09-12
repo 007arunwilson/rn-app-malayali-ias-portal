@@ -12,7 +12,12 @@ import * as examRunningActions from '../../../store/actions/exam/running';
 const Duration = (props) => {
   const dispatch = useDispatch();
   const { exitExam } = props;
-  const { timer, isReview } = useSelector((state) => state.exam.running);
+  const {
+    timer,
+    isReview,
+    reviewQuestionsChoosedOptions,
+    activeQuestion,
+  } = useSelector((state) => state.exam.running);
   const timerRef = React.useRef(timer);
   const timerIntervelRef = React.useRef(null);
 
@@ -38,7 +43,23 @@ const Duration = (props) => {
   );
 
   if (isReview) {
-    return null;
+    const tookTimeValue = reviewQuestionsChoosedOptions[activeQuestion.id]
+      ? Number(
+          ((reviewQuestionsChoosedOptions[activeQuestion.id].meta &&
+            reviewQuestionsChoosedOptions[activeQuestion.id].meta.spend_time) ||
+            0) / 1000,
+        ).toFixed(1)
+      : 0;
+
+    return (
+      <View style={styles.container}>
+        <Icon color={color.text} size={14} name="clock-outline" />
+        <View style={styles.tookDuration}>
+          <Text style={styles.tookTextLabel}>Took ~</Text>
+          <Text style={styles.tookTextValue}>{tookTimeValue} sec</Text>
+        </View>
+      </View>
+    );
   } else {
     const remainingTime = ['00', '00'];
     // Calculating time remaining
@@ -67,6 +88,17 @@ const styles = StyleSheet.create({
   text: {
     color: color.text,
     marginLeft: 10,
+  },
+  tookDuration: {
+    marginLeft: 8,
+  },
+  tookTextLabel: {
+    fontSize: 10,
+    color: color.textLight,
+  },
+  tookTextValue: {
+    fontSize: 12,
+    color: color.textLight,
   },
 });
 

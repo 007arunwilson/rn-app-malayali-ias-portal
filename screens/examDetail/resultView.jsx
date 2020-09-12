@@ -86,20 +86,20 @@ const ResultView = (props) => {
                   <InlineLoader />
                 </View>
               ) : (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => processStartExam(true)}>
-                    <View
-                      style={[styles.actionButton, styles.actionReviewButton]}>
-                      <Text style={styles.actionButtonText}>Review Result</Text>
-                      <Icon
-                        color={color.white}
-                        size={16}
-                        name={'arrow-right-circle-outline'}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                )}
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => processStartExam(true)}>
+                  <View
+                    style={[styles.actionButton, styles.actionReviewButton]}>
+                    <Text style={styles.actionButtonText}>Review Result</Text>
+                    <Icon
+                      color={color.white}
+                      size={16}
+                      name={'arrow-right-circle-outline'}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </>

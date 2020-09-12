@@ -342,9 +342,22 @@ const submitExam = () => (dispatch, getState) => {
   const {
     questionsChoosedOptionIds,
     spendTimeByQuestionId,
+    spendTimeTrack,
+    activeQuestion: currentQuestion,
   } = state.exam.running;
   const { testId, id, title, description, duration } = state.exam.detail.data;
   dispatch(updateSaving(true));
+
+  // Updating Last question's spend time
+  const now = new Date();
+  const updatedSpendTimeByQuestionId = update(spendTimeByQuestionId, {
+    [currentQuestion.id]: {
+      $set:
+        now.getTime() -
+        spendTimeTrack +
+        (spendTimeByQuestionId[currentQuestion.id] || 0),
+    },
+  });
 
   const examSubmitPayload = { question_choosed_options: [] };
   Object.keys(questionsChoosedOptionIds).forEach((key) => {
@@ -352,7 +365,7 @@ const submitExam = () => (dispatch, getState) => {
       question_id: key,
       option_id: questionsChoosedOptionIds[key],
       meta: {
-        spend_time: spendTimeByQuestionId[key],
+        spend_time: updatedSpendTimeByQuestionId[key],
       },
     });
   });

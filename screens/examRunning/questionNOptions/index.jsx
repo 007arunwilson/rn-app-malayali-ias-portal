@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ScrollView } from 'react-native';
 import React from 'react';
 import { color } from '../../../config';
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,7 +37,10 @@ const QuestionNOptions = () => {
 
   return (
     <View style={styles.card}>
-      <View style={styles.content}>
+      <ScrollView
+        style={styles.content}
+        persistentScrollbar
+        contentContainerStyle={styles.contentContainerStyle}>
         <>
           <Question
             totalQuestions={totalQuestions}
@@ -55,7 +58,7 @@ const QuestionNOptions = () => {
             question={question}
           />
         </>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -73,6 +76,9 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 10,
+    alignSelf: 'stretch',
+  },
+  contentContainerStyle: {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
