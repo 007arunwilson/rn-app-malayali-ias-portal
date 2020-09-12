@@ -268,7 +268,6 @@ const setActiveQuestionByIndex = (questionIndex) => (dispatch, getState) => {
     activeQuestion: currentQuestion,
   } = state.exam.running;
 
-  console.log('current question 1', currentQuestion);
   const question = questions[questionIndex];
 
   dispatch(updateActiveQuestion(question));

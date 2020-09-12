@@ -3,15 +3,10 @@ import HTML from 'react-native-render-html';
 import { Dimensions, View, StyleSheet } from 'react-native';
 import { color } from '../../config';
 
-const renderers = {
-  p: () => <View style={styles.p} />,
-};
-
 const HTMLrender = (props) => {
   return (
     <View>
       <HTML
-        renderers={renderers}
         html={props.content}
         baseFontStyle={styles.baseFont}
         imagesMaxWidth={(Dimensions.get('window').width / 100) * 70}
