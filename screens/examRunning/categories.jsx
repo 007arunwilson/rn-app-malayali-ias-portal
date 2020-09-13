@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,10 +23,12 @@ const Categories = (props) => {
                 {categories.map((item) => {
                     const questionsCount = item.questionsIndex.length;
                     return (
-                        <TouchableOpacity key={`_${item.id}`} style={styles.item} onPress={() => onCategorySelect(item)} >
-                            <Text style={[styles.itemText, activeCategoryId === item.id && styles.itemActiveText]} >{item.title}</Text>
-                            <Text style={styles.countText} >({questionsCount})</Text>
-                        </TouchableOpacity>
+                        <TouchableWithoutFeedback key={`_${item.id}`} onPress={() => onCategorySelect(item)} >
+                            <View style={styles.item} >
+                                <Text style={[styles.itemText, activeCategoryId === item.id && styles.itemActiveText]} >{item.title}</Text>
+                                <Text style={styles.countText} >({questionsCount})</Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     );
                 })}
             </View>
