@@ -118,6 +118,8 @@ const Bullets = (props) => {
         })
       }
       keyExtractor={keyExtractor}
+      onScrollToIndexFailed={() => false}
+      initialNumToRender={questions.length}
       style={styles.list}
       contentContainerStyle={styles.listInnerContainer}
       showsHorizontalScrollIndicator={false}

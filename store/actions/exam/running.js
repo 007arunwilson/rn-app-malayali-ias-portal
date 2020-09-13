@@ -160,7 +160,8 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
         return { ...item, questionsIndex: [] }
       });
 
-      const questionsCategoryResultUpdatedByOrderingIdIndex = {};
+      const questionsCategoryResultUpdatedByOrdering = [];
+      const questionsCategoryResultUpdatedByOrderingPushedRef = [];
 
       const questionIdsIndexMap = {};
       questionsResult.forEach((item, index) => {
@@ -171,18 +172,21 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
           ];
 
           category.questionsIndex.push(index);
-          
-          if (!questionsCategoryResultUpdatedByOrderingIdIndex[item.cst_item_id]) {
-            questionsCategoryResultUpdatedByOrderingIdIndex[item.cst_item_id] = category;
+
+          if (questionsCategoryResultUpdatedByOrderingPushedRef.indexOf(category.id) === -1) {
+            questionsCategoryResultUpdatedByOrdering.push(category);
+            questionsCategoryResultUpdatedByOrderingPushedRef.push(category.id);
           }
         }
       });
-      
+
       dispatch(updateQuestions(questionsResult));
       dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
 
+      // console.log('questionsCategoryResultUpdatedByOrderingIdIndex:', questionsCategoryResultUpdatedByOrderingIdIndex);
 
-      const categories = Object.values(questionsCategoryResultUpdatedByOrderingIdIndex);
+
+      const categories = questionsCategoryResultUpdatedByOrdering;
       dispatch(updateCategories(categories));
       // dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
 
