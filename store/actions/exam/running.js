@@ -153,19 +153,38 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
       reviewQuestionsChoosedOptionsResult,
       reviewQuestionsAnswerOptionIdsResult,
     ]) => {
+
+      const categoriesIdIndexMap = {};
+      questionsCategoryResultUpdated = questionsCategoryResult.map((item, index) => {
+        categoriesIdIndexMap[item.id] = index;
+        return { ...item, questionsIndex: [] }
+      });
+
+      const questionsCategoryResultUpdatedByOrderingIdIndex = {};
+
       const questionIdsIndexMap = {};
       questionsResult.forEach((item, index) => {
         questionIdsIndexMap[item.id] = index;
+        if (item.cst_item_id) {
+          const category = questionsCategoryResultUpdated[
+            categoriesIdIndexMap[item.cst_item_id]
+          ];
+
+          category.questionsIndex.push(index);
+          
+          if (!questionsCategoryResultUpdatedByOrderingIdIndex[item.cst_item_id]) {
+            questionsCategoryResultUpdatedByOrderingIdIndex[item.cst_item_id] = category;
+          }
+        }
       });
+      
       dispatch(updateQuestions(questionsResult));
       dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
 
-      const categoriesIdIndexMap = {};
-      questionsCategoryResult.forEach((item, index) => {
-        categoriesIdIndexMap[item.id] = index;
-      });
-      dispatch(updateCategories(questionsCategoryResult));
-      dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
+
+      const categories = Object.values(questionsCategoryResultUpdatedByOrderingIdIndex);
+      dispatch(updateCategories(categories));
+      // dispatch(updateCategoriesIdIndexMap(categoriesIdIndexMap));
 
       dispatch(setActiveQuestionByIndex(0));
 
@@ -403,7 +422,7 @@ const submitExam = () => (dispatch, getState) => {
           );
         });
     },
-    (error) => {},
+    (error) => { },
   );
 };
 

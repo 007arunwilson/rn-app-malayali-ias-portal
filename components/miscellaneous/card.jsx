@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 4,
     borderRadius: 4,
-    marginBottom: 24,
+    margin: 12,
   },
   text: {
     color: color.primaryText,
