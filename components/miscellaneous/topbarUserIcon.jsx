@@ -42,7 +42,7 @@ const TopbarIcon = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 14,
+    paddingHorizontal: 8,
     paddingVertical: 4,
     borderWidth: 1,
     borderColor: 'transparent', // To avoid not taking padding glitch

@@ -47,20 +47,20 @@ const Videos = () => {
       {count === null ? (
         <FullscreenLoader />
       ) : (
-        <>
-          {count === 0 ? (
-            <FullscreenEmptyList />
-          ) : (
-            <VideosList
-              onVideoPress={onVideoPress}
-              videos={videos}
-              count={count}
-              loading={loading}
-              loadMore={loadMore}
-            />
-          )}
-        </>
-      )}
+          <>
+            {count === 0 ? (
+              <FullscreenEmptyList />
+            ) : (
+                <VideosList
+                  onVideoPress={onVideoPress}
+                  videos={videos}
+                  count={count}
+                  loading={loading}
+                  loadMore={loadMore}
+                />
+              )}
+          </>
+        )}
     </>
   );
 };
@@ -72,6 +72,13 @@ Videos.options = {
         id: 'profile',
         component: {
           name: 'topbar.userIcon',
+          aligment: 'center',
+        },
+      },
+      {
+        id: 'filter',
+        component: {
+          name: 'topbar.filterIcon',
           aligment: 'center',
         },
       },

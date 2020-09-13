@@ -41,21 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-VideosList.options = {
-  topBar: {
-    rightButtons: [
-      {
-        id: 'profile',
-        component: {
-          name: 'topbar.userIcon',
-          aligment: 'center',
-        },
-      },
-    ],
-    title: {
-      text: 'Videos',
-    },
-  },
-};
-
 export default VideosList;
