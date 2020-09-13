@@ -11,6 +11,7 @@ import BottomActions from './bottomActions';
 import { useSelector, useDispatch } from 'react-redux';
 import * as examRunningActions from '../../store/actions/exam/running';
 import FullscreenTextLoader from '../../components/miscellaneous/fullscreenTextLoader';
+import Categories from './categories';
 
 const ExamRunning = () => {
   const dispatch = useDispatch();
@@ -70,6 +71,7 @@ const ExamRunning = () => {
       ) : ready ? (
         <SafeAreaView style={styles.container}>
           <DurationNBullets exitExam={exitExam} />
+          <Categories />
           <QuestionNOptions />
           <BottomActions exitExam={exitExam} />
         </SafeAreaView>
@@ -86,5 +88,11 @@ const styles = StyleSheet.create({
     backgroundColor: color.backgroundLight,
   },
 });
+
+ExamRunning.options = {
+  topBar: {
+    visible: false,
+  },
+};
 
 export default ExamRunning;

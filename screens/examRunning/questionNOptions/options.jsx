@@ -28,7 +28,7 @@ const Options = (props) => {
   if (!isReview) {
     return (
       <>
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
           {options.map((item) => {
             return (
               <TouchableOpacity
@@ -44,15 +44,15 @@ const Options = (props) => {
                       questionsChoosedOptionIds[
                         item.learning_material_test_question_id
                       ] &&
-                      questionsChoosedOptionIds[
+                        questionsChoosedOptionIds[
                         item.learning_material_test_question_id
-                      ] == item.id
+                        ] == item.id
                         ? 'checkbox-marked-circle-outline'
                         : 'circle-outline'
                     }
                   />
                   <View style={styles.itemTextContainer}>
-                    <HTMLrender content={item.option_text.replace(/\n/, '')} />
+                    <HTMLrender content={`${item.option_text}`} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -64,7 +64,7 @@ const Options = (props) => {
   } else {
     return (
       <>
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.containerContent} style={styles.container}>
           {options.map((item) => {
             let itemIcon = 'circle-outline';
             const itemStyle = [styles.item];
@@ -72,9 +72,9 @@ const Options = (props) => {
             if (
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
               item.id ===
-                (reviewQuestionsChoosedOptions[question.id] &&
-                  reviewQuestionsChoosedOptions[question.id]
-                    .learning_material_test_question_option_id)
+              (reviewQuestionsChoosedOptions[question.id] &&
+                reviewQuestionsChoosedOptions[question.id]
+                  .learning_material_test_question_option_id)
             ) {
               // Answered, this is right, this is choosed
               itemIcon = 'checkbox-marked-circle-outline';
@@ -83,8 +83,8 @@ const Options = (props) => {
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
               reviewQuestionsChoosedOptions[question.id] &&
               item.id !==
-                reviewQuestionsChoosedOptions[question.id]
-                  .learning_material_test_question_option_id
+              reviewQuestionsChoosedOptions[question.id]
+                .learning_material_test_question_option_id
             ) {
               // Answered, this is right, but choosed something else
               itemIcon = 'checkbox-marked-circle-outline';
@@ -118,7 +118,7 @@ const Options = (props) => {
                     name={itemIcon}
                   />
                   <View style={styles.itemTextContainer}>
-                    <HTMLrender content={item.option_text.replace(/\n/, '')} />
+                    <HTMLrender content={item.option_text} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -133,6 +133,9 @@ const Options = (props) => {
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
+  },
+  containerContent: {
+    paddingBottom: 16,
   },
   item: {
     flexDirection: 'row',
