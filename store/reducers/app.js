@@ -3,8 +3,10 @@ import * as types from '../types/app';
 
 const initialState = {
   activePackageId: null,
+  activePackageCstItemIds: null, // Courses only -
   subscribedUser: null,
   homeScreenDataLoaded: false,
+  filterMenuToggled: true,
 };
 
 export default (state = initialState, action) => {
@@ -12,6 +14,13 @@ export default (state = initialState, action) => {
     case types.activePackageId: {
       const updatedState = update(state, {
         activePackageId: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.activePackageCstItemIds: {
+      const updatedState = update(state, {
+        activePackageCstItemIds: { $set: action.payload },
       });
       return updatedState;
     }
@@ -26,6 +35,13 @@ export default (state = initialState, action) => {
     case types.homeScreenDataLoaded: {
       const updatedState = update(state, {
         homeScreenDataLoaded: { $set: action.payload },
+      });
+      return updatedState;
+    }
+
+    case types.filterMenuToggled: {
+      const updatedState = update(state, {
+        filterMenuToggled: { $set: action.payload },
       });
       return updatedState;
     }

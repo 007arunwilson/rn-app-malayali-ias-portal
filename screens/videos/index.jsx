@@ -12,6 +12,7 @@ import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyL
 import VideosList from './videosList';
 import { Navigation } from 'react-native-navigation';
 import { navComponents, bindPassProps } from '../../navigation';
+import Filters from './filters';
 const Videos = () => {
   const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos.byIndex);
@@ -34,6 +35,7 @@ const Videos = () => {
   };
 
   const loadMore = () => {
+    console.log('loadmore ..');
     const nextPage = page + 1;
     const totalPage = Math.ceil(count / limit);
 
@@ -41,6 +43,10 @@ const Videos = () => {
       dispatch(videosActions.loadVideos({ page: page + 1 }));
     }
   };
+
+  const onFilterChange = (cstItemId) => {
+    dispatch(videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }));
+  }
 
   return (
     <>
@@ -51,13 +57,16 @@ const Videos = () => {
             {count === 0 ? (
               <FullscreenEmptyList />
             ) : (
-                <VideosList
-                  onVideoPress={onVideoPress}
-                  videos={videos}
-                  count={count}
-                  loading={loading}
-                  loadMore={loadMore}
-                />
+                <>
+                  <Filters onFilterChange={onFilterChange} />
+                  <VideosList
+                    onVideoPress={onVideoPress}
+                    videos={videos}
+                    count={count}
+                    loading={loading}
+                    loadMore={loadMore}
+                  />
+                </>
               )}
           </>
         )}
