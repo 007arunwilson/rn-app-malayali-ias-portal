@@ -12,6 +12,7 @@ const color = {
   backgroundDark: '#E1E2E1',
   white: '#ffffff',
   shadowWhite: '#F0F3F4',
+  dimWhite: '#F7F9F9',
   text: 'rgba(0,0,0,0.87)',
   textLight: '#616161',
   black: '#000000',

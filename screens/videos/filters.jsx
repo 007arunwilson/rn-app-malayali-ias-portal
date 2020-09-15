@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
         paddingBottom: 6,
     },
     card: {
-        backgroundColor: color.white,
+        backgroundColor: color.dimWhite,
         alignSelf: 'stretch',
         alignItems: 'flex-start',
-        elevation: 2,
+        elevation: 1,
         borderRadius: 4,
         marginHorizontal: 24,
         marginTop: 12,
@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
     itemLabel: {
         fontSize: 13,
         flex: 1,
-        textAlign: 'right'
+        textAlign: 'right',
+        fontWeight: 'bold'
     },
     picker: {
         height: 24,
