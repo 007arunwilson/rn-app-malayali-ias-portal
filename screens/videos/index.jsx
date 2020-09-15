@@ -23,10 +23,9 @@ const Videos = () => {
   const [filter, setFilter] = useState({ subjectId: null, topicId: null });
 
   React.useEffect(() => {
-    if (count === null) {
-      dispatch(videosActions.loadVideos({ page }));
-    }
-  }, [count, dispatch, page]);
+    dispatch(videosActions.loadVideos({ page }));
+    return () => dispatch(videosActions.reset());
+  }, []);
 
   const onVideoPress = (videoItem) => {
     Navigation.push(
@@ -36,6 +35,7 @@ const Videos = () => {
   };
 
   const loadMore = () => {
+    console.log('load more', count);
     const nextPage = page + 1;
     const totalPage = Math.ceil(count / limit);
 
@@ -86,17 +86,17 @@ Videos.options = {
       {
         id: 'profile',
         component: {
-          name: 'topbar.userIcon',
+          name: 'topbar.menuIcon',
           aligment: 'center',
         },
       },
-      {
-        id: 'filter',
-        component: {
-          name: 'topbar.filterIcon',
-          aligment: 'center',
-        },
-      },
+      // {
+      //   id: 'filter',
+      //   component: {
+      //     name: 'topbar.filterIcon',
+      //     aligment: 'center',
+      //   },
+      // },
     ],
     title: {
       text: 'Videos',

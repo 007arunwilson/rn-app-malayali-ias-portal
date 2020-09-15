@@ -50,7 +50,7 @@ const loadVideos = (payload) => (dispatch, getState) => {
   const filterDataCstItemIds = state.videos.filterData.cstItemIds;
   const previousVideosByIndex = state.videos.byIndex;
   const activePackageId =
-    config.env === 'local' ? 31 : state.app.activePackageId;
+    config.env === 'local' ? 30 : state.app.activePackageId;
   const promises = [];
 
   if (filterDataCstItemIds === null) {
@@ -67,6 +67,7 @@ const loadVideos = (payload) => (dispatch, getState) => {
     promises.push(
       videosApi.getPackageVideosCount({
         urlParams: { packageId: activePackageId },
+        params: { cstItemIds: cstItemId && [cstItemId] },
       }),
     );
   } else {
@@ -82,11 +83,15 @@ const loadVideos = (payload) => (dispatch, getState) => {
 
   Promise.all(promises)
     .then(([filterDataCstItemIds, packageVideosCount, packageVideos]) => {
+      const lastestState = getState();
+      if (!lastestState.videos.loading) return; // Component unmounted and loading reset to false.
+
       if (typeof filterDataCstItemIds !== 'undefined') {
         dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));
       }
 
       if (typeof packageVideosCount !== 'undefined') {
+        console.log('packageVideosCount:', packageVideosCount);
         dispatch(updateCount(Number(packageVideosCount)));
       }
       let updatedVideosByIndex = packageVideos;

@@ -78,7 +78,7 @@ Exams.options = {
       {
         id: 'profile',
         component: {
-          name: 'topbar.userIcon',
+          name: 'topbar.menuIcon',
           aligment: 'center',
         },
       },
