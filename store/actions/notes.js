@@ -110,8 +110,8 @@ const loadNotes = (payload) => (dispatch, getState) => {
     .finally(() => dispatch(updateLoading(false)));
 };
 
-const navigateToNote = (noteItem) => () => {
-  Navigation.push('notes', bindPassProps({ noteItem }, navComponents.note));
+const navigateToNote = ({ noteItem, navigation }) => () => {
+  Navigation.push(navigation.from, bindPassProps({ noteItem }, navComponents.note));
 };
 
 export { loadNotes, navigateToNote, reset };

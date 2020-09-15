@@ -9,10 +9,11 @@ import * as appActions from '../../store/actions/app';
 import { useDispatch, useSelector } from 'react-redux';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import NotSubscribedAlert from './notSubscribedAlert';
-import Card from '../../components/miscellaneous/card';
-import { Navigation } from 'react-native-navigation';
-import { navComponents } from '../../navigation';
-import Slider from './slider';
+import Banner from './banner';
+import ImageSlider from './imageSlider';
+import VideoSlider from './videosSlider';
+import ExamsSlider from './examsSlider';
+import NotesSlider from './notesSlider';
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -27,18 +28,6 @@ const Home = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onExamsCardPress = () => {
-    Navigation.push('home', navComponents.exams);
-  };
-
-  const onVideosCardPress = () => {
-    Navigation.push('home', navComponents.videos);
-  };
-
-  const onNotesCardPress = () => {
-    Navigation.push('home', navComponents.notes);
-  };
-
   return (
     <>
       {!homeScreenDataLoaded ? <FullscreenLoader /> : null}
@@ -48,12 +37,11 @@ const Home = (props) => {
           <ScrollView
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
-            <View style={styles.cardsContainer}>
-              <Card text={'Videos'} onPress={onVideosCardPress} />
-              <Card text={'Exams'} onPress={onExamsCardPress} />
-              <Card text={'Notes'} onPress={onNotesCardPress} />
-            </View>
-            <Slider />
+            <Banner url={'https://quditinfotech.s3.amazonaws.com/banner.jpeg'} />
+            <VideoSlider />
+            <ExamsSlider />
+            <NotesSlider />
+            <ImageSlider />
 
           </ScrollView>
         </>
@@ -71,14 +59,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   scrollview: {
-    marginTop: 10,
-    width: '80%',
     alignSelf: 'center',
-  },
-  cardsContainer: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
 });
 

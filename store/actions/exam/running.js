@@ -434,7 +434,10 @@ const exitReview = () => (dispatch) => {
   dispatch(examDetailActions.reset());
   dispatch(examAttempDataActions.reset());
   dispatch(updateReady(false));
-  Navigation.popTo('exams');
+  Navigation.popTo('exams').catch(() => {
+    // If pop to exams failed, then it's a direct access from home direct, so poping to home
+    Navigation.popTo('home');
+  });
 };
 
 export {

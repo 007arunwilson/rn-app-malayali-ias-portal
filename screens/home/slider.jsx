@@ -4,16 +4,16 @@
  */
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  ActivityIndicator,
-  TouchableHighlight,
-  Dimensions,
-  FlatList
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+    ActivityIndicator,
+    TouchableHighlight,
+    Dimensions,
+    FlatList
 } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { color } from '../../config';
@@ -26,16 +26,6 @@ const ImageInSlider = ({ item, index, componentId }) => {
 
     const onCurrentImagePressedHandler = () => {
         console.log(`${item.id} is clicked`)
-        Navigation.push(componentId, {
-            component: {
-                name: 'nav.eventDetails',
-                options: {
-                    topBar: {
-                        visible: false
-                    }
-                }
-            }
-        });
     }
 
     return (
@@ -43,7 +33,7 @@ const ImageInSlider = ({ item, index, componentId }) => {
             style={{
                 position: "relative",
                 justifyContent: "center",
-                width: wp(30)
+                width: wp(100)
             }}
         >
             <TouchableHighlight
@@ -79,7 +69,7 @@ const ImageInSlider = ({ item, index, componentId }) => {
 }
 
 const Slider = (props) => {
-    let flatListRef;
+    // let flatListRef;
 
 
     const getBgImg = (i) => {
@@ -116,15 +106,15 @@ const Slider = (props) => {
         <View style={styles.container}>
             <Text style={styles.titleText}>{'Louis'}</Text>
             <FlatList
-                ref={ref => { flatListRef = ref }}
+                // ref={ref => { flatListRef = ref }}
                 data={[...Array(8)].map((_, i) => getBgImg(i))}
                 onViewableItemsChanged={onViewRef.current}
                 renderItem={({ item, index }) => <ImageInSlider item={item} index={index} {...props} />}
-                keyExtractor={item => item.id}
+                keyExtractor={(item, index) => `-${index}`}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 snapToAlignment={"start"}
-                snapToInterval={wp(30)}
+                snapToInterval={wp(100)}
                 decelerationRate={"fast"}
                 pagingEnabled
                 // style={{flex: 0.6}}
@@ -151,8 +141,8 @@ const styles = StyleSheet.create({
         fontWeight: "700"
     },
     sliderImg: {
-        width: wp(30),
-        height: wp(30),
+        width: wp(100),
+        height: wp(80),
         alignSelf: "flex-start"
     },
 });

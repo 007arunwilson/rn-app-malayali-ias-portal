@@ -26,7 +26,7 @@ const Notes = () => {
   }, []);
 
   const onNoteSelect = (noteItem) => {
-    dispatch(notesActions.navigateToNote(noteItem));
+    dispatch(notesActions.navigateToNote({ noteItem, navigation: { from: 'notes' } }));
   };
 
   const loadMore = () => {
