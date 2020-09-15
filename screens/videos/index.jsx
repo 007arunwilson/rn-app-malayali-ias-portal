@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { color } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import * as videosActions from '../../store/actions/videos';
@@ -20,7 +20,7 @@ const Videos = () => {
   const loading = useSelector((state) => state.videos.loading);
   const limit = useSelector((state) => state.videos.pagination.limit);
   const page = useSelector((state) => state.videos.pagination.page);
-  const [filter, setFilter] = useState({ subjectId: null, topicId: null });
+  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
 
   React.useEffect(() => {
     dispatch(videosActions.loadVideos({ page }));
@@ -35,7 +35,6 @@ const Videos = () => {
   };
 
   const loadMore = () => {
-    console.log('load more', count);
     const nextPage = page + 1;
     const totalPage = Math.ceil(count / limit);
 
@@ -90,13 +89,6 @@ Videos.options = {
           aligment: 'center',
         },
       },
-      // {
-      //   id: 'filter',
-      //   component: {
-      //     name: 'topbar.filterIcon',
-      //     aligment: 'center',
-      //   },
-      // },
     ],
     title: {
       text: 'Videos',

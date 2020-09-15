@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 const Filters = (props) => {
     const { filter, setFilter, onFilterChange } = props;
     const { byTypeValue, byParentId } = useSelector((state) => state.masters.cstItems);
-    const { cstItemIds: filterDataCstItemIds } = useSelector((state) => state.videos.filterData);
+    const { cstItemIds: filterDataCstItemIds } = useSelector((state) => state.notes.filterData);
     const { activePackageCstItemIds: { [0]: activePackageCstItemId } } = useSelector((state) => state.app); // Getting first cst item id as acive course
 
     const onSubjectChange = (itemValue) => {
@@ -37,7 +37,7 @@ const Filters = (props) => {
         <View style={styles.container}>
             <View style={styles.card}>
                 <View style={styles.content}>
-                    <Text style={styles.title} >Show videos by</Text>
+                    <Text style={styles.title} >Show notes by</Text>
                     <View style={styles.itemContainerWrapper} >
                         <View style={styles.itemContainer} >
                             <View style={styles.item} >

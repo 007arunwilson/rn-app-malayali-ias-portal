@@ -9,11 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as notesActions from '../../store/actions/notes';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyList';
-
-import { Navigation } from 'react-native-navigation';
-import { navComponents, bindPassProps } from '../../navigation';
 import NotesList from './notesList';
-
+import Filters from './filters';
 const Notes = () => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.byIndex);
@@ -21,12 +18,18 @@ const Notes = () => {
   const limit = useSelector((state) => state.notes.pagination.limit);
   const loading = useSelector((state) => state.notes.loading);
   const page = useSelector((state) => state.notes.pagination.page);
+  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
 
   React.useEffect(() => {
     if (count === null) {
       dispatch(notesActions.loadNotes({ page }));
     }
   }, [count, dispatch, page]);
+
+  React.useEffect(() => {
+    dispatch(notesActions.loadNotes({ page }));
+    return () => dispatch(notesActions.reset());
+  }, []);
 
   const onNoteSelect = (noteItem) => {
     dispatch(notesActions.navigateToNote(noteItem));
@@ -37,29 +40,43 @@ const Notes = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(notesActions.loadNotes({ page: page + 1 }));
+      dispatch(notesActions.loadNotes({ page: page + 1, cstItemId: (filter.topicId || filter.subjectId) }));
     }
   };
+
+  const onFilterChange = (cstItemId) =>
+    dispatch(notesActions.loadNotes({ page: 1, cstItemId, updateCount: true }))
+
+  const onRefresh = () =>
+    dispatch(notesActions.loadNotes({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
+
 
   return (
     <>
       {count === null ? (
         <FullscreenLoader />
       ) : (
-        <>
-          {count === 0 ? (
-            <FullscreenEmptyList />
-          ) : (
-            <NotesList
-              onNoteSelect={onNoteSelect}
-              notes={notes}
-              count={count}
-              loading={loading}
-              loadMore={loadMore}
-            />
-          )}
-        </>
-      )}
+          <>
+            {count === 0 ? (
+              <FullscreenEmptyList />
+            ) : (
+                <>
+                  <Filters
+                    filter={filter}
+                    onFilterChange={onFilterChange}
+                    setFilter={setFilter} />
+                  <NotesList
+                    onNoteSelect={onNoteSelect}
+                    notes={notes}
+                    count={count}
+                    loading={loading}
+                    loadMore={loadMore}
+                    onRefresh={onRefresh}
+                  />
+                </>
+              )}
+          </>
+        )}
     </>
   );
 };

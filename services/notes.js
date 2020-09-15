@@ -40,4 +40,25 @@ const getPackageNotes = ({ params, urlParams }) =>
       );
   });
 
-export { getPackageNotesCount, getPackageNotes };
+
+const getFilterDataCstItemIds = ({ params, urlParams }) => new Promise((resolve, reject) => {
+  axios.auth
+    .request({
+      url: `/package/${urlParams.packageId}/learning-material/notes/filter-data/cst-item-ids`,
+      method: 'GET',
+      params,
+    })
+    .then(
+      ({ data: { data: responseData } }) => {
+        if (responseData) {
+          resolve(responseData);
+        }
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+});
+
+
+export { getPackageNotesCount, getPackageNotes, getFilterDataCstItemIds };

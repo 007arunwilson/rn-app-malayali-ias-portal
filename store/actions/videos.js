@@ -2,7 +2,7 @@ import * as types from '../types/videos';
 import * as videosApi from '../../services/videos';
 import config from '../../config';
 
-const reset = (payload) => (dispatch) =>
+const reset = () => (dispatch) =>
   dispatch({
     type: types.reset,
   });
@@ -91,7 +91,6 @@ const loadVideos = (payload) => (dispatch, getState) => {
       }
 
       if (typeof packageVideosCount !== 'undefined') {
-        console.log('packageVideosCount:', packageVideosCount);
         dispatch(updateCount(Number(packageVideosCount)));
       }
       let updatedVideosByIndex = packageVideos;
