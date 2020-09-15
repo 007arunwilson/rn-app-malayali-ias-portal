@@ -21,12 +21,6 @@ const Notes = () => {
   const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
 
   React.useEffect(() => {
-    if (count === null) {
-      dispatch(notesActions.loadNotes({ page }));
-    }
-  }, [count, dispatch, page]);
-
-  React.useEffect(() => {
     dispatch(notesActions.loadNotes({ page }));
     return () => dispatch(notesActions.reset());
   }, []);

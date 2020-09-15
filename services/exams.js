@@ -60,5 +60,4 @@ const getFilterDataCstItemIds = ({ params, urlParams }) => new Promise((resolve,
     );
 });
 
-
 export { getPackageExamsCount, getPackageExamsWithUserAttempt, getFilterDataCstItemIds };

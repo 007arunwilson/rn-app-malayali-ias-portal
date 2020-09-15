@@ -8,6 +8,11 @@ import * as examRunningActions from '../actions/exam/running';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
 
+const reset = (payload) => (dispatch) =>
+  dispatch({
+    type: types.reset,
+  });
+
 const updateCount = (payload) => (dispatch) =>
   dispatch({
     type: types.count,
@@ -32,25 +37,43 @@ const updatePaginationPage = (payload) => (dispatch) =>
     payload,
   });
 
-const reset = (payload) => (dispatch) =>
+const updateFilterDataCstItemIds = (payload) => (dispatch) =>
   dispatch({
-    type: types.reset,
+    type: types.filterDataCstItemIds,
+    payload,
   });
 
 const loadExams = (payload) => (dispatch, getState) => {
+  const { page, updateCount: isUpdateCount, cstItemId } = payload;
+  dispatch(updateLoading(true));
+  if (isUpdateCount) {
+    dispatch(updateByIndex(null));
+  }
+
   const state = getState();
   const count = state.exams.count;
-  const previousExamsByIndex = state.exams.byIndex;
   const limit = state.exams.pagination.limit;
+  const filterDataCstItemIds = state.exams.filterData.cstItemIds;
+  const previousExamsByIndex = state.exams.byIndex;
   const activePackageId =
-    config.env === 'local-' ? 30 : state.app.activePackageId;
+    config.env === 'local' ? 32 : state.app.activePackageId;
   const promises = [];
-  const { page } = payload;
 
-  if (count === null) {
+  if (filterDataCstItemIds === null) {
+    promises.push(
+      examsApi.getFilterDataCstItemIds({
+        urlParams: { packageId: activePackageId },
+      }),
+    );
+  } else {
+    promises.push(Promise.resolve());
+  }
+
+  if (count === null || isUpdateCount) {
     promises.push(
       examsApi.getPackageExamsCount({
         urlParams: { packageId: activePackageId },
+        params: { cstItemIds: cstItemId && [cstItemId] },
       }),
     );
   } else {
@@ -60,24 +83,34 @@ const loadExams = (payload) => (dispatch, getState) => {
   promises.push(
     examsApi.getPackageExamsWithUserAttempt({
       urlParams: { packageId: activePackageId },
-      params: { page, limit },
+      params: { page, limit, cstItemIds: cstItemId && [cstItemId] },
     }),
   );
 
-  dispatch(updateLoading(true));
+
   Promise.all(promises)
-    .then(([packageExamsCount, packageExamsWithUserAttempt]) => {
+    .then(([filterDataCstItemIds, packageExamsCount, packageExams]) => {
+      const lastestState = getState();
+      if (!lastestState.exams.loading) return; // Component unmounted and loading reset to false.
+
+      if (typeof filterDataCstItemIds !== 'undefined') {
+        dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));
+      }
+
       if (typeof packageExamsCount !== 'undefined') {
         dispatch(updateCount(Number(packageExamsCount)));
       }
-      let updatedExamsByIndex = packageExamsWithUserAttempt;
+      let updatedExamsByIndex = packageExams;
       if (previousExamsByIndex) {
-        updatedExamsByIndex = [...previousExamsByIndex, ...updatedExamsByIndex];
+        updatedExamsByIndex = [
+          ...previousExamsByIndex,
+          ...updatedExamsByIndex,
+        ];
       }
       dispatch(updateByIndex(updatedExamsByIndex));
       dispatch(updatePaginationPage(page));
     })
-    .catch((error) => error)
+    .catch((error) => console.log(error))
     .finally(() => dispatch(updateLoading(false)));
 };
 

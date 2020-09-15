@@ -10,9 +10,8 @@ import * as examsActions from '../../store/actions/exams';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyList';
 
-import { Navigation } from 'react-native-navigation';
-import { navComponents, bindPassProps } from '../../navigation';
 import ExamsList from './examsList';
+import Filters from './filters';
 
 const Exams = () => {
   const dispatch = useDispatch();
@@ -21,12 +20,12 @@ const Exams = () => {
   const limit = useSelector((state) => state.exams.pagination.limit);
   const loading = useSelector((state) => state.exams.loading);
   const page = useSelector((state) => state.exams.pagination.page);
+  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
 
   React.useEffect(() => {
-    if (count === null) {
-      dispatch(examsActions.loadExams({ page }));
-    }
-  }, [count, dispatch, page]);
+    dispatch(examsActions.loadExams({ page }));
+    return () => dispatch(examsActions.reset());
+  }, []);
 
   const onExamSelect = (examItem) => {
     dispatch(
@@ -45,29 +44,42 @@ const Exams = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(examsActions.loadExams({ page: page + 1 }));
+      dispatch(examsActions.loadExams({ page: page + 1, cstItemId: (filter.topicId || filter.subjectId) }));
     }
   };
+
+  const onFilterChange = (cstItemId) =>
+    dispatch(examsActions.loadExams({ page: 1, cstItemId, updateCount: true }))
+
+  const onRefresh = () =>
+    dispatch(examsActions.loadExams({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
 
   return (
     <>
       {count === null ? (
         <FullscreenLoader />
       ) : (
-        <>
-          {count === 0 ? (
-            <FullscreenEmptyList />
-          ) : (
-            <ExamsList
-              onExamSelect={onExamSelect}
-              exams={exams}
-              count={count}
-              loading={loading}
-              loadMore={loadMore}
-            />
-          )}
-        </>
-      )}
+          <>
+            {count === 0 ? (
+              <FullscreenEmptyList />
+            ) : (
+                <>
+                  <Filters
+                    filter={filter}
+                    onFilterChange={onFilterChange}
+                    setFilter={setFilter} />
+                  <ExamsList
+                    onExamSelect={onExamSelect}
+                    exams={exams}
+                    count={count}
+                    loading={loading}
+                    loadMore={loadMore}
+                    onRefresh={onRefresh}
+                  />
+                </>
+              )}
+          </>
+        )}
     </>
   );
 };
