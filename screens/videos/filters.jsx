@@ -9,20 +9,18 @@ import { Picker } from '@react-native-community/picker';
 import { useSelector } from 'react-redux';
 
 const Filters = (props) => {
-    const { onFilterChange } = props; 
-    const [subjectId, setSubjectId] = React.useState(null);
-    const [topicId, setTopicId] = React.useState(null);
+    const { filter, setFilter, onFilterChange } = props;
     const { byTypeValue, byParentId } = useSelector((state) => state.masters.cstItems);
     const { activePackageCstItemIds: { [0]: activePackageCstItemId } } = useSelector((state) => state.app); // Getting first cst item id as acive course
 
     const onSubjectChange = (itemValue) => {
-        setSubjectId(itemValue);
+        setFilter(state => ({ ...state, subjectId: itemValue }))
         onFilterChange(itemValue);
     }
 
     const onTopciChange = (itemValue) => {
-        setTopicId(itemValue);
-        onFilterChange(itemValue || subjectId);
+        setFilter(state => ({ ...state, topicId: itemValue }))
+        onFilterChange(itemValue || filter.subjectId);
     }
 
     const subjectSelectables = React.useMemo(() => {
@@ -30,8 +28,8 @@ const Filters = (props) => {
     }, [byTypeValue, activePackageCstItemId]);
 
     const topicSelectables = React.useMemo(() => {
-        return byParentId[subjectId] && byParentId[subjectId].length > 1 ? byParentId[subjectId] : null;
-    }, [byTypeValue, activePackageCstItemId, subjectId]);
+        return byParentId[filter.subjectId] && byParentId[filter.subjectId].length > 1 ? byParentId[filter.subjectId] : null;
+    }, [byTypeValue, activePackageCstItemId, filter.subjectId]);
 
 
     return (
@@ -44,7 +42,7 @@ const Filters = (props) => {
                             <View style={styles.item} >
                                 <Text style={styles.itemLabel} >Subject : </Text>
                                 <Picker
-                                    selectedValue={subjectId}
+                                    selectedValue={filter.subjectId}
                                     style={styles.picker}
                                     itemStyle={styles.pickerItem}
                                     onValueChange={onSubjectChange}>
@@ -58,7 +56,7 @@ const Filters = (props) => {
                                 <View style={styles.item} >
                                     <Text style={styles.itemLabel} >Topic : </Text>
                                     <Picker
-                                        selectedValue={topicId}
+                                        selectedValue={filter.topicId}
                                         style={styles.picker}
                                         itemStyle={styles.pickerItem}
                                         onValueChange={onTopciChange}>
