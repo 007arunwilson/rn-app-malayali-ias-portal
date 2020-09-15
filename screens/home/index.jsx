@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, FlatList } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
 import * as appActions from '../../store/actions/app';
@@ -12,6 +12,7 @@ import NotSubscribedAlert from './notSubscribedAlert';
 import Card from '../../components/miscellaneous/card';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
+import Slider from './slider';
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -52,6 +53,8 @@ const Home = (props) => {
               <Card text={'Exams'} onPress={onExamsCardPress} />
               <Card text={'Notes'} onPress={onNotesCardPress} />
             </View>
+            <Slider />
+
           </ScrollView>
         </>
       ) : null}

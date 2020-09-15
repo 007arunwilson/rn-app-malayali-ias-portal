@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as appActions from '../../../store/actions/app';
 import MenuItem from './menutItem';
 import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../../navigation';
 
 const SidebarDefault = (props) => {
   const dispatch = useDispatch();
@@ -67,11 +68,17 @@ const SidebarDefault = (props) => {
             });
           }}
         />
-        {/*
-      <MenuItem text={'Videos'} icon={'play-circle'} onClick={() => {}} />
-      <MenuItem text={'Exams'} icon={'clipboard-text'} onClick={() => {}} />
-      <MenuItem text={'Notes'} icon={'note'} onClick={() => {}} />
-       */}
+
+        <MenuItem text={'Videos'} icon={'play-circle'} onClick={() => {
+
+          Navigation.push('home', navComponents.videos).finally(() => {
+            backAction();
+          });
+
+        }} />
+        <MenuItem text={'Exams'} icon={'clipboard-text'} onClick={() => { }} />
+        <MenuItem text={'Notes'} icon={'note'} onClick={() => { }} />
+
         <MenuItem
           text={'Logout'}
           icon={'logout'}
