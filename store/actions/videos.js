@@ -2,6 +2,11 @@ import * as types from '../types/videos';
 import * as videosApi from '../../services/videos';
 import config from '../../config';
 
+const reset = (payload) => (dispatch) =>
+  dispatch({
+    type: types.reset,
+  });
+
 const updateCount = (payload) => (dispatch) =>
   dispatch({
     type: types.count,
@@ -98,4 +103,4 @@ const loadVideos = (payload) => (dispatch, getState) => {
     .finally(() => dispatch(updateLoading(false)));
 };
 
-export { loadVideos };
+export { loadVideos, reset };

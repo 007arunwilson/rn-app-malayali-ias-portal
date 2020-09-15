@@ -44,9 +44,11 @@ const Videos = () => {
     }
   };
 
-  const onFilterChange = (cstItemId) => {
-    dispatch(videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }));
-  }
+  const onFilterChange = (cstItemId) =>
+    dispatch(videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }))
+
+  const onRefresh = () =>
+    dispatch(videosActions.loadVideos({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
 
   return (
     <>
@@ -68,6 +70,7 @@ const Videos = () => {
                     count={count}
                     loading={loading}
                     loadMore={loadMore}
+                    onRefresh={onRefresh}
                   />
                 </>
               )}

@@ -14,7 +14,7 @@ const Filters = (props) => {
     const { activePackageCstItemIds: { [0]: activePackageCstItemId } } = useSelector((state) => state.app); // Getting first cst item id as acive course
 
     const onSubjectChange = (itemValue) => {
-        setFilter(state => ({ ...state, subjectId: itemValue }))
+        setFilter({ subjectId: itemValue, topicId: null });
         onFilterChange(itemValue);
     }
 
