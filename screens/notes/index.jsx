@@ -18,15 +18,21 @@ const Notes = () => {
   const limit = useSelector((state) => state.notes.pagination.limit);
   const loading = useSelector((state) => state.notes.loading);
   const page = useSelector((state) => state.notes.pagination.page);
-  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
+  const [filter, setFilter] = React.useState({
+    subjectId: null,
+    topicId: null,
+  });
 
   React.useEffect(() => {
     dispatch(notesActions.loadNotes({ page }));
     return () => dispatch(notesActions.reset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onNoteSelect = (noteItem) => {
-    dispatch(notesActions.navigateToNote({ noteItem, navigation: { from: 'notes' } }));
+    dispatch(
+      notesActions.navigateToNote({ noteItem, navigation: { from: 'notes' } }),
+    );
   };
 
   const loadMore = () => {
@@ -34,43 +40,54 @@ const Notes = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(notesActions.loadNotes({ page: page + 1, cstItemId: (filter.topicId || filter.subjectId) }));
+      dispatch(
+        notesActions.loadNotes({
+          page: page + 1,
+          cstItemId: filter.topicId || filter.subjectId,
+        }),
+      );
     }
   };
 
   const onFilterChange = (cstItemId) =>
-    dispatch(notesActions.loadNotes({ page: 1, cstItemId, updateCount: true }))
+    dispatch(notesActions.loadNotes({ page: 1, cstItemId, updateCount: true }));
 
   const onRefresh = () =>
-    dispatch(notesActions.loadNotes({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
-
+    dispatch(
+      notesActions.loadNotes({
+        page: 1,
+        cstItemId: filter.topicId || filter.subjectId,
+        updateCount: true,
+      }),
+    );
 
   return (
     <>
       {count === null ? (
         <FullscreenLoader />
       ) : (
-          <>
-            {count === 0 ? (
-              <FullscreenEmptyList />
-            ) : (
-                <>
-                  <Filters
-                    filter={filter}
-                    onFilterChange={onFilterChange}
-                    setFilter={setFilter} />
-                  <NotesList
-                    onNoteSelect={onNoteSelect}
-                    notes={notes}
-                    count={count}
-                    loading={loading}
-                    loadMore={loadMore}
-                    onRefresh={onRefresh}
-                  />
-                </>
-              )}
-          </>
-        )}
+        <>
+          {count === 0 ? (
+            <FullscreenEmptyList />
+          ) : (
+            <>
+              <Filters
+                filter={filter}
+                onFilterChange={onFilterChange}
+                setFilter={setFilter}
+              />
+              <NotesList
+                onNoteSelect={onNoteSelect}
+                notes={notes}
+                count={count}
+                loading={loading}
+                loadMore={loadMore}
+                onRefresh={onRefresh}
+              />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

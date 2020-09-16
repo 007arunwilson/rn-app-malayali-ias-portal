@@ -14,8 +14,8 @@ const initialState = {
     cstItemId: null,
   },
   filterData: {
-    cstItemIds: null
-  }
+    cstItemIds: null,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
     case types.filtersCstItemId: {
       const updatedState = update(state, {
         filters: {
-          cstItemId: { $set: action.payload }
+          cstItemId: { $set: action.payload },
         },
       });
       return updatedState;
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
     case types.filterDataCstItemIds: {
       const updatedState = update(state, {
         filterData: {
-          cstItemIds: { $set: action.payload }
+          cstItemIds: { $set: action.payload },
         },
       });
       return updatedState;

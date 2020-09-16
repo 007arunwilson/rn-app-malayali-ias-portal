@@ -109,15 +109,24 @@ const populateHomeScreenData = () => (dispatch, getState) => {
         .getCstItems()
         .then(masterActions.prepareDispatchObject)
         .then(({ byTypeValue, byParentId }) => {
-          console.log('{ byTypeValue, byParentId }', { byTypeValue, byParentId });
+          console.log('{ byTypeValue, byParentId }', {
+            byTypeValue,
+            byParentId,
+          });
           dispatch(masterActions.updateCstItemsByParentId(byParentId));
           dispatch(masterActions.updateCstItemsByTypeValue(byTypeValue));
-        }).then(resolve);
+        })
+        .then(resolve);
     }),
     new Promise((resolve) => {
-      packagesApi.getPackagesCstItemIdsOfCourse({ urlParams: { packageId: activePackageId } }).then(result => {
-        dispatch(updateActivePackageCstItemIds(result));
-      }).then(resolve)
+      packagesApi
+        .getPackagesCstItemIdsOfCourse({
+          urlParams: { packageId: activePackageId },
+        })
+        .then((result) => {
+          dispatch(updateActivePackageCstItemIds(result));
+        })
+        .then(resolve);
     }),
   ]).then(() => dispatch(updateHomeScreenDataLoaded(true)));
 };

@@ -69,23 +69,39 @@ const SidebarDefault = (props) => {
           }}
         />
 
-        <MenuItem text={'Videos'} icon={'play-circle'} onClick={() => {
-
-          Navigation.push('home', navComponents.videos).catch(error => error).finally(() => {
-            backAction();
-          });
-
-        }} />
-        <MenuItem text={'Exams'} icon={'clipboard-text'} onClick={() => {
-          Navigation.push('home', navComponents.exams).catch(error => error).finally(() => {
-            backAction();
-          });
-        }} />
-        <MenuItem text={'Notes'} icon={'note'} onClick={() => {
-          Navigation.push('home', navComponents.notes).catch(error => error).finally(() => {
-            backAction();
-          });
-        }} />
+        <MenuItem
+          text={'Videos'}
+          icon={'play-circle'}
+          onClick={() => {
+            Navigation.push('home', navComponents.videos)
+              .catch((error) => error)
+              .finally(() => {
+                backAction();
+              });
+          }}
+        />
+        <MenuItem
+          text={'Exams'}
+          icon={'clipboard-text'}
+          onClick={() => {
+            Navigation.push('home', navComponents.exams)
+              .catch((error) => error)
+              .finally(() => {
+                backAction();
+              });
+          }}
+        />
+        <MenuItem
+          text={'Notes'}
+          icon={'note'}
+          onClick={() => {
+            Navigation.push('home', navComponents.notes)
+              .catch((error) => error)
+              .finally(() => {
+                backAction();
+              });
+          }}
+        />
 
         <MenuItem
           text={'Logout'}

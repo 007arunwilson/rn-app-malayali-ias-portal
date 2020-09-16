@@ -1,6 +1,5 @@
 import * as types from '../types/notes';
 import * as notesApi from '../../services/notes';
-import * as noteActions from '../actions/note';
 import config from '../../config';
 import { Navigation } from 'react-native-navigation';
 import { bindPassProps, navComponents } from '../../navigation';
@@ -53,7 +52,9 @@ const loadNotes = (payload) => (dispatch, getState) => {
   const filterDataCstItemIds = state.videos.filterData.cstItemIds;
   const previousNotesByIndex = state.notes.byIndex;
   const activePackageId =
-    config.env === 'local' ? 32 || state.app.activePackageId : state.app.activePackageId;
+    config.env === 'local'
+      ? 32 || state.app.activePackageId
+      : state.app.activePackageId;
   const promises = [];
 
   if (filterDataCstItemIds === null) {
@@ -87,7 +88,9 @@ const loadNotes = (payload) => (dispatch, getState) => {
   Promise.all(promises)
     .then(([filterDataCstItemIds, packageNotesCount, packageNotes]) => {
       const lastestState = getState();
-      if (!lastestState.notes.loading) return; // Component unmounted and loading reset to false.
+      if (!lastestState.notes.loading) {
+        return;
+      } // Component unmounted and loading reset to false.
 
       if (typeof filterDataCstItemIds !== 'undefined') {
         dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));
@@ -98,10 +101,7 @@ const loadNotes = (payload) => (dispatch, getState) => {
       }
       let updatedNotesByIndex = packageNotes;
       if (previousNotesByIndex) {
-        updatedNotesByIndex = [
-          ...previousNotesByIndex,
-          ...updatedNotesByIndex
-        ];
+        updatedNotesByIndex = [...previousNotesByIndex, ...updatedNotesByIndex];
       }
       dispatch(updateByIndex(updatedNotesByIndex));
       dispatch(updatePaginationPage(page));
@@ -111,7 +111,10 @@ const loadNotes = (payload) => (dispatch, getState) => {
 };
 
 const navigateToNote = ({ noteItem, navigation }) => () => {
-  Navigation.push(navigation.from, bindPassProps({ noteItem }, navComponents.note));
+  Navigation.push(
+    navigation.from,
+    bindPassProps({ noteItem }, navComponents.note),
+  );
 };
 
 export { loadNotes, navigateToNote, reset };

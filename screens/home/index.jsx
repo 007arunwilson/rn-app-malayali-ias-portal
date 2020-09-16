@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
 import * as appActions from '../../store/actions/app';
@@ -37,12 +37,13 @@ const Home = (props) => {
           <ScrollView
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
-            <Banner url={'https://quditinfotech.s3.amazonaws.com/banner.jpeg'} />
+            <Banner
+              url={'https://quditinfotech.s3.amazonaws.com/banner.jpeg'}
+            />
             <VideoSlider />
             <ExamsSlider />
             <NotesSlider />
             <ImageSlider />
-
           </ScrollView>
         </>
       ) : null}

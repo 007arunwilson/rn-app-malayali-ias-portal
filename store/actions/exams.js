@@ -87,11 +87,12 @@ const loadExams = (payload) => (dispatch, getState) => {
     }),
   );
 
-
   Promise.all(promises)
     .then(([filterDataCstItemIds, packageExamsCount, packageExams]) => {
       const lastestState = getState();
-      if (!lastestState.exams.loading) return; // Component unmounted and loading reset to false.
+      if (!lastestState.exams.loading) {
+        return;
+      } // Component unmounted and loading reset to false.
 
       if (typeof filterDataCstItemIds !== 'undefined') {
         dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));
@@ -102,10 +103,7 @@ const loadExams = (payload) => (dispatch, getState) => {
       }
       let updatedExamsByIndex = packageExams;
       if (previousExamsByIndex) {
-        updatedExamsByIndex = [
-          ...previousExamsByIndex,
-          ...updatedExamsByIndex,
-        ];
+        updatedExamsByIndex = [...previousExamsByIndex, ...updatedExamsByIndex];
       }
       dispatch(updateByIndex(updatedExamsByIndex));
       dispatch(updatePaginationPage(page));

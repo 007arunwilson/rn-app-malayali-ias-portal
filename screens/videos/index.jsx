@@ -20,11 +20,15 @@ const Videos = () => {
   const loading = useSelector((state) => state.videos.loading);
   const limit = useSelector((state) => state.videos.pagination.limit);
   const page = useSelector((state) => state.videos.pagination.page);
-  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
+  const [filter, setFilter] = React.useState({
+    subjectId: null,
+    topicId: null,
+  });
 
   React.useEffect(() => {
     dispatch(videosActions.loadVideos({ page }));
     return () => dispatch(videosActions.reset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onVideoPress = (videoItem) => {
@@ -39,42 +43,56 @@ const Videos = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(videosActions.loadVideos({ page: page + 1, cstItemId: (filter.topicId || filter.subjectId) }));
+      dispatch(
+        videosActions.loadVideos({
+          page: page + 1,
+          cstItemId: filter.topicId || filter.subjectId,
+        }),
+      );
     }
   };
 
   const onFilterChange = (cstItemId) =>
-    dispatch(videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }))
+    dispatch(
+      videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }),
+    );
 
   const onRefresh = () =>
-    dispatch(videosActions.loadVideos({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
+    dispatch(
+      videosActions.loadVideos({
+        page: 1,
+        cstItemId: filter.topicId || filter.subjectId,
+        updateCount: true,
+      }),
+    );
 
   return (
     <>
       {count === null ? (
         <FullscreenLoader />
       ) : (
-          <>
-            {count === 0 ? (
-              <FullscreenEmptyList />
-            ) : (
-                <>
-                  <Filters
-                    filter={filter}
-                    onFilterChange={onFilterChange}
-                    setFilter={setFilter} />
-                  <VideosList
-                    onVideoPress={onVideoPress}
-                    videos={videos}
-                    count={count}
-                    loading={loading}
-                    loadMore={loadMore}
-                    onRefresh={onRefresh}
-                  />
-                </>
-              )}
-          </>
-        )}
+        <>
+          {count === 0 ? (
+            <FullscreenEmptyList />
+          ) : (
+            <>
+              <Filters
+                filter={filter}
+                onFilterChange={onFilterChange}
+                setFilter={setFilter}
+              />
+              <VideosList
+                onVideoPress={onVideoPress}
+                videos={videos}
+                count={count}
+                loading={loading}
+                loadMore={loadMore}
+                onRefresh={onRefresh}
+              />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

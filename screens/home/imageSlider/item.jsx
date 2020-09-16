@@ -3,54 +3,52 @@
  * @flow strict-local
  */
 import React, { useState } from 'react';
-import {
-    View,
-    Image,
-    ActivityIndicator
-} from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { color } from '../../../config';
 
-const Item = ({ item, index }) => {
+const Item = ({ item }) => {
+  const [loaded, setLoaded] = useState(false);
 
-    console.log('item:', item);
+  return (
+    <View style={styles.item}>
+      <Image
+        style={styles.image}
+        source={{ uri: item }} //typeof item === "string" ? { uri: item } :
+        resizeMethod={'resize'}
+        resizeMode={'cover'}
+        onLoad={() => {}}
+        onLoadStart={() => {}}
+        onLoadEnd={() => {
+          setLoaded(true);
+        }}
+      />
+      {!loaded && (
+        <ActivityIndicator
+          size="large"
+          color={color.secondary}
+          style={styles.loadIndicator}
+        />
+      )}
+    </View>
+  );
+};
 
-    const [loaded, setLoaded] = useState(false);
-
-    return (
-        <View
-            style={{
-                position: "relative",
-                justifyContent: "center",
-                width: wp(25),
-            }}
-        >
-            <Image
-                style={{
-                    width: wp(23),
-                    height: wp(23),
-                    alignSelf: "center"
-                }}
-                source={{ uri: item }} //typeof item === "string" ? { uri: item } :
-                resizeMethod={"resize"}
-                resizeMode={"cover"}
-                onLoad={() => { }}
-                onLoadStart={() => { }}
-                onLoadEnd={() => {
-                    setLoaded(true);
-                }}
-            />
-            {!loaded && (
-                <ActivityIndicator
-                    size="large"
-                    color={"#E91E63"}
-                    style={{
-                        position: "absolute",
-                        alignSelf: "center"
-                    }}
-                />
-            )}
-        </View>
-    );
-}
+const styles = StyleSheet.create({
+  item: {
+    position: 'relative',
+    justifyContent: 'center',
+    width: wp(25),
+  },
+  image: {
+    width: wp(23),
+    height: wp(23),
+    alignSelf: 'center',
+  },
+  loadIndicator: {
+    position: 'absolute',
+    alignSelf: 'center',
+  },
+});
 
 export default Item;

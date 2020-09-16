@@ -84,7 +84,9 @@ const loadVideos = (payload) => (dispatch, getState) => {
   Promise.all(promises)
     .then(([filterDataCstItemIds, packageVideosCount, packageVideos]) => {
       const lastestState = getState();
-      if (!lastestState.videos.loading) return; // Component unmounted and loading reset to false.
+      if (!lastestState.videos.loading) {
+        return;
+      } // Component unmounted and loading reset to false.
 
       if (typeof filterDataCstItemIds !== 'undefined') {
         dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));

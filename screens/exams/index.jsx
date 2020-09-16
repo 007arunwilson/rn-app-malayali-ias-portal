@@ -2,9 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import { color } from '../../config';
 import { useDispatch, useSelector } from 'react-redux';
 import * as examsActions from '../../store/actions/exams';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
@@ -20,11 +18,15 @@ const Exams = () => {
   const limit = useSelector((state) => state.exams.pagination.limit);
   const loading = useSelector((state) => state.exams.loading);
   const page = useSelector((state) => state.exams.pagination.page);
-  const [filter, setFilter] = React.useState({ subjectId: null, topicId: null });
+  const [filter, setFilter] = React.useState({
+    subjectId: null,
+    topicId: null,
+  });
 
   React.useEffect(() => {
     dispatch(examsActions.loadExams({ page }));
     return () => dispatch(examsActions.reset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onExamSelect = (examItem) => {
@@ -44,42 +46,54 @@ const Exams = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(examsActions.loadExams({ page: page + 1, cstItemId: (filter.topicId || filter.subjectId) }));
+      dispatch(
+        examsActions.loadExams({
+          page: page + 1,
+          cstItemId: filter.topicId || filter.subjectId,
+        }),
+      );
     }
   };
 
   const onFilterChange = (cstItemId) =>
-    dispatch(examsActions.loadExams({ page: 1, cstItemId, updateCount: true }))
+    dispatch(examsActions.loadExams({ page: 1, cstItemId, updateCount: true }));
 
   const onRefresh = () =>
-    dispatch(examsActions.loadExams({ page: 1, cstItemId: (filter.topicId || filter.subjectId), updateCount: true }))
+    dispatch(
+      examsActions.loadExams({
+        page: 1,
+        cstItemId: filter.topicId || filter.subjectId,
+        updateCount: true,
+      }),
+    );
 
   return (
     <>
       {count === null ? (
         <FullscreenLoader />
       ) : (
-          <>
-            {count === 0 ? (
-              <FullscreenEmptyList />
-            ) : (
-                <>
-                  <Filters
-                    filter={filter}
-                    onFilterChange={onFilterChange}
-                    setFilter={setFilter} />
-                  <ExamsList
-                    onExamSelect={onExamSelect}
-                    exams={exams}
-                    count={count}
-                    loading={loading}
-                    loadMore={loadMore}
-                    onRefresh={onRefresh}
-                  />
-                </>
-              )}
-          </>
-        )}
+        <>
+          {count === 0 ? (
+            <FullscreenEmptyList />
+          ) : (
+            <>
+              <Filters
+                filter={filter}
+                onFilterChange={onFilterChange}
+                setFilter={setFilter}
+              />
+              <ExamsList
+                onExamSelect={onExamSelect}
+                exams={exams}
+                count={count}
+                loading={loading}
+                loadMore={loadMore}
+                onRefresh={onRefresh}
+              />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };
