@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: color.text,
-    fontSize: 14,
+    fontSize: 12,
   },
   description: {
     color: color.text,
