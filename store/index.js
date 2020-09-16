@@ -11,6 +11,7 @@ import exams from './reducers/exams';
 import notes from './reducers/notes';
 import exam from './reducers/exam';
 import note from './reducers/note';
+import masters from './reducers/masters';
 
 const rootReducer = combineReducers({
   app,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   notes,
   exam,
   note,
+  masters,
 });
 
 const composeEnhancers =

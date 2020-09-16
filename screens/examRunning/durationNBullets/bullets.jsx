@@ -33,7 +33,10 @@ const Bullets = (props) => {
   );
 
   React.useEffect(() => {
-    if (flatlistRef.current && (activeQuestionIndex || activeQuestionIndex === 0)) {
+    if (
+      flatlistRef.current &&
+      (activeQuestionIndex || activeQuestionIndex === 0)
+    ) {
       flatlistRef.current.scrollToIndex({
         animated: true,
         index: activeQuestionIndex,

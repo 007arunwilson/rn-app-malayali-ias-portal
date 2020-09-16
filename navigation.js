@@ -23,7 +23,8 @@ import videoPlayer from './screens/videoPlayer';
 import examDetail from './screens/examDetail';
 import examRunning from './screens/examRunning';
 import note from './screens/note';
-import topbarUserIcon from './components/miscellaneous/topbarUserIcon';
+import topbarMenuIcon from './components/miscellaneous/topbarMenu';
+import topbarFilterIcon from './components/miscellaneous/topbarFilterIcon';
 import SidebarDefault from './components/miscellaneous/sidebarDefault';
 
 // Ceating Provider compoenent ( Redux wrapper component )
@@ -38,9 +39,15 @@ const ReduxProvider = (Component, ReduxStore) => {
 const registerComponents = () => {
   // Topbar Icons
   Navigation.registerComponent(
-    'topbar.userIcon',
-    () => ReduxProvider(topbarUserIcon, store),
-    () => topbarUserIcon,
+    'topbar.menuIcon',
+    () => ReduxProvider(topbarMenuIcon, store),
+    () => topbarMenuIcon,
+  );
+
+  Navigation.registerComponent(
+    'topbar.filterIcon',
+    () => ReduxProvider(topbarFilterIcon, store),
+    () => topbarFilterIcon,
   );
 
   //Sidebar ( Default )

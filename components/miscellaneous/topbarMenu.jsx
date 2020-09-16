@@ -10,7 +10,7 @@ import { RNNDrawer } from 'react-native-navigation-drawer-extension';
 /** At present this component only user for the right menu for options,
  * need to make this reusable
  */
-const TopbarIcon = (props) => {
+const TopbarMenuIcon = (props) => {
   const actionHandler = () => {
     RNNDrawer.showDrawer({
       component: {
@@ -34,7 +34,7 @@ const TopbarIcon = (props) => {
 
   return (
     <TouchableOpacity onPress={actionHandler} style={styles.container}>
-      <Icon color={color.primaryText} size={26} name={'account-cog-outline'} />
+      <Icon color={color.primaryText} size={26} name={'menu'} />
     </TouchableOpacity>
   );
 };
@@ -42,11 +42,11 @@ const TopbarIcon = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 14,
+    paddingHorizontal: 8,
     paddingVertical: 4,
     borderWidth: 1,
     borderColor: 'transparent', // To avoid not taking padding glitch
   },
 });
 
-export default TopbarIcon;
+export default TopbarMenuIcon;

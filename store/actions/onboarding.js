@@ -27,7 +27,7 @@ const proceedWithFacebook = (payload) => (dispatch) => {
       const { accessToken, refreshToken } = result;
       dispatch(continueWithTokens({ accessToken, refreshToken }));
     },
-    (error) => { },
+    (error) => {},
   );
 };
 
@@ -40,7 +40,7 @@ const proceedWithGoogle = (payload) => (dispatch) => {
       const { accessToken, refreshToken } = result;
       dispatch(continueWithTokens({ accessToken, refreshToken }));
     },
-    (error) => { },
+    (error) => {},
   );
 };
 
@@ -72,17 +72,17 @@ const continueWithTokens = (payload) => (dispatch) => {
   });
 };
 
-const continueToPackages = () => (dispatch) => {
-  userAPi.getUserPackages().then((userPackages) => {
-    if (userPackages.length) {
-      console.log('Have packages, proceed with courses');
-    } else {
-      Navigation.setRoot({
-        root: navComponents.packageSelection,
-      });
-    }
-  });
-};
+// const continueToPackages = () => (dispatch) => {
+//   userAPi.getUserPackages().then((userPackages) => {
+//     if (userPackages.length) {
+//       console.log('Have packages, proceed with courses');
+//     } else {
+//       Navigation.setRoot({
+//         root: navComponents.packageSelection,
+//       });
+//     }
+//   });
+// };
 
 export {
   updateInprogress,

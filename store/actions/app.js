@@ -1,7 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 import * as types from '../types/app';
 import * as authApi from '../../services/auth';
+import * as packagesApi from '../../services/packages';
 import * as authActions from '../actions/auth';
+import * as masterActions from '../actions/masters';
 import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
 import { appModel } from '../../database';
@@ -9,6 +11,12 @@ import { appModel } from '../../database';
 const updateActivePackageId = (payload) => (dispatch) =>
   dispatch({
     type: types.activePackageId,
+    payload,
+  });
+
+const updateActivePackageCstItemIds = (payload) => (dispatch) =>
+  dispatch({
+    type: types.activePackageCstItemIds,
     payload,
   });
 
@@ -21,6 +29,12 @@ const updateHomeScreenDataLoaded = (payload) => (dispatch) =>
 const updatesubscribedUser = (payload) => (dispatch) =>
   dispatch({
     type: types.subscribedUser,
+    payload,
+  });
+
+const updateFilterMenuToggled = (payload) => (dispatch) =>
+  dispatch({
+    type: types.filterMenuToggled,
     payload,
   });
 
@@ -77,17 +91,44 @@ const processAppLaunch = () => (dispatch) => {
 
 const populateHomeScreenData = () => (dispatch, getState) => {
   const state = getState();
-  const { activePackageId } = state.app;
+  let { activePackageId } = state.app;
   let isSubscribedUser = true;
   if (!activePackageId) {
     const { userPackages } = state.user;
     isSubscribedUser = !(
       userPackages.length === 1 && userPackages[0].is_default
     );
-    dispatch(updateActivePackageId(userPackages[0].id));
+    activePackageId = userPackages[0].id;
+    dispatch(updateActivePackageId(activePackageId));
   }
   dispatch(updatesubscribedUser(isSubscribedUser));
-  dispatch(updateHomeScreenDataLoaded(true));
+
+  Promise.all([
+    new Promise((resolve) => {
+      masterActions
+        .getCstItems()
+        .then(masterActions.prepareDispatchObject)
+        .then(({ byTypeValue, byParentId }) => {
+          console.log('{ byTypeValue, byParentId }', {
+            byTypeValue,
+            byParentId,
+          });
+          dispatch(masterActions.updateCstItemsByParentId(byParentId));
+          dispatch(masterActions.updateCstItemsByTypeValue(byTypeValue));
+        })
+        .then(resolve);
+    }),
+    new Promise((resolve) => {
+      packagesApi
+        .getPackagesCstItemIdsOfCourse({
+          urlParams: { packageId: activePackageId },
+        })
+        .then((result) => {
+          dispatch(updateActivePackageCstItemIds(result));
+        })
+        .then(resolve);
+    }),
+  ]).then(() => dispatch(updateHomeScreenDataLoaded(true)));
 };
 
 const processLogout = () => (dispatch) => {
@@ -106,5 +147,6 @@ export {
   populateHomeScreenData,
   updatesubscribedUser,
   updateHomeScreenDataLoaded,
+  updateFilterMenuToggled,
   processLogout,
 };

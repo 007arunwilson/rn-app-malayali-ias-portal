@@ -8,7 +8,7 @@ import { color } from '../../config';
 import VideoCard from '../../components/miscellaneous/videoCard';
 
 const VideosList = (props) => {
-  const { videos, onVideoPress, loading, loadMore } = props;
+  const { videos, onVideoPress, loading, loadMore, onRefresh } = props;
 
   const renderItem = ({ item }) => (
     <VideoCard onVideoPress={onVideoPress} videoItem={item} />
@@ -20,7 +20,7 @@ const VideosList = (props) => {
     <FlatList
       data={videos}
       renderItem={renderItem}
-      onRefresh={() => true}
+      onRefresh={onRefresh}
       refreshing={loading}
       keyExtractor={keyExtractor}
       style={styles.list}
@@ -40,22 +40,5 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
-
-VideosList.options = {
-  topBar: {
-    rightButtons: [
-      {
-        id: 'profile',
-        component: {
-          name: 'topbar.userIcon',
-          aligment: 'center',
-        },
-      },
-    ],
-    title: {
-      text: 'Videos',
-    },
-  },
-};
 
 export default VideosList;

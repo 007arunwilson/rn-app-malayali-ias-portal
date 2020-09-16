@@ -153,12 +153,13 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
       reviewQuestionsChoosedOptionsResult,
       reviewQuestionsAnswerOptionIdsResult,
     ]) => {
-
       const categoriesIdIndexMap = {};
-      questionsCategoryResultUpdated = questionsCategoryResult.map((item, index) => {
-        categoriesIdIndexMap[item.id] = index;
-        return { ...item, questionsIndex: [] }
-      });
+      const questionsCategoryResultUpdated = questionsCategoryResult.map(
+        (item, index) => {
+          categoriesIdIndexMap[item.id] = index;
+          return { ...item, questionsIndex: [] };
+        },
+      );
 
       const questionsCategoryResultUpdatedOrdered = [];
       const questionsCategoryResultUpdatedOrderedPushedRef = [];
@@ -167,13 +168,18 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
       questionsResult.forEach((item, index) => {
         questionIdsIndexMap[item.id] = index;
         if (item.cst_item_id) {
-          const category = questionsCategoryResultUpdated[
-            categoriesIdIndexMap[item.cst_item_id]
-          ];
+          const category =
+            questionsCategoryResultUpdated[
+              categoriesIdIndexMap[item.cst_item_id]
+            ];
 
           category.questionsIndex.push(index);
 
-          if (questionsCategoryResultUpdatedOrderedPushedRef.indexOf(category.id) === -1) {
+          if (
+            questionsCategoryResultUpdatedOrderedPushedRef.indexOf(
+              category.id,
+            ) === -1
+          ) {
             questionsCategoryResultUpdatedOrdered.push(category);
             questionsCategoryResultUpdatedOrderedPushedRef.push(category.id);
           }
@@ -184,7 +190,6 @@ const processStartExam = (isReview = false) => (dispatch, getState) => {
       dispatch(updateQuestionsIdIndexMap(questionIdsIndexMap));
 
       // console.log('questionsCategoryResultUpdatedByOrderingIdIndex:', questionsCategoryResultUpdatedByOrderingIdIndex);
-
 
       const categories = questionsCategoryResultUpdatedOrdered;
       dispatch(updateCategories(categories));
@@ -426,7 +431,7 @@ const submitExam = () => (dispatch, getState) => {
           );
         });
     },
-    (error) => { },
+    (error) => {},
   );
 };
 
@@ -434,7 +439,10 @@ const exitReview = () => (dispatch) => {
   dispatch(examDetailActions.reset());
   dispatch(examAttempDataActions.reset());
   dispatch(updateReady(false));
-  Navigation.popTo('exams');
+  Navigation.popTo('exams').catch(() => {
+    // If pop to exams failed, then it's a direct access from home direct, so poping to home
+    Navigation.popTo('home');
+  });
 };
 
 export {

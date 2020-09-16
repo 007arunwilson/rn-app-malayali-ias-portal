@@ -12,6 +12,7 @@ import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyL
 import VideosList from './videosList';
 import { Navigation } from 'react-native-navigation';
 import { navComponents, bindPassProps } from '../../navigation';
+import Filters from './filters';
 const Videos = () => {
   const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos.byIndex);
@@ -19,12 +20,16 @@ const Videos = () => {
   const loading = useSelector((state) => state.videos.loading);
   const limit = useSelector((state) => state.videos.pagination.limit);
   const page = useSelector((state) => state.videos.pagination.page);
+  const [filter, setFilter] = React.useState({
+    subjectId: null,
+    topicId: null,
+  });
 
   React.useEffect(() => {
-    if (count === null) {
-      dispatch(videosActions.loadVideos({ page }));
-    }
-  }, [count, dispatch, page]);
+    dispatch(videosActions.loadVideos({ page }));
+    return () => dispatch(videosActions.reset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onVideoPress = (videoItem) => {
     Navigation.push(
@@ -38,9 +43,28 @@ const Videos = () => {
     const totalPage = Math.ceil(count / limit);
 
     if (!loading && nextPage <= totalPage) {
-      dispatch(videosActions.loadVideos({ page: page + 1 }));
+      dispatch(
+        videosActions.loadVideos({
+          page: page + 1,
+          cstItemId: filter.topicId || filter.subjectId,
+        }),
+      );
     }
   };
+
+  const onFilterChange = (cstItemId) =>
+    dispatch(
+      videosActions.loadVideos({ page: 1, cstItemId, updateCount: true }),
+    );
+
+  const onRefresh = () =>
+    dispatch(
+      videosActions.loadVideos({
+        page: 1,
+        cstItemId: filter.topicId || filter.subjectId,
+        updateCount: true,
+      }),
+    );
 
   return (
     <>
@@ -51,13 +75,21 @@ const Videos = () => {
           {count === 0 ? (
             <FullscreenEmptyList />
           ) : (
-            <VideosList
-              onVideoPress={onVideoPress}
-              videos={videos}
-              count={count}
-              loading={loading}
-              loadMore={loadMore}
-            />
+            <>
+              <Filters
+                filter={filter}
+                onFilterChange={onFilterChange}
+                setFilter={setFilter}
+              />
+              <VideosList
+                onVideoPress={onVideoPress}
+                videos={videos}
+                count={count}
+                loading={loading}
+                loadMore={loadMore}
+                onRefresh={onRefresh}
+              />
+            </>
           )}
         </>
       )}
@@ -71,7 +103,7 @@ Videos.options = {
       {
         id: 'profile',
         component: {
-          name: 'topbar.userIcon',
+          name: 'topbar.menuIcon',
           aligment: 'center',
         },
       },

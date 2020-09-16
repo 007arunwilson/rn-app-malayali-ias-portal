@@ -76,8 +76,8 @@ const ExamRunning = () => {
           <BottomActions exitExam={exitExam} />
         </SafeAreaView>
       ) : (
-            <FullscreenTextLoader />
-          )}
+        <FullscreenTextLoader />
+      )}
     </>
   );
 };

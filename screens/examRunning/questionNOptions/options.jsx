@@ -2,13 +2,7 @@
  * @format
  * @flow strict-local
  */
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import HTMLrender from '../../../components/miscellaneous/htmlRender';
@@ -28,7 +22,9 @@ const Options = (props) => {
   if (!isReview) {
     return (
       <>
-        <ScrollView contentContainerStyle={styles.containerContent} style={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.containerContent}
+          style={styles.container}>
           {options.map((item) => {
             return (
               <TouchableOpacity
@@ -44,9 +40,9 @@ const Options = (props) => {
                       questionsChoosedOptionIds[
                         item.learning_material_test_question_id
                       ] &&
-                        questionsChoosedOptionIds[
+                      questionsChoosedOptionIds[
                         item.learning_material_test_question_id
-                        ] == item.id
+                      ] == item.id
                         ? 'checkbox-marked-circle-outline'
                         : 'circle-outline'
                     }
@@ -64,7 +60,9 @@ const Options = (props) => {
   } else {
     return (
       <>
-        <ScrollView style={styles.containerContent} style={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.containerContent}
+          style={styles.container}>
           {options.map((item) => {
             let itemIcon = 'circle-outline';
             const itemStyle = [styles.item];
@@ -72,9 +70,9 @@ const Options = (props) => {
             if (
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
               item.id ===
-              (reviewQuestionsChoosedOptions[question.id] &&
-                reviewQuestionsChoosedOptions[question.id]
-                  .learning_material_test_question_option_id)
+                (reviewQuestionsChoosedOptions[question.id] &&
+                  reviewQuestionsChoosedOptions[question.id]
+                    .learning_material_test_question_option_id)
             ) {
               // Answered, this is right, this is choosed
               itemIcon = 'checkbox-marked-circle-outline';
@@ -83,8 +81,8 @@ const Options = (props) => {
               reviewQuestionsAnswerOptionIds[question.id] === item.id &&
               reviewQuestionsChoosedOptions[question.id] &&
               item.id !==
-              reviewQuestionsChoosedOptions[question.id]
-                .learning_material_test_question_option_id
+                reviewQuestionsChoosedOptions[question.id]
+                  .learning_material_test_question_option_id
             ) {
               // Answered, this is right, but choosed something else
               itemIcon = 'checkbox-marked-circle-outline';

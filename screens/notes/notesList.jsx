@@ -8,7 +8,7 @@ import { color } from '../../config';
 import NoteCard from '../../components/miscellaneous/noteCard';
 
 const NotesList = (props) => {
-  const { notes, onNoteSelect, loadMore, loading } = props;
+  const { notes, onNoteSelect, loadMore, loading, onRefresh } = props;
 
   const renderItem = ({ item }) => (
     <NoteCard onNoteSelect={onNoteSelect} noteItem={item} />
@@ -20,7 +20,7 @@ const NotesList = (props) => {
     <FlatList
       data={notes}
       renderItem={renderItem}
-      onRefresh={() => true}
+      onRefresh={onRefresh}
       refreshing={loading}
       keyExtractor={keyExtractor}
       style={styles.list}

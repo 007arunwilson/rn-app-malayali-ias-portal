@@ -10,6 +10,12 @@ const initialState = {
     limit: 10,
     page: 1,
   },
+  filters: {
+    cstItemId: null,
+  },
+  filterData: {
+    cstItemIds: null,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -32,12 +38,30 @@ export default (state = initialState, action) => {
       });
       return updatedState;
     }
+    case types.filtersCstItemId: {
+      const updatedState = update(state, {
+        filters: {
+          cstItemId: { $set: action.payload },
+        },
+      });
+      return updatedState;
+    }
+    case types.filterDataCstItemIds: {
+      const updatedState = update(state, {
+        filterData: {
+          cstItemIds: { $set: action.payload },
+        },
+      });
+      return updatedState;
+    }
     case types.count: {
       const updatedState = update(state, {
         count: { $set: action.payload },
       });
       return updatedState;
     }
+
+    case types.reset:
     case appTypes.logout: {
       return initialState;
     }
