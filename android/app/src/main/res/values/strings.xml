@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Bankers Academy</string>
+    <string name="app_name">Malayali IAS Portal</string>
+    <string name="facebook_app_id">338348587383296</string>
+    <string name="fb_login_protocol_scheme">fb338348587383296</string>
 </resources>

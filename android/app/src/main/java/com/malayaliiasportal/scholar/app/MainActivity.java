@@ -1,4 +1,4 @@
-package com.bankersacademy.scholar.app;
+package com.malayaliiasportal.scholar.app;
 
 import com.reactnativenavigation.NavigationActivity;
 

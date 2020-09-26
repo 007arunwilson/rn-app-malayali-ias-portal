@@ -139,12 +139,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.bankersacademy.scholar.app"
+        applicationId "com.malayaliiasportal.scholar.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 6
-        versionName "0.5.1"
+        versionCode 1
+        versionName "0.1.0"
     }
     splits {
         abi {

@@ -65,9 +65,6 @@ const createAccount = () => (dispatch, getState) => {
       return userActions.updateUserProfile(updateProfileObj);
     })
     .then(() => {
-      return userActions.enrollToDefaultPackage();
-    })
-    .then(() => {
       dispatch(authActions.processLogin());
     });
 };

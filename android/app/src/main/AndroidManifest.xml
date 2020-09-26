@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.bankersacademy.scholar.app">
+  package="com.malayaliiasportal.scholar.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
