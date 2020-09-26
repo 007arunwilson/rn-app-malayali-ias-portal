@@ -1,3 +1,4 @@
+Malayali IAS Portal RN App
 React Native application started with `react-native-cli`
 
 ### Required env files (.env)
