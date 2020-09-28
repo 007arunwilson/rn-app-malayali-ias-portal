@@ -51,16 +51,14 @@ const resetPasswordCreateNewPassword = ({ email, password, token }) =>
  * */
 const processLogin = (payload) => (dispatch) => {
   new Promise((resolve) => {
-    if (payload && payload.user && payload.userPackages) {
-      resolve({ user: payload.user, userPackages: payload.userPackages });
+    if (payload && payload.user) {
+      resolve({ user: payload.user });
     } else {
-      Promise.all([userAPi.getUser(), userAPi.getUserPackages()]).then(
-        ([user, userPackages]) => {
-          resolve({ user, userPackages });
-        },
-      );
+      userAPi.getUser().then((user) => {
+        resolve({ user });
+      });
     }
-  }).then(({ user, userPackages }) => {
+  }).then(({ user }) => {
     const userObj = {
       email: user.email,
       phone: user.phone,
@@ -68,15 +66,8 @@ const processLogin = (payload) => (dispatch) => {
         user.profile_fields && user.profile_fields.name
           ? user.profile_fields.name
           : null,
-      userPackages,
     };
     dispatch(userActions.update(userObj));
-    // dispatch(
-    //   appActions.updateSubjectsFromCourse(studentProfile.course_cst_item_id),
-    // );
-    //Get subscribed subjects
-    // dispatch(appActions.updateActiveSubscptionSubjects());
-
     Navigation.setRoot({ root: navComponents.home });
   });
 };

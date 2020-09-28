@@ -47,28 +47,32 @@ const proceedWithGoogle = (payload) => (dispatch) => {
 const continueWithTokens = (payload) => (dispatch) => {
   const { accessToken, refreshToken, viaAction } = payload;
   authActions.updateTokens({ accessToken, refreshToken }).then(() => {
-    Promise.all([userAPi.getUser(), userAPi.getUserPackages()]).then(
-      ([user, userPackages]) => {
-        if (!(userPackages && userPackages.length)) {
-          // Setting memorized values for registration
-          const { email, phone, profile_fields } = user;
-          const name =
-            profile_fields && profile_fields.name ? profile_fields.name : null;
-          dispatch(registerActions.updateMemorizedForm({ email, phone, name }));
-          dispatch(registerActions.updateViaSocialAuth(true));
-          dispatch(updateInprogress(false));
-          if (viaAction && viaAction === 'launch') {
-            Navigation.setRoot({
-              root: navComponents.onboarding,
-            });
-          } else {
-            Navigation.push('onboarding', navComponents.register);
-          }
+    userAPi.getUser().then((user) => {
+      if (!(user.phone && user.email)) {
+        /**
+         * If user don't have both, then considering as incomplete profile creation.
+         * from social login, so redirecting to register screen with collected fields from
+         * social auth provider
+         */
+
+        // Setting memorized values for registration
+        const { email, phone, profile_fields } = user;
+        const name =
+          profile_fields && profile_fields.name ? profile_fields.name : null;
+        dispatch(registerActions.updateMemorizedForm({ email, phone, name }));
+        dispatch(registerActions.updateViaSocialAuth(true));
+        dispatch(updateInprogress(false));
+        if (viaAction && viaAction === 'launch') {
+          Navigation.setRoot({
+            root: navComponents.onboarding,
+          });
         } else {
-          dispatch(authActions.processLogin({ user, userPackages }));
+          Navigation.push('onboarding', navComponents.register);
         }
-      },
-    );
+      } else {
+        dispatch(authActions.processLogin({ user }));
+      }
+    });
   });
 };
 

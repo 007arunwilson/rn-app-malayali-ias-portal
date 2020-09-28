@@ -7,13 +7,13 @@ import React from 'react';
 import { color } from '../../config';
 import * as appActions from '../../store/actions/app';
 import { useDispatch, useSelector } from 'react-redux';
-import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import NotSubscribedAlert from './notSubscribedAlert';
 import Banner from './banner';
 import ImageSlider from './imageSlider';
 import VideoSlider from './videosSlider';
 import ExamsSlider from './examsSlider';
 import NotesSlider from './notesSlider';
+import FullscreenMessage from '../../components/miscellaneous/fullScreenMessage';
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -30,7 +30,9 @@ const Home = (props) => {
 
   return (
     <>
-      {!homeScreenDataLoaded ? <FullscreenLoader /> : null}
+      {!homeScreenDataLoaded ? (
+        <FullscreenMessage indicator text={'Loading subscriptions ...'} />
+      ) : null}
       {homeScreenDataLoaded ? (
         <>
           {!subscribedUser ? <NotSubscribedAlert /> : null}
