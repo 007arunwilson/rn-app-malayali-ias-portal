@@ -7,7 +7,7 @@ const getLaunchData = () =>
       '@Auth.accessToken',
       '@Auth.refreshToken',
       '@App.user',
-      '@Auth.activePackageId',
+      '@App.activePackageId',
     ]).then((result) => {
       const results = {};
       result.map((item) => {
@@ -17,7 +17,7 @@ const getLaunchData = () =>
         firebaseToken: results['@App.firebaseToken'],
         accessToken: results['@Auth.accessToken'],
         refreshToken: results['@Auth.refreshToken'],
-        activePackageId: results['@Auth.activePackageId'],
+        activePackageId: results['@App.activePackageId'],
         user: results['@App.user'] ? JSON.parse(results['@App.user']) : null,
       };
       resolve(launchData);
@@ -27,4 +27,7 @@ const getLaunchData = () =>
 const saveFirebaseToken = (firebaseToken) =>
   AsyncStorage.setItem('@App.firebaseToken', firebaseToken);
 
-export { getLaunchData, saveFirebaseToken };
+const saveActivePackageId = (activePackageId) =>
+  AsyncStorage.setItem('@App.activePackageId', `${activePackageId}`);
+
+export { getLaunchData, saveFirebaseToken, saveActivePackageId };

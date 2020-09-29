@@ -15,6 +15,25 @@ const updateUserProfile = ({ name, email, phone, password }) =>
     data: { email, phone, password, profile_fields: { name } },
   });
 
+const updateActiveSubscriptionsByIndex = (payload) => (dispatch) =>
+  dispatch({
+    type: types.activeSubscriptionsByIndex,
+    payload,
+  });
+
+const updateActiveSubscriptionsLoading = (payload) => (dispatch) =>
+  dispatch({
+    type: types.activeSubscriptionsLoading,
+    payload,
+  });
+
 const enrollToDefaultPackage = () => userApi.enrollToDefaultPackage();
 
-export { update, createUser, updateUserProfile, enrollToDefaultPackage };
+export {
+  update,
+  createUser,
+  updateUserProfile,
+  enrollToDefaultPackage,
+  updateActiveSubscriptionsByIndex,
+  updateActiveSubscriptionsLoading,
+};

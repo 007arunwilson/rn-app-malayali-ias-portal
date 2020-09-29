@@ -97,10 +97,30 @@ const updateUser = ({ data }) =>
       );
   });
 
+const getUserSubscriptionsActive = () =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user/subscriptions/package/active',
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
 export {
   getUser,
   getUserPackages,
   createUser,
   updateUser,
   enrollToDefaultPackage,
+  getUserSubscriptionsActive,
 };
