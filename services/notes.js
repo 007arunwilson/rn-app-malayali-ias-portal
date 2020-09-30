@@ -4,7 +4,7 @@ const getPackageNotesCount = ({ params, urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: `/package/${urlParams.packageId}/learning-material/notes/count`,
+        url: `/package/${urlParams.packageId}/learning-material/by-type/3/count`,
         method: 'GET',
         params,
       })
@@ -24,7 +24,7 @@ const getPackageNotes = ({ params, urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: `/package/${urlParams.packageId}/learning-material/notes`,
+        url: `/package/${urlParams.packageId}/learning-material/by-type/3`,
         method: 'GET',
         params,
       })

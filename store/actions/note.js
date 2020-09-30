@@ -14,6 +14,7 @@ const updateUri = (payload) => (dispatch) =>
   });
 
 const loadNote = (noteItem) => (dispatch) => {
+  console.log('noteItem:', noteItem);
   dispatch(updateLoading(true));
   noteApi
     .getNoteDownloadLink({

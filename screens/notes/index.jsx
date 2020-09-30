@@ -18,14 +18,10 @@ const Notes = (props) => {
   const limit = useSelector((state) => state.notes.pagination.limit);
   const loading = useSelector((state) => state.notes.loading);
   const page = useSelector((state) => state.notes.pagination.page);
-  const [filter, setFilter] = React.useState({
-    subjectId: null,
-    topicId: null,
-  });
+  const [categoryFilter] = React.useState(props.category.category_id);
 
   React.useEffect(() => {
-    console.log(props);
-    dispatch(notesActions.loadNotes({ page }));
+    dispatch(notesActions.loadNotes({ page, categoryId: categoryFilter }));
     return () => dispatch(notesActions.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -44,20 +40,17 @@ const Notes = (props) => {
       dispatch(
         notesActions.loadNotes({
           page: page + 1,
-          cstItemId: filter.topicId || filter.subjectId,
+          categoryId: categoryFilter,
         }),
       );
     }
   };
 
-  const onFilterChange = (cstItemId) =>
-    dispatch(notesActions.loadNotes({ page: 1, cstItemId, updateCount: true }));
-
   const onRefresh = () =>
     dispatch(
       notesActions.loadNotes({
         page: 1,
-        cstItemId: filter.topicId || filter.subjectId,
+        category: categoryFilter,
         updateCount: true,
       }),
     );
@@ -72,11 +65,11 @@ const Notes = (props) => {
             <FullscreenEmptyList />
           ) : (
             <>
-              <Filters
+              {/* <Filters
                 filter={filter}
                 onFilterChange={onFilterChange}
                 setFilter={setFilter}
-              />
+              /> */}
               <NotesList
                 onNoteSelect={onNoteSelect}
                 notes={notes}

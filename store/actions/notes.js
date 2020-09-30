@@ -40,7 +40,7 @@ const updateFilterDataCstItemIds = (payload) => (dispatch) =>
   });
 
 const loadNotes = (payload) => (dispatch, getState) => {
-  const { page, updateCount: isUpdateCount, cstItemId } = payload;
+  const { page, updateCount: isUpdateCount, categoryId } = payload;
   dispatch(updateLoading(true));
   if (isUpdateCount) {
     dispatch(updateByIndex(null));
@@ -53,25 +53,15 @@ const loadNotes = (payload) => (dispatch, getState) => {
   const previousNotesByIndex = state.notes.byIndex;
   const activePackageId =
     config.env === 'local'
-      ? 32 || state.app.activePackageId
+      ? !32 || state.app.activePackageId
       : state.app.activePackageId;
   const promises = [];
-
-  if (filterDataCstItemIds === null) {
-    promises.push(
-      notesApi.getFilterDataCstItemIds({
-        urlParams: { packageId: activePackageId },
-      }),
-    );
-  } else {
-    promises.push(Promise.resolve());
-  }
 
   if (count === null || isUpdateCount) {
     promises.push(
       notesApi.getPackageNotesCount({
         urlParams: { packageId: activePackageId },
-        params: { cstItemIds: cstItemId && [cstItemId] },
+        params: { categoryId: categoryId },
       }),
     );
   } else {
@@ -81,12 +71,12 @@ const loadNotes = (payload) => (dispatch, getState) => {
   promises.push(
     notesApi.getPackageNotes({
       urlParams: { packageId: activePackageId },
-      params: { page, limit, cstItemIds: cstItemId && [cstItemId] },
+      params: { page, limit, categoryId: categoryId },
     }),
   );
 
   Promise.all(promises)
-    .then(([filterDataCstItemIds, packageNotesCount, packageNotes]) => {
+    .then(([packageNotesCount, packageNotes]) => {
       const lastestState = getState();
       if (!lastestState.notes.loading) {
         return;

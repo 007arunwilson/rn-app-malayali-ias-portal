@@ -4,7 +4,7 @@ const getNoteDownloadLink = ({ urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: `/learning-material/${urlParams.learningMaterialId}/note/download-link`,
+        url: `/learning-material/note/${urlParams.learningMaterialId}/download-link`,
         method: 'GET',
       })
       .then(
