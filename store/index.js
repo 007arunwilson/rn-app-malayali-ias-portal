@@ -12,18 +12,22 @@ import notes from './reducers/notes';
 import exam from './reducers/exam';
 import note from './reducers/note';
 import masters from './reducers/masters';
+import subscribe from './reducers/subscribe';
+import home from './reducers/home';
 
 const rootReducer = combineReducers({
   app,
   onboarding,
   register,
   user,
+  home,
   videos,
   exams,
   notes,
   exam,
   note,
   masters,
+  subscribe,
 });
 
 const composeEnhancers =

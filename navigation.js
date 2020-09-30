@@ -10,6 +10,8 @@ import { store } from './store';
 import launchScreen from './screens/launch';
 import onboardingScreen from './screens/onboarding';
 import packageSelection from './screens/packageSelection';
+import subscribe from './screens/subscribe';
+import subscribeSelection from './screens/subscribeSelection';
 import signinScreen from './screens/signin';
 import forgotPasswordStep1 from './screens/forgotPasswordStep1';
 import forgotPasswordStep2 from './screens/forgotPasswordStep2';
@@ -76,6 +78,16 @@ const registerComponents = () => {
     'nav.packageSelection',
     () => ReduxProvider(packageSelection, store),
     () => packageSelection,
+  );
+  Navigation.registerComponent(
+    'nav.subscribe',
+    () => ReduxProvider(subscribe, store),
+    () => subscribe,
+  );
+  Navigation.registerComponent(
+    'nav.subscribeSelection',
+    () => ReduxProvider(subscribeSelection, store),
+    () => subscribeSelection,
   );
   Navigation.registerComponent(
     'nav.signin',
@@ -277,6 +289,20 @@ navComponents.forgotPasswordStep2 = {
   component: {
     id: 'forgotPasswordStep2',
     name: 'nav.forgotPasswordStep2',
+  },
+};
+
+navComponents.subscribe = {
+  component: {
+    id: 'subscribe',
+    name: 'nav.subscribe',
+  },
+};
+
+navComponents.subscribeSelection = {
+  component: {
+    id: 'subscribeSelection',
+    name: 'nav.subscribeSelection',
   },
 };
 

@@ -31,9 +31,11 @@ const socialMedia = ({ urlParam, data }) =>
         method: 'POST',
       })
       .then(
-        ({ data: { data: responseData } }) => {
-          if (responseData && responseData[0]) {
-            resolve(responseData[0]);
+        (response) => {
+          if (response.data && response.data.data && response.data.data[0]) {
+            resolve(response.data.data[0]);
+          } else {
+            reject(new Error('refresh session error'));
           }
         },
         (error) => {

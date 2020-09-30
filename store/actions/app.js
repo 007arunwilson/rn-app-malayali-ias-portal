@@ -5,7 +5,7 @@ import * as userApi from '../../services/user';
 import * as packagesApi from '../../services/packages';
 import * as authActions from '../actions/auth';
 import * as userActions from '../actions/user';
-import * as masterActions from '../actions/masters';
+import * as homeActions from '../actions/home';
 import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
 import { appModel } from '../../database';
@@ -117,16 +117,41 @@ const populateHomeScreenData = () => (dispatch, getState) => {
       );
 
       if (!subscribedPackageMatchedToPrevious && result.length > 1) {
-        console.log('redirect to multiple package selection');
+        Navigation.setRoot({
+          root: {
+            stack: {
+              children: [navComponents.packageSelection],
+            },
+          },
+        });
         return;
       } else if (!subscribedPackageMatchedToPrevious) {
         dispatch(setActivePackageId(result[0].package_id));
-        console.log('Set Active package Id');
       }
       // Continue to selected package content population
-      console.log('Continue to selected package content population');
+      const { activePackageId } = getState().app;
+      dispatch(homeActions.updatePackageTopMostParentCategoriesLoading(true));
+      packagesApi
+        .getPackagesTopMostCategoriesByLearningMaterialType({
+          urlParams: { packageId: activePackageId, typeValue: 3 },
+        })
+        .then((packageTopMostCategoriesResult) => {
+          dispatch(
+            homeActions.updatePackageTopMostParentCategoriesByIndex(packageTopMostCategoriesResult),
+          );
+          dispatch(
+            homeActions.updatePackageTopMostParentCategoriesLoading(false),
+          );
+          dispatch(updateHomeScreenDataLoaded(true));
+        });
     } else {
-      console.log('Redirecing to new package subscription');
+      Navigation.setRoot({
+        root: {
+          stack: {
+            children: [navComponents.subscribe],
+          },
+        },
+      });
     }
   });
 };

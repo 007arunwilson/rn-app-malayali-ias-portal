@@ -99,7 +99,7 @@ const ForgotPasswordStep1 = () => {
             onPress={handleFormSubmit}
             status={`${!inProgress && isFormValid ? 'enabled' : ''}${
               !inProgress && !isFormValid ? 'disabled' : ''
-              }${inProgress ? 'loading' : ''}`}>
+            }${inProgress ? 'loading' : ''}`}>
             Continue
           </PrimaryButton>
         </View>

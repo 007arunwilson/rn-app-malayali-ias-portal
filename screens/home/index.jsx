@@ -14,13 +14,18 @@ import VideoSlider from './videosSlider';
 import ExamsSlider from './examsSlider';
 import NotesSlider from './notesSlider';
 import FullscreenMessage from '../../components/miscellaneous/fullScreenMessage';
+import PackageTopMostCategoriesList from './packageTopMostCategoriesList';
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const homeScreenDataLoaded = useSelector(
     (state) => state.app.homeScreenDataLoaded,
   );
-  const subscribedUser = useSelector((state) => state.app.subscribedUser);
+
+  const {
+    loading: topMostCategoriesLoading,
+    byIndex: topMostCategories,
+  } = useSelector((state) => state.home.packageTopMostParentCategories);
 
   React.useEffect(() => {
     dispatch(appActions.populateHomeScreenData());
@@ -31,21 +36,23 @@ const Home = (props) => {
   return (
     <>
       {!homeScreenDataLoaded ? (
-        <FullscreenMessage indicator text={'Loading subscriptions ...'} />
+        <FullscreenMessage
+          indicator
+          text={
+            topMostCategoriesLoading
+              ? 'Please wait ...'
+              : 'Loading subscriptions ...'
+          }
+        />
       ) : null}
-      {homeScreenDataLoaded ? (
+      {homeScreenDataLoaded &&
+      !topMostCategoriesLoading &&
+      topMostCategories ? (
         <>
-          {!subscribedUser ? <NotSubscribedAlert /> : null}
           <ScrollView
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
-            <Banner
-              url={'https://quditinfotech.s3.amazonaws.com/banner.jpeg'}
-            />
-            <VideoSlider />
-            <ExamsSlider />
-            <NotesSlider />
-            <ImageSlider />
+            <PackageTopMostCategoriesList categories={topMostCategories} />
           </ScrollView>
         </>
       ) : null}
@@ -60,6 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
+    flexGrow: 1,
   },
   scrollview: {
     alignSelf: 'center',

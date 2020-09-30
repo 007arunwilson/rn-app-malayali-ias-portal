@@ -11,7 +11,7 @@ import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
 import FullscreenEmptyList from '../../components/miscellaneous/fullscreenEmptyList';
 import NotesList from './notesList';
 import Filters from './filters';
-const Notes = () => {
+const Notes = (props) => {
   const dispatch = useDispatch();
   const notes = useSelector((state) => state.notes.byIndex);
   const count = useSelector((state) => state.notes.count);
@@ -24,6 +24,7 @@ const Notes = () => {
   });
 
   React.useEffect(() => {
+    console.log(props);
     dispatch(notesActions.loadNotes({ page }));
     return () => dispatch(notesActions.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps

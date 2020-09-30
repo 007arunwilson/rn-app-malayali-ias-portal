@@ -7,16 +7,16 @@ import { FlatList, View, StyleSheet, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { color } from '../../config';
 
-const keyExtractor = (item) => `_${item.id}`;
+const keyExtractor = (item) => `_${item.package_id}`;
 
 const renderItem = ({ item }) => {
-  const title = item.title;
+  const title = item.package_title;
   let description = '';
-  const descriptionSplitted = item.description.split(' ');
+  const descriptionSplitted = item.package_description.split(' ');
   if (descriptionSplitted.length > 18) {
     description = `${descriptionSplitted.slice(0, 16).join(' ')} ...`;
   } else {
-    description = item.description;
+    description = item.package_description;
   }
 
   return (
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.backgroundLight,
     alignItems: 'stretch',
     paddingHorizontal: wp(8),
+    flexGrow: 1,
   },
   item: {
     marginTop: 6,

@@ -1,10 +1,10 @@
 import * as axios from '../helpers/axios';
 
-const getPackages = () =>
+const getSubscriptionsAvailable = () =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: '/packages',
+        url: '/subscriptions/available',
         method: 'GET',
       })
       .then(
@@ -19,16 +19,20 @@ const getPackages = () =>
       );
   });
 
-const getPackagesCstItemIdsOfCourse = ({ urlParams }) =>
+const createSubscriptionTransaction = ({ queryParam, data }) =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: `/package/${urlParams.packageId}/cst-item-ids/by-type-course`,
-        method: 'GET',
+        url: '/transaction',
+        method: 'POST',
+        data,
+        params: queryParam,
       })
       .then(
         ({ data: { data: responseData } }) => {
-          resolve(responseData);
+          if (responseData) {
+            resolve(responseData[0]);
+          }
         },
         (error) => {
           reject(error);
@@ -36,16 +40,19 @@ const getPackagesCstItemIdsOfCourse = ({ urlParams }) =>
       );
   });
 
-const getPackagesTopMostCategoriesByLearningMaterialType = ({ urlParams }) =>
+const createUserSubscription = ({ data }) =>
   new Promise((resolve, reject) => {
     axios.auth
       .request({
-        url: `/package/${urlParams.packageId}/learning-material/by-type/${urlParams.typeValue}/categories/top-parents`,
-        method: 'GET',
+        url: '/user/subscription/create',
+        method: 'POST',
+        data,
       })
       .then(
         ({ data: { data: responseData } }) => {
-          resolve(responseData);
+          if (responseData) {
+            resolve(responseData[0]);
+          }
         },
         (error) => {
           reject(error);
@@ -54,7 +61,7 @@ const getPackagesTopMostCategoriesByLearningMaterialType = ({ urlParams }) =>
   });
 
 export {
-  getPackages,
-  getPackagesCstItemIdsOfCourse,
-  getPackagesTopMostCategoriesByLearningMaterialType,
+  getSubscriptionsAvailable,
+  createSubscriptionTransaction,
+  createUserSubscription,
 };
