@@ -53,8 +53,8 @@ const loadNotes = (payload) => (dispatch, getState) => {
   const previousNotesByIndex = state.notes.byIndex;
   const activePackageId =
     config.env === 'local'
-      ? !32 || state.app.activePackageId
-      : state.app.activePackageId;
+      ? !32 || state.app.activePackage.id
+      : state.app.activePackage.id;
   const promises = [];
 
   if (count === null || isUpdateCount) {

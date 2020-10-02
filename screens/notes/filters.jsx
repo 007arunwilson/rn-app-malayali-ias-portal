@@ -3,110 +3,29 @@
  * @flow strict-local
  */
 import { StyleSheet, View, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { color } from '../../config';
 import { Picker } from '@react-native-community/picker';
-import { useSelector } from 'react-redux';
 
 const Filters = (props) => {
-  const { filter, setFilter, onFilterChange } = props;
-  const { byTypeValue, byParentId } = useSelector(
-    (state) => state.masters.cstItems,
-  );
-  const { cstItemIds: filterDataCstItemIds } = useSelector(
-    (state) => state.notes.filterData,
-  );
-  const {
-    activePackageCstItemIds: { [0]: activePackageCstItemId },
-  } = useSelector((state) => state.app); // Getting first cst item id as acive course
+  const { filterCategories, parentCategory } = props;
+  const [filters, setFilters] = useState([]);
 
-  const onSubjectChange = (itemValue) => {
-    setFilter({ subjectId: itemValue, topicId: null });
-    onFilterChange(itemValue);
-  };
-
-  const onTopciChange = (itemValue) => {
-    setFilter((state) => ({ ...state, topicId: itemValue }));
-    onFilterChange(itemValue || filter.subjectId);
-  };
-
-  const subjectSelectables = React.useMemo(() => {
-    return byParentId[activePackageCstItemId].filter(
-      (item) => filterDataCstItemIds.indexOf(item.id) !== -1,
+  useEffect(() => {
+    const firstLevelFilter = filterCategories.filter(
+      (item) => item.parent_id === parentCategory,
     );
+    const firstLevelFilterLabel = firstLevelFilter[0].text;
+    setFilters([
+      { label: firstLevelFilterLabel, categories: firstLevelFilter },
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [byTypeValue, activePackageCstItemId]);
+  }, []);
 
-  const topicSelectables = React.useMemo(() => {
-    return byParentId[filter.subjectId] &&
-      byParentId[filter.subjectId].length > 1
-      ? byParentId[filter.subjectId]
-      : null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [byTypeValue, activePackageCstItemId, filter.subjectId]);
-
-  return subjectSelectables.length ? (
+  return filterCategories.length ? (
     <View style={styles.container}>
       <View style={styles.card}>
-        <View style={styles.content}>
-          <Text style={styles.title}>Show notes by</Text>
-          <View style={styles.itemContainerWrapper}>
-            <View style={styles.itemContainer}>
-              <View style={styles.item}>
-                <Text style={styles.itemLabel}>Subject : </Text>
-                <Picker
-                  selectedValue={filter.subjectId}
-                  style={styles.picker}
-                  itemStyle={styles.pickerItem}
-                  onValueChange={onSubjectChange}>
-                  <Picker.Item
-                    label={'All'}
-                    color={color.textLight}
-                    value={null}
-                  />
-                  {subjectSelectables &&
-                    subjectSelectables.length &&
-                    subjectSelectables.map((subjectSelectable) => {
-                      return (
-                        <Picker.Item
-                          key={`-${subjectSelectable.id}`}
-                          label={subjectSelectable.title}
-                          value={subjectSelectable.id}
-                        />
-                      );
-                    })}
-                </Picker>
-              </View>
-              {topicSelectables && topicSelectables.length && (
-                <View style={styles.item}>
-                  <Text style={styles.itemLabel}>Topic : </Text>
-                  <Picker
-                    selectedValue={filter.topicId}
-                    style={styles.picker}
-                    itemStyle={styles.pickerItem}
-                    onValueChange={onTopciChange}>
-                    <Picker.Item
-                      label={'All'}
-                      color={color.textLight}
-                      value={null}
-                    />
-                    {topicSelectables &&
-                      topicSelectables.length &&
-                      topicSelectables.map((topicSelectable) => {
-                        return (
-                          <Picker.Item
-                            key={`-${topicSelectable.id}`}
-                            label={topicSelectable.title}
-                            value={topicSelectable.id}
-                          />
-                        );
-                      })}
-                  </Picker>
-                </View>
-              )}
-            </View>
-          </View>
-        </View>
+        <View style={styles.content} />
       </View>
     </View>
   ) : null;

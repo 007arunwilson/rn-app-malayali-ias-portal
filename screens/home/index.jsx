@@ -3,16 +3,10 @@
  * @flow strict-local
  */
 import { StyleSheet, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { color } from '../../config';
 import * as appActions from '../../store/actions/app';
 import { useDispatch, useSelector } from 'react-redux';
-import NotSubscribedAlert from './notSubscribedAlert';
-import Banner from './banner';
-import ImageSlider from './imageSlider';
-import VideoSlider from './videosSlider';
-import ExamsSlider from './examsSlider';
-import NotesSlider from './notesSlider';
 import FullscreenMessage from '../../components/miscellaneous/fullScreenMessage';
 import PackageTopMostCategoriesList from './packageTopMostCategoriesList';
 
@@ -22,10 +16,9 @@ const Home = (props) => {
     (state) => state.app.homeScreenDataLoaded,
   );
 
-  const {
-    loading: topMostCategoriesLoading,
-    byIndex: topMostCategories,
-  } = useSelector((state) => state.home.packageTopMostParentCategories);
+  const { byIndex: allCategories } = useSelector(
+    (state) => state.app.activePackage.categoriesByLearningMaterial.notes,
+  );
 
   React.useEffect(() => {
     dispatch(appActions.populateHomeScreenData());
@@ -33,26 +26,22 @@ const Home = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const homeCategories = useMemo(
+    () => allCategories && allCategories.filter((item) => !item.parent_id),
+    [allCategories],
+  );
+
   return (
     <>
       {!homeScreenDataLoaded ? (
-        <FullscreenMessage
-          indicator
-          text={
-            topMostCategoriesLoading
-              ? 'Please wait ...'
-              : 'Loading subscriptions ...'
-          }
-        />
+        <FullscreenMessage indicator text={'Please wait ...'} />
       ) : null}
-      {homeScreenDataLoaded &&
-      !topMostCategoriesLoading &&
-      topMostCategories ? (
+      {homeScreenDataLoaded && homeCategories ? (
         <>
           <ScrollView
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
-            <PackageTopMostCategoriesList categories={topMostCategories} />
+            <PackageTopMostCategoriesList categories={homeCategories} />
           </ScrollView>
         </>
       ) : null}

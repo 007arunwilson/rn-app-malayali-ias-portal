@@ -1,4 +1,5 @@
 import * as types from '../types/packageSelection';
+import * as appActions from '../actions/app';
 import * as packagesApi from '../../services/packages';
 
 const updateIsLoading = (payload) => (dispatch) =>
@@ -22,4 +23,27 @@ const loadPackages = () => (dispatch) => {
   });
 };
 
-export { loadPackages };
+const processPackageSelection = (payload) => (dispatch, getState) =>
+  new Promise((resolve) => {
+    const state = getState();
+    console.log('state:', state);
+    const { id: currentActivePackageId } = state.app.activePackage;
+    if (payload !== currentActivePackageId) {
+      dispatch(appActions.updateActivePackageId(payload));
+    }
+
+    packagesApi
+      .getPackagesCategoriesByLearningMaterialType({
+        urlParams: { packageId: currentActivePackageId, typeValue: 3 },
+      })
+      .then((result) => {
+        dispatch(
+          appActions.updateActivePackageCategoriesByLearningMaterialNotesByIndex(
+            result,
+          ),
+        );
+        resolve();
+      });
+  });
+
+export { loadPackages, processPackageSelection };

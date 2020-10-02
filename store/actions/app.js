@@ -5,6 +5,7 @@ import * as userApi from '../../services/user';
 import * as packagesApi from '../../services/packages';
 import * as authActions from '../actions/auth';
 import * as userActions from '../actions/user';
+import * as packageSelectionActions from '../actions/packageSelecton';
 import * as homeActions from '../actions/home';
 import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
@@ -16,9 +17,11 @@ const updateActivePackageId = (payload) => (dispatch) =>
     payload,
   });
 
-const updateActivePackageCstItemIds = (payload) => (dispatch) =>
+const updateActivePackageCategoriesByLearningMaterialNotesByIndex = (
+  payload,
+) => (dispatch) =>
   dispatch({
-    type: types.activePackageCstItemIds,
+    type: types.activePackageCategoriesByLearningMaterialNotesByIndex,
     payload,
   });
 
@@ -102,7 +105,9 @@ const populateHomeScreenData = () => (dispatch, getState) => {
   userApi.getUserSubscriptionsActive().then((result) => {
     if (result.length) {
       dispatch(userActions.updateActiveSubscriptionsByIndex(result));
-      const { activePackageId: previousActivePackageId } = state.app;
+      const {
+        activePackage: { id: previousActivePackageId },
+      } = state.app;
       let subscribedPackageMatchedToPrevious = null;
       result.forEach(
         // Getting previous selected packageId matched to user Subscribed package id
@@ -129,21 +134,12 @@ const populateHomeScreenData = () => (dispatch, getState) => {
         dispatch(setActivePackageId(result[0].package_id));
       }
       // Continue to selected package content population
-      const { activePackageId } = getState().app;
-      dispatch(homeActions.updatePackageTopMostParentCategoriesLoading(true));
-      packagesApi
-        .getPackagesTopMostCategoriesByLearningMaterialType({
-          urlParams: { packageId: activePackageId, typeValue: 3 },
-        })
-        .then((packageTopMostCategoriesResult) => {
-          dispatch(
-            homeActions.updatePackageTopMostParentCategoriesByIndex(packageTopMostCategoriesResult),
-          );
-          dispatch(
-            homeActions.updatePackageTopMostParentCategoriesLoading(false),
-          );
-          dispatch(updateHomeScreenDataLoaded(true));
-        });
+      const { id: activePackageId } = getState().app.activePackage;
+      dispatch(
+        packageSelectionActions.processPackageSelection(activePackageId),
+      ).then(() => {
+        dispatch(updateHomeScreenDataLoaded(true));
+      });
     } else {
       Navigation.setRoot({
         root: {
@@ -167,6 +163,7 @@ const processLogout = () => (dispatch) => {
 };
 
 export {
+  updateActivePackageId,
   processRefreshToken,
   processAppLaunch,
   populateHomeScreenData,
@@ -174,4 +171,5 @@ export {
   updateHomeScreenDataLoaded,
   updateFilterMenuToggled,
   processLogout,
+  updateActivePackageCategoriesByLearningMaterialNotesByIndex,
 };

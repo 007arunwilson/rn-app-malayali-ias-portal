@@ -3,8 +3,7 @@
  * @flow strict-local
  */
 import { StyleSheet, View } from 'react-native';
-import React from 'react';
-import { color } from '../../config';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notesActions from '../../store/actions/notes';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
@@ -18,10 +17,18 @@ const Notes = (props) => {
   const limit = useSelector((state) => state.notes.pagination.limit);
   const loading = useSelector((state) => state.notes.loading);
   const page = useSelector((state) => state.notes.pagination.page);
-  const [categoryFilter] = React.useState(props.category.category_id);
+  const { byIndex: allCategories } = useSelector(
+    (state) => state.app.activePackage.categoriesByLearningMaterial.notes,
+  );
+  const [parentCategory] = React.useState(props.category.category_id);
+
+  const filterCategories = useMemo(
+    () => allCategories && allCategories.filter((item) => item.parent_id),
+    [allCategories],
+  );
 
   React.useEffect(() => {
-    dispatch(notesActions.loadNotes({ page, categoryId: categoryFilter }));
+    dispatch(notesActions.loadNotes({ page, categoryId: parentCategory }));
     return () => dispatch(notesActions.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -40,7 +47,7 @@ const Notes = (props) => {
       dispatch(
         notesActions.loadNotes({
           page: page + 1,
-          categoryId: categoryFilter,
+          categoryId: parentCategory,
         }),
       );
     }
@@ -50,7 +57,7 @@ const Notes = (props) => {
     dispatch(
       notesActions.loadNotes({
         page: 1,
-        category: categoryFilter,
+        category: parentCategory,
         updateCount: true,
       }),
     );
@@ -65,11 +72,13 @@ const Notes = (props) => {
             <FullscreenEmptyList />
           ) : (
             <>
-              {/* <Filters
-                filter={filter}
-                onFilterChange={onFilterChange}
-                setFilter={setFilter}
-              /> */}
+              {parentCategory && filterCategories.length ? (
+                <Filters
+                  filterCategories={filterCategories}
+                  parentCategory={parentCategory}
+                />
+              ) : null}
+
               <NotesList
                 onNoteSelect={onNoteSelect}
                 notes={notes}
