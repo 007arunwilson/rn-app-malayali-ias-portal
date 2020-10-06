@@ -49,7 +49,6 @@ const loadNotes = (payload) => (dispatch, getState) => {
   const state = getState();
   const count = state.notes.count;
   const limit = state.notes.pagination.limit;
-  const filterDataCstItemIds = state.videos.filterData.cstItemIds;
   const previousNotesByIndex = state.notes.byIndex;
   const activePackageId =
     config.env === 'local'
@@ -81,10 +80,6 @@ const loadNotes = (payload) => (dispatch, getState) => {
       if (!lastestState.notes.loading) {
         return;
       } // Component unmounted and loading reset to false.
-
-      if (typeof filterDataCstItemIds !== 'undefined') {
-        dispatch(updateFilterDataCstItemIds(filterDataCstItemIds));
-      }
 
       if (typeof packageNotesCount !== 'undefined') {
         dispatch(updateCount(Number(packageNotesCount)));

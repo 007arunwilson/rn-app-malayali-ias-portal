@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 import { StyleSheet, View } from 'react-native';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as notesActions from '../../store/actions/notes';
 import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
@@ -12,6 +12,7 @@ import NotesList from './notesList';
 import Filters from './filters';
 const Notes = (props) => {
   const dispatch = useDispatch();
+  const initialRenderRef = useRef(false);
   const notes = useSelector((state) => state.notes.byIndex);
   const count = useSelector((state) => state.notes.count);
   const limit = useSelector((state) => state.notes.pagination.limit);
@@ -20,15 +21,27 @@ const Notes = (props) => {
   const { byIndex: allCategories } = useSelector(
     (state) => state.app.activePackage.categoriesByLearningMaterial.notes,
   );
-  const [parentCategory] = React.useState(props.category.category_id);
+
+  const [filterCategory, setFilterCategory] = useState(null);
+  const [parentCategory] = useState(props.category.category_id);
 
   const filterCategories = useMemo(
     () => allCategories && allCategories.filter((item) => item.parent_id),
     [allCategories],
   );
 
-  React.useEffect(() => {
-    dispatch(notesActions.loadNotes({ page, categoryId: parentCategory }));
+  useEffect(() => {
+    dispatch(
+      notesActions.loadNotes({
+        page: 1,
+        categoryId: filterCategory || parentCategory,
+        updateCount: true,
+      }),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterCategory]);
+
+  useEffect(() => {
     return () => dispatch(notesActions.reset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,7 +60,7 @@ const Notes = (props) => {
       dispatch(
         notesActions.loadNotes({
           page: page + 1,
-          categoryId: parentCategory,
+          categoryId: filterCategory || parentCategory,
         }),
       );
     }
@@ -57,7 +70,7 @@ const Notes = (props) => {
     dispatch(
       notesActions.loadNotes({
         page: 1,
-        category: parentCategory,
+        categoryId: filterCategory || parentCategory,
         updateCount: true,
       }),
     );
@@ -76,6 +89,7 @@ const Notes = (props) => {
                 <Filters
                   filterCategories={filterCategories}
                   parentCategory={parentCategory}
+                  setFilterCategory={setFilterCategory}
                 />
               ) : null}
 

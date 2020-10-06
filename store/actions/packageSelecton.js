@@ -26,7 +26,6 @@ const loadPackages = () => (dispatch) => {
 const processPackageSelection = (payload) => (dispatch, getState) =>
   new Promise((resolve) => {
     const state = getState();
-    console.log('state:', state);
     const { id: currentActivePackageId } = state.app.activePackage;
     if (payload !== currentActivePackageId) {
       dispatch(appActions.updateActivePackageId(payload));
