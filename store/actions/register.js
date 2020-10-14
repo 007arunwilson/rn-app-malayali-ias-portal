@@ -19,14 +19,18 @@ const updateMemorizedForm = (payload) => (dispatch) =>
   });
 
 const isEmailValidByApi = (payload) =>
-  registerApi.isEmailPhoneUsernameUnique({
-    data: { email_or_phone_or_username: payload },
-  });
+  registerApi
+    .isEmailPhoneUsernameUnique({
+      data: { email_or_phone_or_username: payload },
+    })
+    .then((result) => result.data);
 
 const isPhoneValidByApi = (payload) =>
-  registerApi.isEmailPhoneUsernameUnique({
-    data: { email_or_phone_or_username: payload },
-  });
+  registerApi
+    .isEmailPhoneUsernameUnique({
+      data: { email_or_phone_or_username: payload },
+    })
+    .then((result) => result.data);
 
 const processRegister = (payload) => (dispatch) => {
   dispatch(updateMemorizedForm(payload));
@@ -46,7 +50,10 @@ const createAccount = () => (dispatch, getState) => {
         authActions
           .login({ email_or_phone_or_username: email, password })
           .then((loginResult) => {
-            const { accessToken, refreshToken } = loginResult;
+            const {
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            } = loginResult.data;
             authActions
               .updateTokens({ accessToken, refreshToken })
               .then(resolve);
@@ -72,7 +79,9 @@ const createAccount = () => (dispatch, getState) => {
 const sendOtp = ({ phone }) => registerApi.sendPhoneOtp({ data: { phone } });
 
 const verifyOtp = ({ phone, otp }) =>
-  registerApi.verifyPhoneOtp({ data: { phone, otp } });
+  registerApi
+    .verifyPhoneOtp({ data: { phone, otp } })
+    .then((result) => result.data);
 
 const getValidClassStandardsFromMaster = () =>
   new Promise((resolve) => {

@@ -2,27 +2,30 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View, Text } from 'react-native';
 import React, { useMemo } from 'react';
 import { color } from '../../config';
 import * as appActions from '../../store/actions/app';
 import { useDispatch, useSelector } from 'react-redux';
 import FullscreenMessage from '../../components/miscellaneous/fullScreenMessage';
 import PackageTopMostCategoriesList from './packageTopMostCategoriesList';
+import HomeCategoryTileView from './homeCategoryTileView';
+import LatestNotes from './latestNotes';
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  const homeScreenDataLoaded = useSelector(
-    (state) => state.app.homeScreenDataLoaded,
-  );
+  const {
+    homeScreenDataLoaded,
+    activePackage: { id: activePakcageId },
+  } = useSelector((state) => state.app);
 
+  const userDisplayName = useSelector((state) => state.user.name);
   const { byIndex: allCategories } = useSelector(
     (state) => state.app.activePackage.categoriesByLearningMaterial.notes,
   );
 
   React.useEffect(() => {
     dispatch(appActions.populateHomeScreenData());
-    //appActions.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -38,10 +41,15 @@ const Home = (props) => {
       ) : null}
       {homeScreenDataLoaded && homeCategories ? (
         <>
+          <View style={styles.welcomeMessageContainer}>
+            <Text style={styles.welcomeText}>Welcome home, </Text>
+            <Text style={styles.userDisplayName}>{userDisplayName}</Text>
+          </View>
           <ScrollView
             style={styles.scrollview}
             contentContainerStyles={styles.container}>
-            <PackageTopMostCategoriesList categories={homeCategories} />
+            <HomeCategoryTileView categories={homeCategories} />
+            <LatestNotes packageId={activePakcageId} />
           </ScrollView>
         </>
       ) : null}
@@ -50,6 +58,21 @@ const Home = (props) => {
 };
 
 const styles = StyleSheet.create({
+  welcomeMessageContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingVertical: 36,
+  },
+  welcomeText: {
+    fontSize: 26,
+    color: '#C3C9D4',
+    fontWeight: 'bold',
+  },
+  userDisplayName: {
+    color: '#67758E',
+    fontSize: 24,
+    marginLeft: 10,
+  },
   container: {
     backgroundColor: color.white,
     width: '100%',

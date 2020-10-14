@@ -57,7 +57,10 @@ const Signin = () => {
         .login({ email_or_phone_or_username: emailOrPhone, password })
         .then(
           (result) => {
-            const { accessToken, refreshToken } = result;
+            const {
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            } = result.data;
             dispatch(
               onboardingActions.continueWithTokens({
                 accessToken,

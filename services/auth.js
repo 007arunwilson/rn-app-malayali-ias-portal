@@ -1,26 +1,14 @@
 import * as axios from '../helpers/axios';
+import * as helperUtils from '../helpers/utils';
 
 const login = ({ data }) =>
-  new Promise((resolve, reject) => {
-    axios.noAuth
-      .request({
-        url: '/auth/login',
-        data,
-        method: 'POST',
-      })
-      .then(
-        (response) => {
-          if (response.data && response.data.data && response.data.data[0]) {
-            resolve(response.data.data[0]);
-          } else {
-            resolve(null);
-          }
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-  });
+  axios.noAuth
+    .request({
+      url: '/auth/login',
+      data,
+      method: 'POST',
+    })
+    .then(helperUtils.parseApiResponse);
 
 const socialMedia = ({ urlParam, data }) =>
   new Promise((resolve, reject) => {
@@ -45,24 +33,13 @@ const socialMedia = ({ urlParam, data }) =>
   });
 
 const refreshSession = ({ data }) =>
-  new Promise((resolve, reject) => {
-    axios.noAuth
-      .request({
-        url: '/auth/refresh-session',
-        data,
-        method: 'POST',
-      })
-      .then(
-        ({ data: { data: responseData } }) => {
-          if (responseData && responseData[0]) {
-            resolve(responseData[0]);
-          }
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-  });
+  axios.noAuth
+    .request({
+      url: '/auth/refresh-session',
+      data,
+      method: 'POST',
+    })
+    .then(helperUtils.parseApiResponse);
 
 const sendResetPasswordTokenEmail = ({ data }) =>
   new Promise((resolve, reject) => {

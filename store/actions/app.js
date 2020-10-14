@@ -54,7 +54,10 @@ const setActivePackageId = (payload) => (dispatch) => {
 const processRefreshToken = (payload) => (dispatch) => {
   authApi.refreshSession({ data: { refresh_token: payload } }).then(
     (result) => {
-      const { accessToken, refreshToken } = result;
+      const {
+        access_token: accessToken,
+        refresh_token: refreshToken,
+      } = result.data;
       const viaAction = 'launch';
       dispatch(
         onboardingActions.continueWithTokens({
