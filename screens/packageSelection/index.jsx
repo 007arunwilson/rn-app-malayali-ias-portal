@@ -2,16 +2,55 @@
  * @format
  * @flow strict-local
  */
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PackageList from './packageList';
+import { processPackageSelection } from '../../store/actions/packageSelecton';
+import FullscreenLoader from '../../components/miscellaneous/fullscreenLoader';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 
 const PackageSelection = () => {
-  const packages = useSelector(
-    (state) => state.user.activeSubscriptions.byIndex,
+  const dispatch = useDispatch();
+  const [selectionInProgress, setSelectionInProgress] = useState(false);
+
+  const { byIndex: userSubscriptionsPackageActive } = useSelector(
+    (state) => state.subscription.userSubscriptionsPackageActive,
   );
 
-  return <PackageList packages={packages} />;
+  const handlePackageSelection = (packageItem) => {
+    setSelectionInProgress(true);
+    dispatch(processPackageSelection(packageItem.package_id)).then(() => {
+      Navigation.setRoot({ root: navComponents.home });
+    });
+  };
+
+  const packages = useMemo(() => {
+    const packagesById = {};
+    userSubscriptionsPackageActive.forEach((element) => {
+      if (!packagesById[element.package_id]) {
+        packagesById[element.package_id] = {
+          package_id: element.package_id,
+          package_title: element.package_title,
+          package_description: element.package_description,
+        };
+      }
+    });
+    return Object.values(packagesById);
+  }, [userSubscriptionsPackageActive]);
+
+  return (
+    <>
+      {selectionInProgress ? (
+        <FullscreenLoader />
+      ) : (
+        <PackageList
+          handlePackageSelection={handlePackageSelection}
+          packages={packages}
+        />
+      )}
+    </>
+  );
 };
 
 // RNN options

@@ -12,12 +12,14 @@ import config, { color } from '../../config';
 import {
   createSubscriptionTransaction,
   createUserSubscription,
+  loadHavePaidSubscription,
 } from '../../store/actions/subscription';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
+import { processPackageSelection } from '../../store/actions/packageSelecton';
 
 const SubscribeSelection = () => {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { selectedSubscription } = useSelector((state) => state.subscription);
   const [paynowProgressing, setPaynowProgressing] = useState(false);
 
@@ -48,7 +50,12 @@ const SubscribeSelection = () => {
           },
         )
         .then(() => {
-          Navigation.setRoot({ root: navComponents.home });
+          dispatch(loadHavePaidSubscription()); // Updating user's paid suscription status
+          return dispatch(
+            processPackageSelection(selectedSubscription.package_id), // Switching to new package
+          ).then(() => {
+            Navigation.setRoot({ root: navComponents.home });
+          });
         })
         .finally(() => {
           setPaynowProgressing(false);

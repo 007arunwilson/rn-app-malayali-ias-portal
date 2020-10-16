@@ -49,7 +49,7 @@ const Home = (props) => {
             <Text style={styles.userDisplayName}>{userDisplayName}</Text>
           </View>
 
-          {havePaidSubscription && <NotSubscribedAlert />}
+          {!havePaidSubscription && <NotSubscribedAlert />}
 
           <ScrollView style={styles.scrollview}>
             <HomeCategoryTileView categories={homeCategories} />

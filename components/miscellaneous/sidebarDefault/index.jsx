@@ -70,6 +70,23 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
+            Navigation.push('home', navComponents.packageSelection).finally(
+              () => {
+                backAction();
+              },
+            );
+          }}>
+          <Icon
+            style={styles.icon}
+            color={'#061343'}
+            size={22}
+            name={'package-variant'}
+          />
+          <Text style={styles.menuText}>Switch package</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menutItem}
+          onPress={() => {
             Navigation.push('home', navComponents.subscribe).finally(() => {
               backAction();
             });

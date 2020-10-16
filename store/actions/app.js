@@ -119,19 +119,26 @@ const populateHomeScreenData = () => (dispatch, getState) => {
         activePackage: { id: previousActivePackageId },
       } = state.app;
       let subscribedPackageMatchedToPrevious = null;
-      result.forEach(
+      const uniquePackageIds = [];
+      result.forEach((item) => {
+        if (uniquePackageIds.indexOf(item.package_id) === -1) {
+          uniquePackageIds.push(item.package_id);
+        }
+      });
+
+      uniquePackageIds.forEach(
         // Getting previous selected packageId matched to user Subscribed package id
-        (userSubscription) => {
+        (packageId) => {
           if (
             !subscribedPackageMatchedToPrevious &&
-            userSubscription.package_id === previousActivePackageId
+            packageId === previousActivePackageId
           ) {
-            subscribedPackageMatchedToPrevious = userSubscription.package_id;
+            subscribedPackageMatchedToPrevious = packageId;
           }
         },
       );
 
-      if (!subscribedPackageMatchedToPrevious && result.length > 1) {
+      if (!subscribedPackageMatchedToPrevious && uniquePackageIds.length > 1) {
         Navigation.setRoot({
           root: {
             stack: {
@@ -141,7 +148,7 @@ const populateHomeScreenData = () => (dispatch, getState) => {
         });
         return;
       } else if (!subscribedPackageMatchedToPrevious) {
-        dispatch(setActivePackageId(result[0].package_id));
+        dispatch(setActivePackageId(uniquePackageIds[0]));
       }
       // Continue to selected package content population
       const { id: activePackageId } = getState().app.activePackage;
@@ -163,13 +170,15 @@ const populateHomeScreenData = () => (dispatch, getState) => {
 };
 
 const processLogout = () => (dispatch) => {
-  [authActions.deleteTokens(), deleteActivePackageId()].then(() => {
-    Navigation.setRoot({ root: navComponents.onboarding }).then(() => {
-      dispatch({
-        type: types.logout,
+  Promise.all([authActions.deleteTokens(), deleteActivePackageId()]).then(
+    () => {
+      Navigation.setRoot({ root: navComponents.onboarding }).then(() => {
+        dispatch({
+          type: types.logout,
+        });
       });
-    });
-  });
+    },
+  );
 };
 
 export {
@@ -180,6 +189,7 @@ export {
   updatesubscribedUser,
   updateHomeScreenDataLoaded,
   updateFilterMenuToggled,
+  setActivePackageId,
   processLogout,
   updateActivePackageCategoriesByLearningMaterialNotesByIndex,
 };

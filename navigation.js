@@ -326,13 +326,6 @@ navComponents.packageSelection = {
         component: {
           id: 'packageSelection',
           name: 'nav.packageSelection',
-          options: {
-            topBar: {
-              title: {
-                text: 'Select Package',
-              },
-            },
-          },
         },
       },
     ],

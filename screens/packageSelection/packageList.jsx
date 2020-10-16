@@ -3,34 +3,36 @@
  * @flow strict-local
  */
 import React from 'react';
-import { FlatList, View, StyleSheet, Text } from 'react-native';
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { color } from '../../config';
 
-const keyExtractor = (item) => `_${item.package_id}`;
+const PackageList = ({ packages, handlePackageSelection }) => {
+  const keyExtractor = (item) => `_${item.package_id}`;
 
-const renderItem = ({ item }) => {
-  const title = item.package_title;
-  let description = '';
-  const descriptionSplitted = item.package_description.split(' ');
-  if (descriptionSplitted.length > 18) {
-    description = `${descriptionSplitted.slice(0, 16).join(' ')} ...`;
-  } else {
-    description = item.package_description;
-  }
+  const renderItem = ({ item }) => {
+    const title = item.package_title;
+    const description = item.package_description;
 
-  return (
-    <View style={styles.item}>
-      <View style={styles.top}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-      <View style={styles.bottom} />
-    </View>
-  );
-};
+    return (
+      <TouchableOpacity
+        onPress={() => handlePackageSelection(item)}
+        style={styles.item}>
+        <View style={styles.top}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.description}>{description}</Text>
+        </View>
+        <View style={styles.bottom} />
+      </TouchableOpacity>
+    );
+  };
 
-const PackageList = ({ packages }) => {
   return (
     <FlatList
       data={packages}
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     color: color.text,
   },
   description: {
-    fontSize: 13,
+    fontSize: 11,
     color: color.textLight,
     marginTop: 8,
   },

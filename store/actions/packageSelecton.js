@@ -28,12 +28,12 @@ const processPackageSelection = (payload) => (dispatch, getState) =>
     const state = getState();
     const { id: currentActivePackageId } = state.app.activePackage;
     if (payload !== currentActivePackageId) {
-      dispatch(appActions.updateActivePackageId(payload));
+      dispatch(appActions.setActivePackageId(payload));
     }
 
     packagesApi
       .getPackagesCategoriesByLearningMaterialType({
-        urlParams: { packageId: currentActivePackageId, typeValue: 3 },
+        urlParams: { packageId: payload, typeValue: 3 },
       })
       .then((result) => {
         dispatch(
