@@ -2,50 +2,25 @@
  * @format
  * @flow strict-local
  */
-import { View, Text, StyleSheet, Linking } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
-import { color } from '../../config';
+import { Navigation } from 'react-native-navigation';
+import { navComponents } from '../../navigation';
 
 const NotSubscribedAlert = () => {
+  const actionHandler = () => {
+    Navigation.push('home', navComponents.subscribe);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.lhs}>
-        <Icon
-          style={styles.icon}
-          color={color.text}
-          size={20}
-          name="alert-outline"
-        />
-      </View>
-      <View style={styles.rhs}>
-        <Text style={styles.headText}>Not Subscribed !</Text>
-        <Text style={styles.detailText}>
-          You're not subscibed to any paid packages, so you've only access to
-          limited contents. Contact support team for get a subscription.
-        </Text>
-        <Text style={styles.detailText}>
-          Please contact
-          <Text
-            onPress={() => Linking.openURL('tel:0491-2548373')}
-            style={styles.dialText}>
-            {' 0491-2548373'}
-          </Text>
-          /
-          <Text
-            onPress={() => Linking.openURL('tel:+91-9447336138')}
-            style={styles.dialText}>
-            {' +91-9447336138'}
-          </Text>{' '}
-          /
-          <Text
-            onPress={() => Linking.openURL('tel:+91-9446101929')}
-            style={styles.dialText}>
-            {' +91-9446101929'}
-          </Text>{' '}
-          to upgrade.
-        </Text>
-      </View>
+      <Text style={styles.message}>
+        You've only limited content access, Subscribe now get full access to our
+        excessive contents
+      </Text>
+      <Text onPress={actionHandler} style={styles.actionText}>
+        Subscribe now
+      </Text>
     </View>
   );
 };
@@ -53,25 +28,20 @@ const NotSubscribedAlert = () => {
 const styles = StyleSheet.create({
   container: {
     margin: 20,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    padding: 10,
+    backgroundColor: '#FAEACA',
+    borderRadius: 6,
   },
-  icon: {
-    marginTop: 4,
+  message: {
+    fontSize: 11,
+    color: '#493003',
   },
-  lhs: {
-    marginRight: 8,
-  },
-  rhs: {
-    flex: 1,
-  },
-  headText: {
-    fontSize: 18,
-  },
-  detailText: {
-    fontSize: 12,
-  },
-  dialText: {
+  actionText: {
+    color: '#372400',
+    marginTop: 6,
     textDecorationLine: 'underline',
+    padding: 4,
   },
 });
 

@@ -16,14 +16,16 @@ const Filters = (props) => {
     const firstLevelFilter = filterCategories.filter(
       (item) => item.parent_id === parentCategory,
     );
-    const firstLevelFilterLabel = firstLevelFilter[0].type_text;
-    setFilters([
-      {
-        label: firstLevelFilterLabel,
-        categories: firstLevelFilter,
-        selected: null,
-      },
-    ]);
+    if (firstLevelFilter.length) {
+      const firstLevelFilterLabel = firstLevelFilter[0].type_text;
+      setFilters([
+        {
+          label: firstLevelFilterLabel,
+          categories: firstLevelFilter,
+          selected: null,
+        },
+      ]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,7 +77,7 @@ const Filters = (props) => {
     });
   };
 
-  return filterCategories.length ? (
+  return filters.length ? (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.content}>

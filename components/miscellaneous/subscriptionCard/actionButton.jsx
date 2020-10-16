@@ -8,7 +8,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { color } from '../../../config';
 import InlineLoader from '../inlineLoader';
 
-const ActionButton = ({ paynowActionHandler, paynowProgressing }) => {
+const ActionButton = ({
+  paynowActionHandler,
+  paynowProgressing,
+  selectedSubscription,
+}) => {
   return (
     <>
       <View style={styles.card}>
@@ -20,7 +24,11 @@ const ActionButton = ({ paynowActionHandler, paynowProgressing }) => {
           ) : (
             <TouchableOpacity activeOpacity={0.8} onPress={paynowActionHandler}>
               <View style={[styles.actionButton, styles.actionPaynowButton]}>
-                <Text style={styles.actionButtonText}>Pay now</Text>
+                <Text style={styles.actionButtonText}>
+                  {selectedSubscription.current_price
+                    ? 'Pay now'
+                    : 'Enroll now'}
+                </Text>
                 <Icon
                   color={color.white}
                   size={16}

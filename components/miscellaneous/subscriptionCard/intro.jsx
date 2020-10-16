@@ -4,9 +4,14 @@
  */
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
+import moment from 'moment';
 import { color } from '../../../config';
 
-const SubscriptionCard = ({ subscriptionItem, onSubscriptionSelect }) => {
+const SubscriptionCard = ({
+  subscriptionItem,
+  onSubscriptionSelect,
+  options,
+}) => {
   let {
     package_title: title,
     package_description: description,
@@ -41,16 +46,56 @@ const SubscriptionCard = ({ subscriptionItem, onSubscriptionSelect }) => {
           <Text style={styles.title}>{titleText}</Text>
           <Text style={styles.description}>{descriptionText}</Text>
           <View style={styles.priceDurationCard}>
-            <Text style={styles.pricePrefix}>₹</Text>
-            <Text style={styles.priceText}>
-              {subscriptionItem.current_price}
-            </Text>
+            {subscriptionItem.current_price > 0 ? (
+              <>
+                <Text style={styles.pricePrefix}>₹</Text>
+                <Text style={styles.priceText}>
+                  {subscriptionItem.current_price}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.priceText}>Free</Text>
+              </>
+            )}
             <Text style={styles.splitText}>/</Text>
-            <Text style={styles.dayText}>
-              {subscriptionItem.subscription_duration}
-            </Text>
-            <Text style={styles.dayPostfix}>days</Text>
+            {subscriptionItem.subscription_duration > 0 ? (
+              <>
+                <Text style={styles.dayText}>
+                  {subscriptionItem.subscription_duration}
+                </Text>
+                <Text style={styles.dayPostfix}>days</Text>
+              </>
+            ) : (
+              <>
+                <Text style={styles.dayPostfix}>Lifetime</Text>
+              </>
+            )}
           </View>
+          {(subscriptionItem.begin_at || subscriptionItem.expire_at) && (
+            <View style={styles.durationLiveContainer}>
+              {subscriptionItem.begin_at && (
+                <View style={styles.durationLive}>
+                  <Text style={styles.durationLiveLabel}>Started on: </Text>
+                  <Text style={styles.durationLiveValue}>
+                    {moment(subscriptionItem.begin_at).format(
+                      ' MMM Do YYYY, h:mm a',
+                    )}
+                  </Text>
+                </View>
+              )}
+              {subscriptionItem.expire_at && (
+                <View style={styles.durationLive}>
+                  <Text style={styles.durationLiveLabel}>Expire on: </Text>
+                  <Text style={styles.durationLiveValue}>
+                    {moment(subscriptionItem.expire_at).format(
+                      ' MMM Do YYYY, h:mm a',
+                    )}
+                  </Text>
+                </View>
+              )}
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     </>
@@ -108,6 +153,22 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     color: color.text,
     fontSize: 11,
+  },
+  durationLiveContainer: {
+    marginTop: 20,
+  },
+  durationLive: {
+    paddingBottom: 8,
+    flexDirection: 'column',
+  },
+  durationLiveLabel: {
+    color: color.primary,
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  durationLiveValue: {
+    color: color.primary,
+    fontSize: 13,
   },
 });
 

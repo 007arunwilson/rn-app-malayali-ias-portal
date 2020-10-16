@@ -19,6 +19,44 @@ const getSubscriptionsAvailable = () =>
       );
   });
 
+const havePaidSubscription = () =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user/have-paid-subscription',
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData[0]);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
+const getUserSubscriptionsPackageActive = () =>
+  new Promise((resolve, reject) => {
+    axios.auth
+      .request({
+        url: '/user/subscriptions/package/active',
+        method: 'GET',
+      })
+      .then(
+        ({ data: { data: responseData } }) => {
+          if (responseData) {
+            resolve(responseData);
+          }
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+  });
+
 const createSubscriptionTransaction = ({ queryParam, data }) =>
   new Promise((resolve, reject) => {
     axios.auth
@@ -63,5 +101,7 @@ const createUserSubscription = ({ data }) =>
 export {
   getSubscriptionsAvailable,
   createSubscriptionTransaction,
+  getUserSubscriptionsPackageActive,
+  havePaidSubscription,
   createUserSubscription,
 };

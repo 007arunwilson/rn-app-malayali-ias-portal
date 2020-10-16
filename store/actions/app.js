@@ -2,11 +2,10 @@ import { Navigation } from 'react-native-navigation';
 import * as types from '../types/app';
 import * as authApi from '../../services/auth';
 import * as userApi from '../../services/user';
-import * as packagesApi from '../../services/packages';
 import * as authActions from '../actions/auth';
 import * as userActions from '../actions/user';
+import * as subscriptionActions from './subscription';
 import * as packageSelectionActions from '../actions/packageSelecton';
-import * as homeActions from '../actions/home';
 import * as onboardingActions from '../actions/onboarding';
 import { navComponents } from '../../navigation';
 import { appModel } from '../../database';
@@ -48,6 +47,11 @@ const setActivePackageId = (payload) => (dispatch) => {
   appModel.saveActivePackageId(payload);
 };
 
+const deleteActivePackageId = () =>
+  new Promise((resolve) => {
+    appModel.deleteActivePackageId().then(resolve);
+  });
+
 /** process refresh token which saved in app
  *  by checking session is valid or else navigating to onboarding screen
  * */
@@ -85,7 +89,6 @@ const processRefreshToken = (payload) => (dispatch) => {
  *  whne app launches this action will trigger and do the followups
  * */
 const processAppLaunch = () => (dispatch) => {
-  console.log('App launch');
   appModel.getLaunchData().then((appLaunchData) => {
     const { refreshToken, activePackageId } = appLaunchData;
 
@@ -105,7 +108,11 @@ const processAppLaunch = () => (dispatch) => {
 
 const populateHomeScreenData = () => (dispatch, getState) => {
   const state = getState();
+  dispatch(subscriptionActions.loadHavePaidSubscription());
   userApi.getUserSubscriptionsActive().then((result) => {
+    dispatch(
+      subscriptionActions.updateUserSubscriptionsPackageActiveByIndex(result),
+    );
     if (result.length) {
       dispatch(userActions.updateActiveSubscriptionsByIndex(result));
       const {
@@ -156,7 +163,7 @@ const populateHomeScreenData = () => (dispatch, getState) => {
 };
 
 const processLogout = () => (dispatch) => {
-  authActions.deleteTokens().then(() => {
+  [authActions.deleteTokens(), deleteActivePackageId()].then(() => {
     Navigation.setRoot({ root: navComponents.onboarding }).then(() => {
       dispatch({
         type: types.logout,

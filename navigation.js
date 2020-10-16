@@ -12,6 +12,7 @@ import onboardingScreen from './screens/onboarding';
 import packageSelection from './screens/packageSelection';
 import subscribe from './screens/subscribe';
 import subscribeSelection from './screens/subscribeSelection';
+import activeSubscriptions from './screens/activeSubscriptions';
 import signinScreen from './screens/signin';
 import forgotPasswordStep1 from './screens/forgotPasswordStep1';
 import forgotPasswordStep2 from './screens/forgotPasswordStep2';
@@ -83,6 +84,11 @@ const registerComponents = () => {
     'nav.subscribe',
     () => ReduxProvider(subscribe, store),
     () => subscribe,
+  );
+  Navigation.registerComponent(
+    'nav.activeSubscriptions',
+    () => ReduxProvider(activeSubscriptions, store),
+    () => activeSubscriptions,
   );
   Navigation.registerComponent(
     'nav.subscribeSelection',
@@ -303,6 +309,13 @@ navComponents.subscribeSelection = {
   component: {
     id: 'subscribeSelection',
     name: 'nav.subscribeSelection',
+  },
+};
+
+navComponents.activeSubscriptions = {
+  component: {
+    id: 'activeSubscriptions',
+    name: 'nav.activeSubscriptions',
   },
 };
 

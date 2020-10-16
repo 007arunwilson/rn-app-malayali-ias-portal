@@ -30,4 +30,12 @@ const saveFirebaseToken = (firebaseToken) =>
 const saveActivePackageId = (activePackageId) =>
   AsyncStorage.setItem('@App.activePackageId', `${activePackageId}`);
 
-export { getLaunchData, saveFirebaseToken, saveActivePackageId };
+const deleteActivePackageId = () =>
+  AsyncStorage.removeItem('@App.activePackageId');
+
+export {
+  getLaunchData,
+  saveFirebaseToken,
+  saveActivePackageId,
+  deleteActivePackageId,
+};

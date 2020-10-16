@@ -75,16 +75,18 @@ const loadNotes = (payload) => (dispatch, getState) => {
   );
 
   Promise.all(promises)
-    .then(([packageNotesCount, packageNotes]) => {
+    .then(([packageNotesCountResponse, packageNotesResponse]) => {
+      console.log('packageNotesCountResponse', packageNotesCountResponse);
+
       const lastestState = getState();
       if (!lastestState.notes.loading) {
         return;
       } // Component unmounted and loading reset to false.
 
-      if (typeof packageNotesCount !== 'undefined') {
-        dispatch(updateCount(Number(packageNotesCount)));
+      if (typeof packageNotesCountResponse !== 'undefined') {
+        dispatch(updateCount(Number(packageNotesCountResponse.data)));
       }
-      let updatedNotesByIndex = packageNotes;
+      let updatedNotesByIndex = packageNotesResponse.data;
       if (previousNotesByIndex) {
         updatedNotesByIndex = [...previousNotesByIndex, ...updatedNotesByIndex];
       }

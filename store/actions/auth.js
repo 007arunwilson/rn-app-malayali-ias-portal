@@ -5,6 +5,7 @@ import * as userActions from '../actions/user';
 import * as appActions from '../actions/app';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
+import { appModel } from '../../database';
 
 /** Update auth tokens to global variable and persistant storage */
 const updateTokens = ({ accessToken, refreshToken }) =>

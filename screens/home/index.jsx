@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import FullscreenMessage from '../../components/miscellaneous/fullScreenMessage';
 import PackageTopMostCategoriesList from './packageTopMostCategoriesList';
 import HomeCategoryTileView from './homeCategoryTileView';
+import NotSubscribedAlert from './notSubscribedAlert';
 import LatestNotes from './latestNotes';
 
 const Home = (props) => {
@@ -18,6 +19,8 @@ const Home = (props) => {
     homeScreenDataLoaded,
     activePackage: { id: activePakcageId },
   } = useSelector((state) => state.app);
+
+  const { havePaidSubscription } = useSelector((state) => state.subscription);
 
   const userDisplayName = useSelector((state) => state.user.name);
   const { byIndex: allCategories } = useSelector(
@@ -45,9 +48,10 @@ const Home = (props) => {
             <Text style={styles.welcomeText}>Welcome home, </Text>
             <Text style={styles.userDisplayName}>{userDisplayName}</Text>
           </View>
-          <ScrollView
-            style={styles.scrollview}
-            contentContainerStyles={styles.container}>
+
+          {havePaidSubscription && <NotSubscribedAlert />}
+
+          <ScrollView style={styles.scrollview}>
             <HomeCategoryTileView categories={homeCategories} />
             <LatestNotes packageId={activePakcageId} />
           </ScrollView>
@@ -61,7 +65,8 @@ const styles = StyleSheet.create({
   welcomeMessageContainer: {
     width: '100%',
     paddingHorizontal: 20,
-    paddingVertical: 36,
+    marginTop: 24,
+    marginBottom: 6,
   },
   welcomeText: {
     fontSize: 26,
@@ -73,16 +78,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginLeft: 10,
   },
-  container: {
-    backgroundColor: color.white,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    flexGrow: 1,
-  },
   scrollview: {
     alignSelf: 'center',
+    width: '100%',
   },
 });
 

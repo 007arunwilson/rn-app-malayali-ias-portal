@@ -17,6 +17,15 @@ const PackageSelection = () => {
 // RNN options
 PackageSelection.options = {
   topBar: {
+    rightButtons: [
+      {
+        id: 'profile',
+        component: {
+          name: 'topbar.menuIcon',
+          aligment: 'center',
+        },
+      },
+    ],
     title: {
       text: 'Select a package',
     },

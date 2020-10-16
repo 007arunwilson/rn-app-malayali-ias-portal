@@ -18,7 +18,7 @@ const MenuItem = (props) => {
   const { onClick, text, icon } = props;
   return (
     <TouchableOpacity style={styles.menutItem} onPress={onClick}>
-      <Icon color={color.primaryDark} size={26} name={icon} />
+      <Icon style={styles.icon} color={'#061343'} size={22} name={icon} />
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
@@ -30,13 +30,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderTopWidth: 1,
-    borderTopColor: color.backgroundDark,
+    paddingVertical: 6,
   },
   text: {
     marginLeft: 10,
-    color: color.primaryDark,
+    color: '#061343',
+  },
+  icon: {
+    marginRight: 12,
   },
 });
 

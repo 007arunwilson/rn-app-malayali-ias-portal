@@ -13,12 +13,19 @@ import { navComponents, bindPassProps } from '../../navigation';
 const HomeCategoryTileView = (props) => {
   const { categories } = props;
 
+  const navigateTo = (category) => {
+    console.log(category);
+    Navigation.push('home', bindPassProps({ category }, navComponents.notes));
+  };
   return (
     <View style={styles.container}>
       {categories.map((category) => (
-        <View key={`-${category.category_id}`} style={styles.item}>
+        <TouchableOpacity
+          onPress={() => navigateTo(category)}
+          key={`-${category.category_id}`}
+          style={styles.item}>
           <Text style={styles.title}>{category.title}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );

@@ -12,7 +12,7 @@ import notes from './reducers/notes';
 import exam from './reducers/exam';
 import note from './reducers/note';
 import masters from './reducers/masters';
-import subscribe from './reducers/subscribe';
+import subscription from './reducers/subscription';
 import home from './reducers/home';
 
 const rootReducer = combineReducers({
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   exam,
   note,
   masters,
-  subscribe,
+  subscription,
 });
 
 const composeEnhancers =

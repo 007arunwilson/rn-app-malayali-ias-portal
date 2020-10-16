@@ -1,7 +1,12 @@
 import * as subscriptionApi from '../../services/subscription';
-import * as types from '../types/subscribe';
+import * as types from '../types/subscription';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
+
+const reset = () => (dispatch) =>
+  dispatch({
+    type: types.reset,
+  });
 
 const updateAvailableSubscriptionsByIndex = (payload) => (dispatch) =>
   dispatch({
@@ -15,14 +20,37 @@ const updateAvailableSubscriptionsLoading = (payload) => (dispatch) =>
     payload,
   });
 
+const updateUserSubscriptionsPackageActiveByIndex = (payload) => (dispatch) =>
+  dispatch({
+    type: types.userSubscriptionsPackageActiveByIndex,
+    payload,
+  });
+
+const updateUserSubscriptionsPackageActiveLoading = (payload) => (dispatch) =>
+  dispatch({
+    type: types.userSubscriptionsPackageActiveLoading,
+    payload,
+  });
+
 const updateSelectedSubscription = (payload) => (dispatch) =>
   dispatch({
     type: types.selectedSubscription,
     payload,
   });
 
+const updateHavePaidSubscription = (payload) => (dispatch) =>
+  dispatch({
+    type: types.havePaidSubscription,
+    payload,
+  });
+
 const getSubscriptionsAvailable = () =>
   subscriptionApi.getSubscriptionsAvailable();
+
+const getHavePaidSubscription = () => subscriptionApi.havePaidSubscription();
+
+const getUserSubscriptionsPackageActive = () =>
+  subscriptionApi.getUserSubscriptionsPackageActive();
 
 const loadSubscriptionsAvailable = () => (dispatch) => {
   dispatch(updateAvailableSubscriptionsLoading(true));
@@ -32,14 +60,31 @@ const loadSubscriptionsAvailable = () => (dispatch) => {
   });
 };
 
+const loadUserSubscriptionsPackageActive = () => (dispatch) => {
+  dispatch(updateUserSubscriptionsPackageActiveLoading(true));
+  getUserSubscriptionsPackageActive().then((result) => {
+    dispatch(updateUserSubscriptionsPackageActiveByIndex(result));
+    dispatch(updateUserSubscriptionsPackageActiveLoading(false));
+  });
+};
+
+const loadHavePaidSubscription = () => (dispatch) => {
+  getHavePaidSubscription().then((result) =>
+    dispatch(updateHavePaidSubscription(result)),
+  );
+};
+
 const createSubscriptionTransaction = (payload) =>
   new Promise((resolve, reject) => {
     const queryParam = {
-      return: [
-        'gatewayOrderId',
-        'gatewayTransactionKey',
-        'transactionReferenceId',
-      ],
+      return:
+        payload.current_price > 0
+          ? [
+              'gatewayOrderId',
+              'gatewayTransactionKey',
+              'transactionReferenceId',
+            ]
+          : ['transactionReferenceId'],
     };
     const data = {
       entity_id: payload.subscription_id,
@@ -79,6 +124,11 @@ export {
   createSubscriptionTransaction,
   getSubscriptionsAvailable,
   loadSubscriptionsAvailable,
+  loadUserSubscriptionsPackageActive,
+  updateUserSubscriptionsPackageActiveByIndex,
   createUserSubscription,
   selectSubscription,
+  getHavePaidSubscription,
+  loadHavePaidSubscription,
+  reset,
 };

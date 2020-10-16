@@ -12,36 +12,31 @@ import config, { color } from '../../config';
 import {
   createSubscriptionTransaction,
   createUserSubscription,
-} from '../../store/actions/subscribe';
+} from '../../store/actions/subscription';
 import { Navigation } from 'react-native-navigation';
 import { navComponents } from '../../navigation';
-// import FullscreenTextLoader from '../../components/miscellaneous/fullscreenTextLoader';
-// import { loadSubscriptionsAvailable } from '../../store/actions/subscribe';
-// import AvailableSubscriptionsList from './availableSubscriptionsList';
 
 const SubscribeSelection = () => {
   //   const dispatch = useDispatch();
-  const { selectedSubscription } = useSelector((state) => state.subscribe);
+  const { selectedSubscription } = useSelector((state) => state.subscription);
   const [paynowProgressing, setPaynowProgressing] = useState(false);
-
-  React.useEffect(() => {
-    // dispatch(loadSubscriptionsAvailable());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const paynowActionHandler = () => {
     setPaynowProgressing(true);
     createSubscriptionTransaction(selectedSubscription).then((result) => {
-      RazorpayCheckout.open({
-        description: 'Subscribe ',
-        image: config.razorProductLogoUrl,
-        currency: config.razorPaymentCurrency,
-        key: result.gatewayTransactionKey,
-        amount: selectedSubscription.current_price,
-        name: config.instituteName,
-        order_id: result.gatewayOrderId,
-        theme: { color: color.primary },
-      })
+      (selectedSubscription.current_price > 0
+        ? RazorpayCheckout.open({
+            description: 'Subscribe ',
+            image: config.razorProductLogoUrl,
+            currency: config.razorPaymentCurrency,
+            key: result.gatewayTransactionKey,
+            amount: selectedSubscription.current_price,
+            name: config.instituteName,
+            order_id: result.gatewayOrderId,
+            theme: { color: color.primary },
+          })
+        : Promise.resolve()
+      )
         .then(
           () =>
             createUserSubscription({
@@ -69,6 +64,7 @@ const SubscribeSelection = () => {
       <SubscriptionActionButton
         paynowActionHandler={paynowActionHandler}
         paynowProgressing={paynowProgressing}
+        selectedSubscription={selectedSubscription}
       />
     </ScrollView>
   );
@@ -85,12 +81,18 @@ const styles = StyleSheet.create({
 // RNN options
 SubscribeSelection.options = {
   topBar: {
+    rightButtons: [
+      {
+        id: 'profile',
+        component: {
+          name: 'topbar.menuIcon',
+          aligment: 'center',
+        },
+      },
+    ],
     title: {
       text: 'Continue to payment',
     },
-    // subtitle: {
-    //   text: 'Choose a package to continue',
-    // },
   },
 };
 

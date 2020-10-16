@@ -12,17 +12,31 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import * as notesApi from '../../services/notes';
+import * as notesActions from '../../store/actions/notes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { truncate } from '../../helpers/utils';
+import { useDispatch } from 'react-redux';
 
 const Item = (props) => {
+  const dispatch = useDispatch();
   const {
+    item,
     item: { title },
   } = props;
 
   return (
     <View style={styles.item}>
-      <TouchableOpacity activeOpacity={0.6} style={styles.card}>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(
+            notesActions.navigateToNote({
+              noteItem: item,
+              navigation: { from: 'home' },
+            }),
+          );
+        }}
+        activeOpacity={0.6}
+        style={styles.card}>
         <View style={styles.lhs}>
           <View style={styles.iconContainer}>
             <Icon color={'#555E73'} size={64} name="file-document" />
@@ -49,7 +63,7 @@ const LatestNotes = (props) => {
       .getPackageNotes(requestOptions)
       .then((response) => response.data)
       .then(setData);
-  }, []);
+  }, [packageId]);
 
   return (
     <View style={styles.container}>
@@ -109,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    elevation: 2,
+    elevation: 1,
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: '#C5C6CA',
