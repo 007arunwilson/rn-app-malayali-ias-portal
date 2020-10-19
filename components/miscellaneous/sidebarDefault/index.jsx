@@ -34,6 +34,83 @@ const SidebarDefault = (props) => {
     return true;
   };
 
+  // const menu = [
+  //   {
+  //     title: 'General',
+  //     data: [
+  //       {
+  //         title: 'Home',
+  //         icon: 'home',
+  //         action: () => {
+  //           Navigation.popTo('home').finally(() => {
+  //             backAction();
+  //           });
+  //         },
+  //       },
+  //       {
+  //         title: 'Logout',
+  //         icon: 'logout-variant',
+  //         action: () => {
+  //           dispatch(appActions.processLogout());
+  //           backAction();
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: 'Subscription',
+  //     data: [
+  //       {
+  //         title: 'Switch Package',
+  //         icon: 'package-variant',
+  //         action: () => {
+  //           Navigation.push('home', navComponents.packageSelection).finally(
+  //             () => {
+  //               backAction();
+  //             },
+  //           );
+  //         },
+  //       },
+  //       {
+  //         title: 'Active Subscription',
+  //         icon: 'record-circle',
+  //         action: () => {
+  //           Navigation.push('home', navComponents.activeSubscriptions).finally(
+  //             () => {
+  //               backAction();
+  //             },
+  //           );
+  //         },
+  //       },
+  //       {
+  //         title: 'New Subscribtion',
+  //         icon: 'record-circle',
+  //         action: () => {
+  //           Navigation.push('home', navComponents.subscribe).finally(() => {
+  //             backAction();
+  //           });
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: 'Social Media',
+  //     data: [
+  //       {
+  //         title: 'Switch Package',
+  //         icon: 'package-variant',
+  //         action: () => {
+  //           Navigation.push('home', navComponents.packageSelection).finally(
+  //             () => {
+  //               backAction();
+  //             },
+  //           );
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
+
   React.useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',

@@ -67,7 +67,7 @@ const SubscribeSelection = () => {
     <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps={'always'}>
-      <SubscriptionIntro subscriptionItem={selectedSubscription} />
+      <SubscriptionIntro showDetail subscriptionItem={selectedSubscription} />
       <SubscriptionActionButton
         paynowActionHandler={paynowActionHandler}
         paynowProgressing={paynowProgressing}

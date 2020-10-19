@@ -25,7 +25,7 @@ const ActionButton = ({
             <TouchableOpacity activeOpacity={0.8} onPress={paynowActionHandler}>
               <View style={[styles.actionButton, styles.actionPaynowButton]}>
                 <Text style={styles.actionButtonText}>
-                  {selectedSubscription.current_price
+                  {Number(selectedSubscription.current_price)
                     ? 'Pay now'
                     : 'Enroll now'}
                 </Text>

@@ -11,6 +11,7 @@ const SubscriptionCard = ({
   subscriptionItem,
   onSubscriptionSelect,
   options,
+  showDetail,
 }) => {
   let {
     package_title: title,
@@ -19,7 +20,7 @@ const SubscriptionCard = ({
 
   let titleText = '';
   const titleSplitted = title.split(' ');
-  if (titleSplitted.length > 6) {
+  if (titleSplitted.length > 6 && !showDetail) {
     titleText = `${titleSplitted.slice(0, 4).join(' ')} ...`;
   } else {
     titleText = title;
@@ -27,7 +28,7 @@ const SubscriptionCard = ({
 
   let descriptionText = '';
   const descriptionSplitted = description.split(' ');
-  if (descriptionSplitted.length > 14) {
+  if (descriptionSplitted.length > 14 && !showDetail) {
     descriptionText = `${descriptionSplitted.slice(0, 20).join(' ')} ...`;
   } else {
     descriptionText = description;

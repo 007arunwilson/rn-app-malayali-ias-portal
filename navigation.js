@@ -320,15 +320,9 @@ navComponents.activeSubscriptions = {
 };
 
 navComponents.packageSelection = {
-  stack: {
-    children: [
-      {
-        component: {
-          id: 'packageSelection',
-          name: 'nav.packageSelection',
-        },
-      },
-    ],
+  component: {
+    id: 'packageSelection',
+    name: 'nav.packageSelection',
   },
 };
 
