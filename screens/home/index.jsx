@@ -12,6 +12,7 @@ import PackageTopMostCategoriesList from './packageTopMostCategoriesList';
 import HomeCategoryTileView from './homeCategoryTileView';
 import NotSubscribedAlert from './notSubscribedAlert';
 import LatestNotes from './latestNotes';
+import Banner from './banner';
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -44,14 +45,16 @@ const Home = (props) => {
       ) : null}
       {homeScreenDataLoaded && homeCategories ? (
         <>
-          <View style={styles.welcomeMessageContainer}>
-            <Text style={styles.welcomeText}>Welcome home, </Text>
-            <Text style={styles.userDisplayName}>{userDisplayName}</Text>
-          </View>
-
-          {!havePaidSubscription && <NotSubscribedAlert />}
-
           <ScrollView style={styles.scrollview}>
+            <Banner
+              url={'https://quditinfotech.s3.amazonaws.com/malayaliias.jpg'}
+            />
+            <View style={styles.welcomeMessageContainer}>
+              <Text style={styles.welcomeText}>Welcome home, </Text>
+              <Text style={styles.userDisplayName}>{userDisplayName}</Text>
+            </View>
+
+            {!havePaidSubscription && <NotSubscribedAlert />}
             <HomeCategoryTileView categories={homeCategories} />
             <LatestNotes packageId={activePakcageId} />
           </ScrollView>
