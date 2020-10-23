@@ -147,10 +147,12 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.push('home', navComponents.packageSelection).finally(
-              () => {
-                backAction();
-              },
+            Navigation.popTo('home').finally(() =>
+              Navigation.push('home', navComponents.packageSelection).finally(
+                () => {
+                  backAction();
+                },
+              ),
             );
           }}>
           <Icon
@@ -164,9 +166,11 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.push('home', navComponents.subscribe).finally(() => {
-              backAction();
-            });
+            Navigation.popTo('home').finally(() =>
+              Navigation.push('home', navComponents.subscribe).finally(() => {
+                backAction();
+              }),
+            );
           }}>
           <Icon
             style={styles.icon}
@@ -179,10 +183,13 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.push('home', navComponents.activeSubscriptions).finally(
-              () => {
+            Navigation.popTo('home').finally(() =>
+              Navigation.push(
+                'home',
+                navComponents.activeSubscriptions,
+              ).finally(() => {
                 backAction();
-              },
+              }),
             );
           }}>
           <Icon
