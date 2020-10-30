@@ -41,7 +41,10 @@ const Subscribe = () => {
 
   const filteredSubscriptions = useMemo(() => {
     const filterSubscriptionIds = [];
-    if (userSubscriptionsPackageActive.length) {
+    if (
+      userSubscriptionsPackageActive &&
+      userSubscriptionsPackageActive.length
+    ) {
       userSubscriptionsPackageActive.forEach((element) => {
         filterSubscriptionIds.push(element.subscription_id);
       });

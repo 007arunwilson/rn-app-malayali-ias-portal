@@ -19,40 +19,6 @@ const getPackages = () =>
       );
   });
 
-const getPackagesCstItemIdsOfCourse = ({ urlParams }) =>
-  new Promise((resolve, reject) => {
-    axios.auth
-      .request({
-        url: `/package/${urlParams.packageId}/cst-item-ids/by-type-course`,
-        method: 'GET',
-      })
-      .then(
-        ({ data: { data: responseData } }) => {
-          resolve(responseData);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-  });
-
-const getPackagesTopMostCategoriesByLearningMaterialType = ({ urlParams }) =>
-  new Promise((resolve, reject) => {
-    axios.auth
-      .request({
-        url: `/package/${urlParams.packageId}/learning-material/by-type/${urlParams.typeValue}/categories/top-parents`,
-        method: 'GET',
-      })
-      .then(
-        ({ data: { data: responseData } }) => {
-          resolve(responseData);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-  });
-
 const getPackagesCategoriesByLearningMaterialType = ({ urlParams }) =>
   new Promise((resolve, reject) => {
     axios.auth
@@ -70,9 +36,4 @@ const getPackagesCategoriesByLearningMaterialType = ({ urlParams }) =>
       );
   });
 
-export {
-  getPackages,
-  getPackagesCstItemIdsOfCourse,
-  getPackagesTopMostCategoriesByLearningMaterialType,
-  getPackagesCategoriesByLearningMaterialType,
-};
+export { getPackages, getPackagesCategoriesByLearningMaterialType };

@@ -72,7 +72,7 @@ const createAccount = () => (dispatch, getState) => {
       return userActions.updateUserProfile(updateProfileObj);
     })
     .then(() => {
-      dispatch(authActions.processLogin());
+      dispatch(authActions.processLogin({ via: 'createAccount' }));
     });
 };
 

@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import React from 'react';
 import { color } from '../../config';
 
@@ -30,9 +30,15 @@ const NoteCard = ({ noteItem, onNoteSelect }) => {
       <TouchableOpacity
         onPress={() => onNoteSelect(noteItem)}
         style={styles.card}>
-        <View style={styles.top}>
-          <Text style={styles.title}>{titleText}</Text>
-          <Text style={styles.description}>{descriptionText}</Text>
+        <View style={styles.inner}>
+          <Image
+            style={styles.iconImage}
+            source={require('../../assets/default-doc-icon.png')}
+          />
+          <View style={styles.rhs}>
+            <Text style={styles.title}>{titleText}</Text>
+            <Text style={styles.description}>{descriptionText}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     </>
@@ -44,12 +50,23 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    elevation: 2,
+    elevation: 6,
     borderRadius: 4,
     marginHorizontal: 24,
     marginTop: 12,
   },
-  top: {
+  inner: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: 10,
+  },
+  iconImage: {
+    width: 40,
+    height: 40,
+    marginTop: 10,
+    marginLeft: 7,
+  },
+  rhs: {
     flex: 1,
     padding: 10,
     justifyContent: 'flex-start',
@@ -57,9 +74,10 @@ const styles = StyleSheet.create({
   },
   title: {
     color: color.text,
-    fontSize: 18,
+    fontSize: 16,
   },
   description: {
+    marginTop: 6,
     color: color.text,
     fontSize: 12,
   },

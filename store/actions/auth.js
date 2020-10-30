@@ -69,7 +69,24 @@ const processLogin = (payload) => (dispatch) => {
           : null,
     };
     dispatch(userActions.update(userObj));
-    Navigation.setRoot({ root: navComponents.home });
+    if (payload.via === 'createAccount') {
+      Navigation.setRoot({
+        root: {
+          stack: {
+            children: [
+              {
+                component: {
+                  id: 'welccome',
+                  name: 'nav.welcome',
+                },
+              },
+            ],
+          },
+        },
+      });
+    } else {
+      Navigation.setRoot({ root: navComponents.home });
+    }
   });
 };
 

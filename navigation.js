@@ -29,6 +29,7 @@ import note from './screens/note';
 import topbarMenuIcon from './components/miscellaneous/topbarMenu';
 import topbarFilterIcon from './components/miscellaneous/topbarFilterIcon';
 import SidebarDefault from './components/miscellaneous/sidebarDefault';
+import Welcome from './screens/welcome';
 
 // Ceating Provider compoenent ( Redux wrapper component )
 const ReduxProvider = (Component, ReduxStore) => {
@@ -119,6 +120,11 @@ const registerComponents = () => {
     'nav.verifyOtp',
     () => ReduxProvider(verifyOtpScreen, store),
     () => verifyOtpScreen,
+  );
+  Navigation.registerComponent(
+    'nav.welcome',
+    () => ReduxProvider(Welcome, store),
+    () => Welcome,
   );
   Navigation.registerComponent(
     'nav.home',

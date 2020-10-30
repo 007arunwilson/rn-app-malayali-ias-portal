@@ -7,15 +7,22 @@ import {
 } from 'react-native';
 import { color } from '../../config';
 
-export const PrimaryButton = ({ onPress, children, status, size }) => {
+export const PrimaryButton = ({
+  onPress,
+  children,
+  status,
+  size,
+  style = {},
+}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={
+      style={[
         status === 'enabled'
           ? styles.buttonStyleEnabled
-          : styles.buttonStyleDisabled
-      }
+          : styles.buttonStyleDisabled,
+        style,
+      ]}
       disabled={status !== 'enabled'}
       onPress={onPress}>
       {status === 'loading' ? (

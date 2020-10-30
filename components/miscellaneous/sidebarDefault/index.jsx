@@ -137,7 +137,9 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.popTo('home').finally(() => {
+            Navigation.popTo('home', {
+              animations: { pop: { enabled: false } },
+            }).finally(() => {
               backAction();
             });
           }}>
@@ -147,13 +149,17 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.popTo('home').finally(() =>
-              Navigation.push('home', navComponents.packageSelection).finally(
-                () => {
-                  backAction();
-                },
-              ),
-            );
+            Navigation.popTo('home', {
+              animations: { pop: { enabled: false } },
+            })
+              .catch((error) => error)
+              .finally(() =>
+                Navigation.push('home', navComponents.packageSelection).finally(
+                  () => {
+                    backAction();
+                  },
+                ),
+              );
           }}>
           <Icon
             style={styles.icon}
@@ -166,11 +172,15 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.popTo('home').finally(() =>
-              Navigation.push('home', navComponents.subscribe).finally(() => {
-                backAction();
-              }),
-            );
+            Navigation.popTo('home', {
+              animations: { pop: { enabled: false } },
+            })
+              .catch((error) => error)
+              .finally(() =>
+                Navigation.push('home', navComponents.subscribe).finally(() => {
+                  backAction();
+                }),
+              );
           }}>
           <Icon
             style={styles.icon}
@@ -183,14 +193,18 @@ const SidebarDefault = (props) => {
         <TouchableOpacity
           style={styles.menutItem}
           onPress={() => {
-            Navigation.popTo('home').finally(() =>
-              Navigation.push(
-                'home',
-                navComponents.activeSubscriptions,
-              ).finally(() => {
-                backAction();
-              }),
-            );
+            Navigation.popTo('home', {
+              animations: { pop: { enabled: false } },
+            })
+              .catch((error) => error)
+              .finally(() =>
+                Navigation.push(
+                  'home',
+                  navComponents.activeSubscriptions,
+                ).finally(() => {
+                  backAction();
+                }),
+              );
           }}>
           <Icon
             style={styles.icon}

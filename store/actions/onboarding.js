@@ -48,9 +48,9 @@ const continueWithTokens = (payload) => (dispatch) => {
   const { accessToken, refreshToken, viaAction } = payload;
   authActions.updateTokens({ accessToken, refreshToken }).then(() => {
     userAPi.getUser().then((user) => {
-      if (!(user.phone && user.email)) {
+      if (!user.email) {
         /**
-         * If user don't have both, then considering as incomplete profile creation.
+         * If user don't have email (email is manadatory), then considering as incomplete profile creation.
          * from social login, so redirecting to register screen with collected fields from
          * social auth provider
          */

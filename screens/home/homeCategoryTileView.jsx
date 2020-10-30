@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 import React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 // import { color } from '../../config';
@@ -24,6 +24,14 @@ const HomeCategoryTileView = (props) => {
           onPress={() => navigateTo(category)}
           key={`-${category.category_id}`}
           style={styles.item}>
+          <Image
+            style={styles.iconImage}
+            source={
+              category.image_url
+                ? { uri: category.image_url }
+                : require('../../assets/default-doc-icon.png')
+            }
+          />
           <Text style={styles.title}>{category.title}</Text>
         </TouchableOpacity>
       ))}
@@ -51,9 +59,15 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   title: {
-    fontSize: 18,
+    fontSize: 15,
     color: '#EFF0F3',
     fontWeight: 'bold',
+  },
+  iconImage: {
+    width: 40,
+    height: 40,
+    marginBottom: 4,
+    flex: 1,
   },
 });
 
