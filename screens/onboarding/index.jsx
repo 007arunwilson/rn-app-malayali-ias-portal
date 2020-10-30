@@ -2,7 +2,7 @@
  * @format
  * @flow strict-local
  */
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import React from 'react';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import config, { color } from '../../config';
@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 // Importing Sub components
 import FacebookAuth from './facebookAuth';
 import GoogleAuth from './googleAuth';
+import EmailAuth from './emailAuth';
+import Signin from './signin';
 import Progress from './progress';
 
 const Onboarding = () => {
@@ -21,6 +23,11 @@ const Onboarding = () => {
       <View style={styles.content}>
         <View style={styles.top}>
           <View style={styles.brandContainer}>
+            <Image
+              fadeDuration={0}
+              style={styles.logoImage}
+              source={require('../../assets/logo.png')}
+            />
             <View style={styles.logoTextWrapper}>
               <Text style={styles.topText}>E-Learning</Text>
               <Text style={styles.instituteText}>{config.instituteName}</Text>
@@ -31,8 +38,10 @@ const Onboarding = () => {
           </View>
           <View style={styles.onboardingActionContainer}>
             <View style={styles.actionTop}>
-              <GoogleAuth />
-              <FacebookAuth />
+              {/* <GoogleAuth />
+              <FacebookAuth /> */}
+              <EmailAuth />
+              <Signin />
             </View>
             <Progress />
           </View>
@@ -63,9 +72,14 @@ const styles = StyleSheet.create({
   },
   brandContainer: {
     flex: 2,
+    justifyContent: 'center',
+  },
+  logoImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
   },
   logoTextWrapper: {
-    flex: 1,
     justifyContent: 'center',
     width: wp(60),
   },
@@ -81,7 +95,7 @@ const styles = StyleSheet.create({
   },
   branchText: {
     fontSize: 11,
-    color: color.text,
+    color: color.textLight,
     marginLeft: 4,
     textAlign: 'right',
   },
@@ -131,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerText: {
-    color: color.text,
+    color: color.textLight,
     fontSize: 8,
     textAlign: 'center',
     marginBottom: 2,

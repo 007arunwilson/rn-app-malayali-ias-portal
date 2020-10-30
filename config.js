@@ -10,11 +10,19 @@ const color = {
   secondaryText: '#ffffff',
   backgroundLight: '#EEEEEE',
   backgroundDark: '#E1E2E1',
+  greyLight:'#D5D8DC',
   white: '#ffffff',
-  text: '#616161',
-  textLight: '#F5F5F6',
+  shadowWhite: '#F0F3F4',
+  dimWhite: '#F7F9F9',
+  text: 'rgba(0,0,0,0.87)',
+  textLight: '#616161',
   black: '#000000',
   fb: '#3b5998',
+  greenDark: '#16A085',
+  greenLight: '#25EAC3',
+  redDark: '#C42020',
+  redLight: '#FF2626',
+  orangeDark: '#E67E22',
 };
 const config = {
   color,
@@ -22,10 +30,10 @@ const config = {
   facebookAppId: envConfig.FACEBOOK_APP_ID,
   apiOrigin: envConfig.API_ORIGIN,
   razorPaymentCurrency: envConfig.RAZOR_PAYMENT_CURRENCY,
-  razorApiKey: envConfig.RAZOR_API_KEY,
   razorProductLogoUrl: envConfig.RAZOR_PRODUCT_LOGO_URL,
   instituteName: envConfig.INSTITUTE_NAME,
   instituteBranch: envConfig.INSTITUTE_BRANCH,
+  env: envConfig.ENV,
 };
 
 export { color };

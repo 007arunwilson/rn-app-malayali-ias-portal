@@ -9,12 +9,20 @@ import { color } from '../../config';
 
 const Progress = () => {
   const inProgress = useSelector((state) => state.onboarding.inProgress);
+  const activeStep = useSelector((state) => state.onboarding.activeStep);
+
+  let statusText = 'Please wait ..';
+  if (activeStep === 'CREATING_ACCOUNT') {
+    statusText = 'Creating account ..';
+  } else if (activeStep === 'CREATING_SESSION') {
+    statusText = 'Creating session ..';
+  }
 
   return (
     <View style={styles.actionBottom}>
       {inProgress ? (
         <View style={styles.statusContainer}>
-          <Text style={styles.statusText}>Please wait ..</Text>
+          <Text style={styles.statusText}>{statusText}</Text>
           <ActivityIndicator size={18} color={color.text} />
         </View>
       ) : null}
@@ -26,16 +34,17 @@ const styles = StyleSheet.create({
   actionBottom: {
     width: '100%',
     flex: 1,
+    alignItems: 'center',
   },
   statusContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginTop: 4,
     marginLeft: 6,
   },
   statusText: {
     fontSize: 12,
-    color: color.text,
+    color: color.textLight,
     marginRight: 10,
   },
 });

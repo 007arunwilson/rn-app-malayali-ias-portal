@@ -9,6 +9,7 @@ import { appModel } from './database';
 
 // Importing Navigation methods
 import { navComponents, registerComponents } from './navigation';
+import { color } from './config';
 
 // Initializing and configuring firebase
 (async () => {
@@ -23,9 +24,14 @@ import { navComponents, registerComponents } from './navigation';
 
   messaging()
     .getToken()
-    .then((token) => {
-      appModel.saveFirebaseToken(token);
-    });
+    .then(
+      (token) => {
+        appModel.saveFirebaseToken(token);
+      },
+      (error) => {
+        // Need to handle firebase getToken error
+      },
+    );
 
   messaging().onTokenRefresh((token) => {
     appModel.saveFirebaseToken(token);
@@ -34,6 +40,24 @@ import { navComponents, registerComponents } from './navigation';
 
 // Registering app screens
 registerComponents();
+
+// Setting navigation global default options
+Navigation.setDefaultOptions({
+  topBar: {
+    title: {
+      color: color.white,
+    },
+    subtitle: {
+      color: color.shadowWhite,
+    },
+    backButton: {
+      color: color.white,
+    },
+    background: {
+      color: color.primary,
+    },
+  },
+});
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({

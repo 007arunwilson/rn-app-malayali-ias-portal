@@ -14,7 +14,10 @@ import { useDispatch } from 'react-redux';
 import config from '../../config';
 
 // importing actions
-import { updateInprogress } from '../../store/actions/onboarding';
+import {
+  updateInprogress,
+  proceedWithGoogle,
+} from '../../store/actions/onboarding';
 
 const GoogleAuth = () => {
   const dispatch = useDispatch();
@@ -35,10 +38,13 @@ const GoogleAuth = () => {
           dispatch(updateInprogress(false));
         })
         .then(
-          (result) => {
-            dispatch(updateInprogress(false));
+          (signInResult) => {
+            const { idToken } = signInResult;
+            const payload = { token: idToken };
+            dispatch(proceedWithGoogle(payload));
           },
           (error) => {
+            console.log('error', error);
             dispatch(updateInprogress(false));
           },
         );

@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+
+project.ext.envConfigFiles = [
+    debug: ".env.development",
+    release: ".env.production",
+    anothercustombuild: ".env",
+]
+
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
@@ -81,6 +88,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    nodeExecutableAndArgs: ["node"],
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -131,12 +139,12 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.quditinfotech.scholar.litedemo"
+        applicationId "com.malayaliiasportal.scholar.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
+        versionCode 14
+        versionName "0.6.0"
     }
     splits {
         abi {

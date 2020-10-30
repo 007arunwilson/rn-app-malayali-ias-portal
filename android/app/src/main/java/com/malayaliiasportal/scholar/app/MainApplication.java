@@ -1,4 +1,4 @@
-package com.quditinfotech.scholar.litedemo;
+package com.malayaliiasportal.scholar.app;
 
 import android.app.Application;
 import android.content.Context;

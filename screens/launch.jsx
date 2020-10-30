@@ -4,21 +4,18 @@
  */
 import { StyleSheet, View, Text } from 'react-native';
 import React from 'react';
-import config, { color } from '../config';
-import { appModel } from '../database';
 import { Navigation } from 'react-native-navigation';
-import { navComponents } from '../navigation';
+import { useDispatch } from 'react-redux';
+
+import config, { color } from '../config';
+import { processAppLaunch } from '../store/actions/app';
 
 const Launch = () => {
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
-    appModel.getLaunchData().then((result) => {
-      const { user } = result;
-      if (!user) {
-        Navigation.setRoot({
-          root: navComponents.obboarding,
-        });
-      }
-    });
+    dispatch(processAppLaunch());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -57,7 +54,7 @@ const styles = StyleSheet.create({
   },
   branchText: {
     fontSize: 12,
-    color: color.text,
+    color: color.textLight,
     marginLeft: 4,
     textAlign: 'right',
   },

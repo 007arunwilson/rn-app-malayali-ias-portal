@@ -4,9 +4,10 @@ const getLaunchData = () =>
   new Promise((resolve) => {
     AsyncStorage.multiGet([
       '@App.firebaseToken',
-      '@App.accessToken',
-      '@App.refreshToken',
+      '@Auth.accessToken',
+      '@Auth.refreshToken',
       '@App.user',
+      '@App.activePackageId',
     ]).then((result) => {
       const results = {};
       result.map((item) => {
@@ -14,8 +15,9 @@ const getLaunchData = () =>
       });
       const launchData = {
         firebaseToken: results['@App.firebaseToken'],
-        accessToken: results['@App.accessToken'],
-        refreshToken: results['@App.refreshToken'],
+        accessToken: results['@Auth.accessToken'],
+        refreshToken: results['@Auth.refreshToken'],
+        activePackageId: results['@App.activePackageId'],
         user: results['@App.user'] ? JSON.parse(results['@App.user']) : null,
       };
       resolve(launchData);
@@ -25,4 +27,15 @@ const getLaunchData = () =>
 const saveFirebaseToken = (firebaseToken) =>
   AsyncStorage.setItem('@App.firebaseToken', firebaseToken);
 
-export { getLaunchData, saveFirebaseToken };
+const saveActivePackageId = (activePackageId) =>
+  AsyncStorage.setItem('@App.activePackageId', `${activePackageId}`);
+
+const deleteActivePackageId = () =>
+  AsyncStorage.removeItem('@App.activePackageId');
+
+export {
+  getLaunchData,
+  saveFirebaseToken,
+  saveActivePackageId,
+  deleteActivePackageId,
+};

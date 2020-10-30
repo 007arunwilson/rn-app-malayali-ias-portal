@@ -205,6 +205,8 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.development
+.env.production
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -301,3 +303,5 @@ Temporary Items
 # Developer edits
 android/*.hprof
 android/app/google-services.json
+android/app/release/
+android/.idea
