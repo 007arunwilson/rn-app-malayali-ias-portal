@@ -34,7 +34,14 @@ const Home = (props) => {
   }, []);
 
   const homeCategories = useMemo(
-    () => allCategories && allCategories.filter((item) => !item.parent_id),
+    () =>
+      allCategories &&
+      allCategories
+        .filter((item) => !item.parent_id)
+        .sort(
+          (a, b) =>
+            Number(b.serving_priority || 0) - Number(a.serving_priority || 0),
+        ),
     [allCategories],
   );
 

@@ -41,25 +41,25 @@ import { color } from './config';
 // Registering app screens
 registerComponents();
 
-// Setting navigation global default options
-Navigation.setDefaultOptions({
-  topBar: {
-    title: {
-      color: color.white,
-    },
-    subtitle: {
-      color: color.shadowWhite,
-    },
-    backButton: {
-      color: color.white,
-    },
-    background: {
-      color: color.primary,
-    },
-  },
-});
-
 Navigation.events().registerAppLaunchedListener(() => {
+  // Setting navigation global default options
+  Navigation.setDefaultOptions({
+    topBar: {
+      title: {
+        color: color.white,
+      },
+      subtitle: {
+        color: color.shadowWhite,
+      },
+      backButton: {
+        color: color.white,
+      },
+      background: {
+        color: color.primary,
+      },
+    },
+  });
+
   Navigation.setRoot({
     root: navComponents.root,
   });
